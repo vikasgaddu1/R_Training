@@ -1,0 +1,180 @@
+Client: Experis                                                                                   Study: BBC
+                                                Listing 1.0
+                                       Analysis Data Subject Listing
+
+Unique                                                         Analysis
+Subject    Study Site    Actual     Analysis                      Visit
+Identifier Identifier    Treatment  Date        Analysis Visit      (N) Parameter
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+ABC-01-049 San Francisco Competitor 07 Nov 2006 Day 1 Baseline        0 Diastolic Blood Pressure (mmHg)
+ABC-01-049 San Francisco Competitor 07 Nov 2006 Day 1 Baseline        0 Body Surface Area to be Treated (%)
+ABC-01-049 San Francisco Competitor 07 Nov 2006 Day 1 Baseline        0 Heart Rate (/min)
+ABC-01-049 San Francisco Competitor 07 Nov 2006 Day 1 Baseline        0 Respiratory Rate (/min)
+ABC-01-049 San Francisco Competitor 07 Nov 2006 Day 1 Baseline        0 Systolic Blood Pressure (mmHg)
+ABC-01-049 San Francisco Competitor 07 Nov 2006 Day 1 Baseline        0 Oral Temperature (C)
+ABC-01-049 San Francisco Competitor 21 Nov 2006 Week 2                2 Diastolic Blood Pressure (mmHg)
+ABC-01-049 San Francisco Competitor 21 Nov 2006 Week 2                2 Heart Rate (/min)
+ABC-01-049 San Francisco Competitor 21 Nov 2006 Week 2                2 Respiratory Rate (/min)
+ABC-01-049 San Francisco Competitor 21 Nov 2006 Week 2                2 Systolic Blood Pressure (mmHg)
+ABC-01-049 San Francisco Competitor 21 Nov 2006 Week 2                2 Oral Temperature (C)
+ABC-01-049 San Francisco Competitor 07 Dec 2006 Week 4                4 Diastolic Blood Pressure (mmHg)
+ABC-01-049 San Francisco Competitor 07 Dec 2006 Week 4                4 Heart Rate (/min)
+ABC-01-049 San Francisco Competitor 07 Dec 2006 Week 4                4 Respiratory Rate (/min)
+ABC-01-049 San Francisco Competitor 07 Dec 2006 Week 4                4 Systolic Blood Pressure (mmHg)
+ABC-01-049 San Francisco Competitor 07 Dec 2006 Week 4                4 Oral Temperature (C)
+ABC-01-049 San Francisco Competitor 28 Dec 2006 Week 8                8 Diastolic Blood Pressure (mmHg)
+ABC-01-049 San Francisco Competitor 11 Jan 2007 Week 8                8 Diastolic Blood Pressure (mmHg)
+ABC-01-049 San Francisco Competitor 28 Dec 2006 Week 8                8 Heart Rate (/min)
+ABC-01-049 San Francisco Competitor 11 Jan 2007 Week 8                8 Heart Rate (/min)
+ABC-01-049 San Francisco Competitor 28 Dec 2006 Week 8                8 Respiratory Rate (/min)
+ABC-01-049 San Francisco Competitor 11 Jan 2007 Week 8                8 Respiratory Rate (/min)
+ABC-01-049 San Francisco Competitor 28 Dec 2006 Week 8                8 Systolic Blood Pressure (mmHg)
+ABC-01-049 San Francisco Competitor 11 Jan 2007 Week 8                8 Systolic Blood Pressure (mmHg)
+ABC-01-049 San Francisco Competitor 28 Dec 2006 Week 8                8 Oral Temperature (C)
+ABC-01-049 San Francisco Competitor 11 Jan 2007 Week 8                8 Oral Temperature (C)
+ABC-01-049 San Francisco Competitor 09 Feb 2007 Week 12              12 Diastolic Blood Pressure (mmHg)
+ABC-01-049 San Francisco Competitor 09 Feb 2007 Week 12              12 Heart Rate (/min)
+ABC-01-049 San Francisco Competitor 09 Feb 2007 Week 12              12 Respiratory Rate (/min)
+ABC-01-049 San Francisco Competitor 09 Feb 2007 Week 12              12 Systolic Blood Pressure (mmHg)
+ABC-01-049 San Francisco Competitor 09 Feb 2007 Week 12              12 Oral Temperature (C)
+ABC-01-049 San Francisco Competitor 13 Mar 2007 Week 16              16 Diastolic Blood Pressure (mmHg)
+ABC-01-049 San Francisco Competitor 13 Mar 2007 Week 16              16 Heart Rate (/min)
+ABC-01-049 San Francisco Competitor 13 Mar 2007 Week 16              16 Respiratory Rate (/min)
+ABC-01-049 San Francisco Competitor 13 Mar 2007 Week 16              16 Systolic Blood Pressure (mmHg)
+
+2024-01-30 11:39:21                             Confidential                                     Page 1 of 4
+Client: Experis                                                                                   Study: BBC
+                                                Listing 1.0
+                                       Analysis Data Subject Listing
+
+Unique
+Subject    Parameter Analysis
+Identifier Code      Value
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+ABC-01-049 DIABP     76 mmHg
+ABC-01-049 PCTBSA    15%
+ABC-01-049 PULSE     84
+ABC-01-049 RESP      High
+ABC-01-049 SYSBP     120 mmHg
+ABC-01-049 TEMP      36.4°C
+ABC-01-049 DIABP     66 mmHg
+ABC-01-049 PULSE     84
+ABC-01-049 RESP      Normal
+ABC-01-049 SYSBP     128 mmHg
+ABC-01-049 TEMP      36.6°C
+ABC-01-049 DIABP     84 mmHg
+ABC-01-049 PULSE     76
+ABC-01-049 RESP      Normal
+ABC-01-049 SYSBP     134 mmHg
+ABC-01-049 TEMP      35.7°C
+ABC-01-049 DIABP     68 mmHg
+ABC-01-049 DIABP     80 mmHg
+ABC-01-049 PULSE     64
+ABC-01-049 PULSE     84
+ABC-01-049 RESP      High
+ABC-01-049 RESP      Normal
+ABC-01-049 SYSBP     100 mmHg
+ABC-01-049 SYSBP     128 mmHg
+ABC-01-049 TEMP      36.5°C
+ABC-01-049 TEMP      36.4°C
+ABC-01-049 DIABP     70 mmHg
+ABC-01-049 PULSE     60
+ABC-01-049 RESP      High
+ABC-01-049 SYSBP     120 mmHg
+ABC-01-049 TEMP      36.6°C
+ABC-01-049 DIABP     70 mmHg
+ABC-01-049 PULSE     72
+ABC-01-049 RESP      High
+ABC-01-049 SYSBP     130 mmHg
+
+2024-01-30 11:39:21                             Confidential                                     Page 2 of 4
+Client: Experis                                                                                   Study: BBC
+                                                Listing 1.0
+                                       Analysis Data Subject Listing
+
+Unique                                                         Analysis
+Subject    Study Site    Actual     Analysis                      Visit
+Identifier Identifier    Treatment  Date        Analysis Visit      (N) Parameter
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+ABC-01-049 San Francisco Competitor 13 Mar 2007 Week 16              16 Oral Temperature (C)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2024-01-30 11:39:21                             Confidential                                     Page 3 of 4
+Client: Experis                                                                                   Study: BBC
+                                                Listing 1.0
+                                       Analysis Data Subject Listing
+
+Unique
+Subject    Parameter Analysis
+Identifier Code      Value
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+ABC-01-049 TEMP      36.2°C
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2024-01-30 11:39:21                             Confidential                                     Page 4 of 4

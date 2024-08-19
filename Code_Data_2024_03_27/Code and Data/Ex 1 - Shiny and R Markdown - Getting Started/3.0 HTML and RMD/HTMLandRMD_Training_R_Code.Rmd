@@ -1,0 +1,167 @@
+---
+title: "Using HTML in R Markdown"
+output: html_document
+editor_options: 
+  chunk_output_type: inline
+---
+
+
+### R Markdown Tour
+
+- Create R Markdown Document
+  - File > New File > R Markdown
+  - Create R Markdown with Shiny
+  - Create R Markdown with Template
+
+- Execution
+  - `Knit` creates the document
+  - `Run` sends R code to the console
+  - Output is portable HTML, DOCX, PDF, RTF file
+  
+- Knit Options
+    - Knit Directory controls the working directory when running a document
+    
+- R Markdown Options
+  - Preview in RStudio Viewer or in pop-up window
+  - Show output either in console or under the code itself
+  - Output options
+    - Select output format
+    - Toggle table of contents, numbered headers
+    - Custom themes, custom CSS themes
+    - Default figure output controls
+    
+- Learn More
+  - RStudio Help > Markdown Quick Reference
+  
+---
+
+<sub>
+  Experis Accel2R - Clinical R Training<br>
+  © 2021 Experis ManpowerGroup Inc. All rights reserved
+</sub>
+
+
+<h1>Using HTML</h1>
+  - <h2>Here's an HTML level 2 subheader</h2>
+    - <h3>Here's an HTML level 3 subheader</h3>
+      - <p>This is my paragraph text with <b>bold</b> and <i>italics</i>.</p>
+<hr>
+
+# Using Markdown Shortcuts
+
+No need to include HTML tags `rmarkdown` takes care of that in the background.
+
+- Use code formatting using `backticks`
+- Headers with `#`
+- Bullet lists with `-`
+- *Italics* with `*`
+- **Bold** with `**`
+- Horizontal rule with `---`
+
+---
+
+# Header Level 1
+## Header Level 2
+### Header Level 3
+
+---
+
+### Using R Inside RMarkdown
+
+- Adding code chunks
+  - Use `+C` Menu (R, Python, etc.)
+  - Using shortcut `Ctrl+Alt+I` / `Cmd+Option+I`
+
+- Note:
+  - Interactive coding environment is separate from RMD execution environment
+  - Every R object or package required for the final output needs to be included in the document.
+
+```{r setup, include=FALSE}
+# Always provide label for code chunk
+
+# include=TRUE  : code and output will be included in final document
+# include=FALSE : code and output will not be included in final document
+
+# Set default options for entire document
+knitr::opts_chunk$set(
+  echo    = FALSE,     # Toggle R code display in final document
+  message = FALSE,     # Toggle R function messages in final document
+  warning = FALSE,     # Toggle R warnings in final document
+  error   = FALSE)     # Toggle R errors in final document
+
+# Load packages in setup
+library(tidyverse)
+library(plotly)        # For interactive graphs
+library(DT)            # For interactive tables
+```
+
+### Displaying Raw Results
+
+```{r raw-output, echo = TRUE}
+mtcars %>% head(5)
+```
+
+### Displaying HTML Results
+
+#### HTML Table - Using Kable
+```{r kable-output, echo = TRUE}
+# Run in RStudio to see HTML / Markdown table
+mtcars %>% head(5) %>% knitr::kable()
+```
+
+---
+
+#### HTML Table - Using DT
+```{r DT-output, echo = TRUE}
+mtcars %>% DT::datatable()
+```
+
+---
+
+### Using R Inline
+
+- We can use `backticks` to run R code in the written text
+- This allows static reports to be updated dynamically when the data is updated
+- For debugging purposes, test this code before 'knitting' the document
+
+For example, in the dataframe **mtcars** there are `r nrow(mtcars)` rows.  The columns in this dataframe are <i>`r mtcars %>% colnames() %>% str_c(collapse = ', ')`</i>.  The mean *mpg* is <b>`r mean(mtcars$mpg) %>% round(2)`</b>.
+
+
+### Using Math Expressions
+
+- Use the dollar sign to include math notation
+  - Bars:          $1.\overline{3}$
+  - Fractions:     $\frac{1}{2}$
+  - Superscript:   $x^2$
+  - Greek Letters: $\chi \lambda \beta$
+- Learn more about math expressions in RMD  [here](https://rpruim.github.io/s341/S19/from-class/MathinRmd.html)
+
+---
+
+### Displaying Other Results
+
+#### Static Plots using `ggplot2`
+```{r ggplot}
+mtcars %>% ggplot(aes(x = mpg, y = disp)) + geom_point()
+```
+
+#### Interactive Plots using `plotly`
+```{r plotly}
+mtcars %>% plot_ly(x = ~mpg, y = ~disp) %>% add_markers()
+```
+
+
+### RMarkdown via Function
+
+- Create documents within another script, function, or loop
+- Use `params` to specify parameters and arguments to pass into document generation function
+
+```{r, echo = TRUE}
+# rmarkdown::render('path/to/document.rmd', params = )
+```
+
+### Resources and Documentation
+
+- [W3 Schools HTML Reference](https://www.w3schools.com/html)
+- [R Markdown at the RStudio Website](http://rmarkdown.rstudio.com)
+- [R Markdown Free Online Book](https://bookdown.org/yihui/rmarkdown/)

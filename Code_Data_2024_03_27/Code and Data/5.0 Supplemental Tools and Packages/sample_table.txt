@@ -1,0 +1,75 @@
+                                                       A: Drug X                   B: Placebo      
+                                               ARM A       ARM B     ARM C     ARM A       ARM B   
+———————————————————————————————————————————————————————————————————————————————————————————————————
+ASIAN                                       305 (50.1%)   0 (NA%)   0 (NA%)   0 (NA%)   292 (46.9%)
+  F                                                                                                
+    mean                                       30.3         NA        NA        NA         36.7    
+  M                                                                                                
+    mean                                       33.7         NA        NA        NA         40.0    
+  U                                                                                                
+    mean                                       33.1         NA        NA        NA         35.0    
+BLACK OR AFRICAN AMERICAN                   157 (25.8%)   0 (NA%)   0 (NA%)   0 (NA%)   133 (21.4%)
+  F                                                                                                
+    mean                                       33.3         NA        NA        NA         34.2    
+  M                                                                                                
+    mean                                       36.7         NA        NA        NA         34.3    
+  U                                                                                                
+    mean                                        NA          NA        NA        NA          NA     
+  UNDIFFERENTIATED                                                                                 
+    mean                                       28.0         NA        NA        NA          NA     
+WHITE                                       109 (17.9%)   0 (NA%)   0 (NA%)   0 (NA%)   144 (23.2%)
+  F                                                                                                
+    mean                                       33.2         NA        NA        NA         32.4    
+  M                                                                                                
+    mean                                       37.4         NA        NA        NA         35.9    
+  U                                                                                                
+    mean                                       28.0         NA        NA        NA         27.0    
+AMERICAN INDIAN OR ALASKA NATIVE             38 (6.2%)    0 (NA%)   0 (NA%)   0 (NA%)    43 (6.9%) 
+  F                                                                                                
+    mean                                       41.3         NA        NA        NA         34.2    
+  M                                                                                                
+    mean                                       37.3         NA        NA        NA         32.7    
+MULTIPLE                                     0 (0.0%)     0 (NA%)   0 (NA%)   0 (NA%)    6 (1.0%)  
+  M                                                                                                
+    mean                                        NA          NA        NA        NA         53.0    
+NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER    0 (0.0%)     0 (NA%)   0 (NA%)   0 (NA%)    4 (0.6%)  
+  F                                                                                                
+    mean                                        NA          NA        NA        NA         28.0    
+\s\n                                              B:                                     
+                                            Placebo           C: Combination         
+                                             ARM C     ARM A     ARM B       ARM C   
+—————————————————————————————————————————————————————————————————————————————————————
+ASIAN                                       0 (NA%)   0 (NA%)   0 (NA%)   382 (54.3%)
+  F                                                                                  
+    mean                                      NA        NA        NA         35.9    
+  M                                                                                  
+    mean                                      NA        NA        NA         37.2    
+  U                                                                                  
+    mean                                      NA        NA        NA         35.7    
+BLACK OR AFRICAN AMERICAN                   0 (NA%)   0 (NA%)   0 (NA%)   179 (25.5%)
+  F                                                                                  
+    mean                                      NA        NA        NA         32.5    
+  M                                                                                  
+    mean                                      NA        NA        NA         33.9    
+  U                                                                                  
+    mean                                      NA        NA        NA         36.2    
+  UNDIFFERENTIATED                                                                   
+    mean                                      NA        NA        NA         45.2    
+WHITE                                       0 (NA%)   0 (NA%)   0 (NA%)   114 (16.2%)
+  F                                                                                  
+    mean                                      NA        NA        NA         31.3    
+  M                                                                                  
+    mean                                      NA        NA        NA         32.6    
+  U                                                                                  
+    mean                                      NA        NA        NA          NA     
+AMERICAN INDIAN OR ALASKA NATIVE            0 (NA%)   0 (NA%)   0 (NA%)    28 (4.0%) 
+  F                                                                                  
+    mean                                      NA        NA        NA         38.0    
+  M                                                                                  
+    mean                                      NA        NA        NA         34.3    
+MULTIPLE                                    0 (NA%)   0 (NA%)   0 (NA%)    0 (0.0%)  
+  M                                                                                  
+    mean                                      NA        NA        NA          NA     
+NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER   0 (NA%)   0 (NA%)   0 (NA%)    0 (0.0%)  
+  F                                                                                  
+    mean                                      NA        NA        NA          NA     

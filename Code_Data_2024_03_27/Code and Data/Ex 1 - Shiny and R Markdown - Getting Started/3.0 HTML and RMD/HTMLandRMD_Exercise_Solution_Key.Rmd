@@ -1,0 +1,61 @@
+
+<h1> <b>Using HTML tags in R Markdown<b> </h1>
+<br>
+<h1> Title1 Using HTML </h1>
+<h2> Title2 Using HTML </h2>
+<h3> <i>Title3 Using HTML</i> </h3>
+
+---
+
+# **Using R Markdown Instead**
+# Title1 Using R Markdown
+## Title2 Using R Markdown
+### *Title3 Using R Markdown*
+
+---
+
+### Using RMarkdown to create nice bulleted lists
+
+- Bullet 1
+  - Sub-bullet 1
+  - Sub-bullet 2
+
+- Bullet 2
+  - Sub-bullet 1
+
+### Now let's use R and R Markdown together
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(DT)
+bmi <- readRDS("../data/BMI_analysis.rds") %>% 
+  select(SUBJECT, HEIGHT, WEIGHT)
+```
+
+```{r cars}
+summary(bmi)
+plot(bmi)
+```
+
+### Displaying Raw Results
+
+```{r raw-output, echo = TRUE}
+bmi %>% head(5)
+```
+
+### Displaying HTML Results
+
+#### HTML Table - Using Kable
+```{r kable-output, echo = TRUE}
+# Run in RStudio to see HTML / Markdown table
+bmi %>% head(5) %>% knitr::kable()
+```
+
+---
+
+#### HTML Table - Using DT
+```{r DT-output, echo = TRUE}
+bmi %>% DT::datatable()
+```
+
+

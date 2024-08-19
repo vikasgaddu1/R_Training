@@ -1,0 +1,72 @@
+---
+title: "ShinyandRMDex02"
+author: "Joe Learner"
+date: "6/3/2021"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+# Set default RMarkdown options for entire document
+knitr::opts_chunk$set(
+  echo    = FALSE,     # Toggle R code display in final document
+  message = FALSE,     # Toggle R function messages in final document
+  warning = FALSE,     # Toggle R warnings in final document
+  error   = FALSE)     # Toggle R errors in final document
+
+# Load Packages
+library(shiny)
+library(tidyverse)
+
+# prepare data
+bmi <- readRDS("../data/BMI_analysis.rds") %>% 
+  select(SUBJECT, HEIGHT, WEIGHT) %>% 
+  mutate(site = substring(SUBJECT,1, 2))
+
+sites <- sort(unique(bmi$site))
+```
+
+```{r shiny-input-rb}
+# present selection via radio button
+shiny::radioButtons(
+  inputId = 'selected_site_rb',
+  label   = 'Select a Site',
+  choices = sites
+)
+```
+
+You selected site <b>`r shiny::reactive(input$selected_site_rb)`</b>.
+
+```{r shiny-output-raw-rb}
+
+# filter and print based on user selection
+reactive(bmi %>%
+  filter(site == input$selected_site_rb) %>% 
+  print()
+  )
+```
+
+
+```{r shiny-input-dd}
+
+# present selection via drop down list
+shiny::selectInput(
+  inputId  = 'selected_site_dd',
+  label    = 'Select a site',
+  choices  = sites,
+  multiple = FALSE
+)
+```
+
+You selected site <b>`r shiny::reactive(input$selected_site_dd)`</b>.
+
+```{r shiny-output-dd}
+
+# filter and print based on user selection
+reactive(bmi %>%
+  filter(site == input$selected_site_dd) %>% 
+  print()
+  )
+```
+
+

@@ -1,0 +1,37 @@
+---
+title: "Adverse Events Review"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+
+
+# Set default RMarkdown options for entire document
+knitr::opts_chunk$set(
+  echo    = FALSE,     # Toggle R code display in final document
+  message = FALSE,     # Toggle R function messages in final document
+  warning = FALSE,     # Toggle R warnings in final document
+  error   = FALSE)     # Toggle R errors in final document
+
+# Load Packages
+library(shiny)
+library(tidyverse)
+
+adae <- readRDS("../data/adae.rds")
+
+bodysys_list <- unique(adae$AEBODSYS)
+
+aecountsbybs <-
+  adae %>% 
+  group_by(AEBODSYS, AEHLT) %>% 
+  summarize(Count = n())
+ 
+```
+
+## Chart: AE High Level Term Counts
+
+ 
+
+## Detail Listing
+

@@ -3,8 +3,8 @@
 .RData
 .Ruserdata
 renv/
-.csv
-.fcat
-.sas7bdat
-.rds
-.log
+*.csv
+*.fcat
+*.sas7bdat
+*.rds
+*.log

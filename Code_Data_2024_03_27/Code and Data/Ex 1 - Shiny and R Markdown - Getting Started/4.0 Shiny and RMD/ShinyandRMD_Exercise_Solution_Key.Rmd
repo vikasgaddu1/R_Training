@@ -1,0 +1,81 @@
+---
+title: "ShinyandRMD_Exercise_Solution_Key"
+author: "Joe Learner"
+date: "6/3/2021"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+# Set default RMarkdown options for entire document
+knitr::opts_chunk$set(
+  echo    = FALSE,     # Toggle R code display in final document
+  message = FALSE,     # Toggle R function messages in final document
+  warning = FALSE,     # Toggle R warnings in final document
+  error   = FALSE)     # Toggle R errors in final document
+
+# Load Packages
+library(shiny)
+library(tidyverse)
+
+# prepare data
+dm <- readRDS("../data/dm_r.rds") %>% 
+  select(SUBJID, ARM, SEX, AGE) 
+
+arms <- sort(unique(dm$ARM))
+sexes <- sort(unique(dm$SEX))
+```
+
+```{r shiny-input-rb}
+# present selection via radio button
+shiny::radioButtons(
+  inputId = 'selected_arm_rb',
+  label   = 'Select an ARM',
+  choices = arms
+)
+```
+
+You selected site <b>`r shiny::reactive(input$selected_arm_rb)`</b>.
+
+```{r shiny-output-raw-rb}
+
+# filter and print based on user selection
+reactive(dm %>%
+  filter(ARM == input$selected_arm_rb) %>% 
+  print()
+  )
+```
+
+
+```{r shiny-input-dd}
+
+# present selection via drop down list
+shiny::selectInput(
+  inputId  = 'selected_sex_dd',
+  label    = 'Select a sex',
+  choices  = sexes,
+  multiple = FALSE
+)
+```
+
+You selected site <b>`r shiny::reactive(input$selected_sex_dd)`</b>.
+
+```{r shiny-output-dd}
+
+# filter and print based on user selection
+reactive(dm %>%
+  filter(SEX == input$selected_sex_dd) %>% 
+  print()
+  )
+```
+
+```{r shiny-output-both}
+
+# filter and print based on user selection
+reactive(dm %>%
+  filter(ARM == input$selected_arm_rb &
+         SEX == input$selected_sex_dd) %>% 
+  summary() 
+  )
+```
+

@@ -1,0 +1,84 @@
+---
+title: "Using Shiny Output in R Markdown"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+
+
+# Set default RMarkdown options for entire document
+knitr::opts_chunk$set(
+  echo    = FALSE,     # Toggle R code display in final document
+  message = FALSE,     # Toggle R function messages in final document
+  warning = FALSE,     # Toggle R warnings in final document
+  error   = FALSE)     # Toggle R errors in final document
+
+# Load Packages
+library(shiny)
+library(tidyverse)
+
+BMI <- readRDS("../data/BMI_analysis.rds") 
+
+```
+
+### Shiny Output
+
+```{r shiny-select}
+shiny::selectInput(
+  inputId  = 'select_var',
+  label    = 'Select A Variable',
+  choices  = colnames(mtcars),
+  multiple = FALSE
+)
+```
+
+- You selected <b>`r reactive(input$select_var)`</b>
+- The mean value is <i>`r reactive(mtcars[[input$select_var]] %>% mean() %>% round(2))`</i>
+
+---
+
+### Output a `ggplot` Plot
+
+```{r shiny-select-2}
+shiny::selectInput(
+  inputId  = 'select_var_ggplot',
+  label    = 'Select A Variable',
+  choices  = colnames(mtcars),
+  multiple = FALSE
+)
+```
+
+```{r shiny-ggplot, echo = TRUE}
+renderPlot(
+  mtcars %>% 
+    ggplot(aes_string(input$select_var_ggplot)) +
+    geom_histogram()
+)
+```
+
+--- 
+
+### Output a Table
+
+```{r table-r, echo = TRUE}
+mtcars %>% DT::datatable(options = list(pageLength = 3))
+```
+
+
+```{r table-shiny-select}
+shiny::selectInput(
+  inputId  = 'select_vars_for_table',
+  label    = 'Select Some Variables',
+  choices  = colnames(mtcars),
+  multiple = TRUE
+)
+```
+
+```{r table-shiny-display, echo = TRUE}
+DT::renderDataTable(
+  mtcars %>% 
+    select(one_of(input$select_vars_for_table)) %>% 
+    DT::datatable(options = list(pageLength = 3))
+)
+```

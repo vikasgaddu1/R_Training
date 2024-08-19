@@ -1,0 +1,62 @@
+---
+title: "Adverse Events Review"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+
+
+# Set default RMarkdown options for entire document
+knitr::opts_chunk$set(
+  echo    = FALSE,     # Toggle R code display in final document
+  message = FALSE,     # Toggle R function messages in final document
+  warning = FALSE,     # Toggle R warnings in final document
+  error   = FALSE)     # Toggle R errors in final document
+
+# Load Packages
+library(shiny)
+library(tidyverse)
+
+adae <- readRDS("../adae.rds")
+
+bodysys_list <- unique(adae$AEBODSYS)
+
+aecountsbybs <-
+  adae %>% 
+  group_by(AEBODSYS, AEHLT) %>% 
+  summarize(Count = n())
+ 
+```
+
+## Chart: AE High Level Term Counts
+```{r shiny-select}
+shiny::selectInput(
+  inputId  = 'selected_bodysys',
+  label    = 'Select a Body System',
+  choices  = bodysys_list,
+  multiple = FALSE
+)
+```
+
+```{r shiny-ggplot, echo = FALSE}
+renderPlot(
+  aecountsbybs %>% 
+  filter(AEBODSYS == input$selected_bodysys) %>%   
+    ggplot(aes(y=AEHLT, x=Count)) +
+    geom_col(fill='orange', show.legend=FALSE)
+)
+```
+
+--- 
+
+## Detail Listing
+
+```{r table-shiny-display, echo = FALSE}
+DT::renderDataTable(
+  adae %>% 
+    filter(AEBODSYS == input$selected_bodysys) %>%
+    select(TRTA, SUBJID, AEHLT, AESEV) %>% 
+    DT::datatable(options = list(pageLength = 10))
+)
+```

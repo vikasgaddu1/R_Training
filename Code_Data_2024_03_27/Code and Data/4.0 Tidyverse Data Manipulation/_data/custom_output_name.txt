@@ -1,0 +1,16 @@
+patient	visit	aeraw	aedtstart	aedtstop	aeserious	aeongoing	soc_term
+1	1	RASH	NA	2020-01-05	NO	NO	Skin Disorders
+1	1	MIGRAINE HEADACHE	2020-01-06	2020-01-07	YES	NO	Nervous System Disorders
+1	2	MIGRAINE HEADACHE	2020-01-10	2020-01-12	YES	NO	Nervous System Disorders
+1	2	ITCHY SKIN	NA	NA	NO	YES	Skin Disorders
+1	3	MIGRAINE HEADACHE	2020-01-17	2020-01-18	YES	NO	Nervous System Disorders
+1	3	ITCHY SKIN	2020-01-11	2020-01-18	NO	NO	Skin Disorders
+2	1	DEPRESSION	NA	NA	NO	YES	Psychiatric Disorders
+2	1	ANXIETY	NA	NA	NO	YES	Psychiatric Disorders
+2	1	HEADACHE	2020-01-03	2020-01-04	NO	NO	Nervous System Disorders
+2	2	VERTIGO	2020-01-12	2020-01-13	YES	NO	Ear and Labyrinth Disorders
+2	2	SORE LEG	2020-01-09	2020-01-11	NO	NO	General Disorders
+2	3	VERTIGO	2020-01-19	2020-01-19	YES	NO	Ear and Labyrinth Disorders
+2	3	SORE LEG	2020-01-17	2020-01-18	NO	NO	General Disorders
+3	1	FEVER	2020-01-01	NA	NO	NO	General Disorders
+3	1	FLU	2020-01-01	2020-01-03	NO	NO	General Disorders

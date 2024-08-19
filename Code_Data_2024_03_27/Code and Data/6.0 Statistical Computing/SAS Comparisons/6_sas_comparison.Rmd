@@ -1,0 +1,206 @@
+---
+title: "R & SAS Comparison"
+author: "Experis Accel2R - Clinical R Training"
+output: 
+  html_document:
+    theme: united
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+
+# Packages
+library(readr)
+library(dplyr)
+library(broom)
+library(janitor)
+library(magrittr)
+
+# Data
+# - https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/s12911-020-1023-5
+# - Davide Chicco, Giuseppe Jurman: Machine learning can predict survival of
+#   patients with heart failure from serum creatinine and ejection fraction alone.
+#   BMC Medical Informatics and Decision Making 20, 16 (2020)
+
+data_heart <-
+  read_csv("data/heart.csv",
+           col_types = cols(
+             age                      = col_double(),
+             anaemia                  = col_factor(),
+             creatinine_phosphokinase = col_double(),
+             diabetes                 = col_factor(),
+             ejection_fraction        = col_double(),
+             high_blood_pressure      = col_factor(),
+             platelets                = col_double(),
+             serum_creatinine         = col_double(),
+             serum_sodium             = col_double(),
+             sex                      = col_factor(),
+             smoking                  = col_factor(),
+             time                     = col_double(),
+             DEATH_EVENT              = col_factor()
+           ))
+
+
+```
+
+## Chi-Square Tests
+
+#### Two x Two Table
+```{r}
+data_heart %>% tabyl(sex, diabetes) %>% knitr::kable()
+```
+
+#### Chi-Square Table Diagnostics
+```{r}
+chisq.test(data_heart$sex, data_heart$diabetes) %>% 
+  augment() %>% 
+  arrange(desc(data_heart.sex), data_heart.diabetes) %>% 
+  relocate(.expected, .after = .observed) %>% 
+  relocate(.resid, .std.resid, .after = .expected) %>% 
+  knitr::kable()
+```
+
+#### Chi-Square Test
+```{r}
+chisq.test(data_heart$sex, data_heart$diabetes, correct = FALSE) %>% tidy() %>% knitr::kable()
+```
+
+#### Chi-Square Test with Correction
+```{r}
+chisq.test(data_heart$sex, data_heart$diabetes, correct = TRUE) %>% tidy() %>% knitr::kable()
+```
+
+#### Fisher Test, Greater Than
+```{r}
+fisher.test(data_heart$sex, data_heart$diabetes, alternative = "greater") %>% tidy() %>% knitr::kable()
+```
+
+#### Fisher Test, Less Than
+```{r}
+fisher.test(data_heart$sex, data_heart$diabetes, alternative = "less") %>% tidy() %>% knitr::kable()
+```
+
+#### Fisher Test, Two Sided
+```{r}
+fisher.test(data_heart$sex, data_heart$diabetes, alternative = "two.sided") %>% tidy() %>% knitr::kable()
+```
+
+#### Chi-Square Goodness of Fit
+```{r}
+data_heart %>%
+  count(sex, name = "actual") %>%
+  mutate(expected = ifelse(sex == 0, 0.40, 0.60)) %$%
+  chisq.test(actual, p = expected) %>% 
+  tidy() %>% 
+  knitr::kable()
+```
+
+## Correlation
+
+#### Correlation Matrix
+```{r}
+data_heart %>% select(where(is.numeric)) %>% cor() %>% as_tibble(rownames = "var_name") %>% knitr::kable()
+```
+
+#### Pearson Correlation
+```{r}
+data_heart %$% cor.test(age, platelets, method = "pearson") %>% tidy()  %>% knitr::kable()
+```
+
+#### Spearman Correlation
+```{r}
+data_heart %$% cor.test(age, platelets, method = "spearman") %>% tidy() %>% knitr::kable()
+```
+
+## T-Test
+
+#### One-Sample T-Test
+```{r}
+t.test(data_heart$platelets, mu = 260000)               %>% tidy() %>% knitr::kable()
+```
+
+#### Two Sample T-Test
+```{r}
+t.test(platelets ~ sex, data = data_heart, var = TRUE)  %>% tidy() %>% knitr::kable()
+```
+
+#### Two-Sample Welch Test
+```{r}
+t.test(platelets ~ sex, data = data_heart, var = FALSE) %>% tidy() %>% knitr::kable()
+```
+
+#### Shapiro Wilk Test for Normality
+```{r}
+shapiro.test(data_heart$platelets) %>% tidy() %>% knitr::kable()
+```
+
+## ANOVA
+
+#### One-Way ANOVA
+```{r}
+aov(platelets ~ sex, data = data_heart) %>% tidy() %>% knitr::kable()
+```
+
+#### One-Way ANCOVA
+```{r}
+aov(platelets ~ sex + age, data = data_heart) %>% tidy() %>% knitr::kable()
+```
+
+#### Two-Way ANOVA
+```{r}
+aov(platelets ~ sex + anaemia, data = data_heart) %>% tidy() %>% knitr::kable()
+```
+
+#### Factorial ANOVA
+```{r}
+aov(platelets ~ sex * anaemia, data = data_heart) %>% tidy() %>% knitr::kable()
+```
+
+#### ANOVA Diagnostics
+```{r}
+aov(platelets ~ sex * anaemia, data = data_heart) %>% 
+  augment() %>% 
+  slice(1:10) %>% 
+  select(platelets, anaemia, sex, .fitted, .resid, .hat, .cooksd, .std.resid, .sigma) %>% 
+  knitr::kable()
+```
+
+## Regression
+
+#### Ordinary Least Squares Regression
+```{r}
+lm(platelets ~ age, data = data_train) %>% glance() %>% knitr::kable()
+lm(platelets ~ age, data = data_train) %>% tidy() %>% knitr::kable()
+```
+
+#### Multiple Linear Regression
+```{r}
+lm(platelets ~ age + serum_sodium, data = data_train) %>% glance() %>% knitr::kable()
+lm(platelets ~ age + serum_sodium, data = data_train) %>% tidy() %>% knitr::kable()
+
+lm(platelets ~ age + serum_sodium, data = data_train) %>% augment(newdata = data_valid) %>% head() %>% knitr::kable()
+
+lm(platelets ~ age + serum_sodium, data = data_train) %>% augment(newdata = tibble(age = 50, serum_sodium = 130, platelets = 225000)
+) %>% head() %>% knitr::kable()
+
+
+```
+
+#### Logistic Regression
+```{r}
+glm(relevel(DEATH_EVENT, ref = "0") ~ age + platelets + smoking, data = data_train, family = "binomial") %>% glance() %>% knitr::kable()
+
+glm(relevel(DEATH_EVENT, ref = "0") ~ age + platelets + smoking, data = data_train, family = "binomial") %>% tidy() %>% knitr::kable()
+
+glm(relevel(DEATH_EVENT, ref = "0") ~ age + platelets + smoking, data = data_train, family = "binomial") %>% tidy(conf.int = TRUE, exponentiate = TRUE) %>% knitr::kable()
+
+glm(relevel(DEATH_EVENT, ref = "0") ~ age + platelets + smoking, data = data_train, family = "binomial") %>% augment(new_data = data_valid, type.predict = "response") %>% 
+  head() %>% knitr::kable()
+```
+

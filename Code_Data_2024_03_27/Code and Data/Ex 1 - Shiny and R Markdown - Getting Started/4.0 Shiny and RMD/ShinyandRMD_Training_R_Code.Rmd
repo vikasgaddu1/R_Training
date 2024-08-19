@@ -1,0 +1,259 @@
+---
+title: "Using Shiny in R Markdown"
+output: html_notebook
+runtime: shiny
+---
+
+```{r info, include=FALSE}
+# Packages & Functions on Display:
+# - {shiny 1.6.0}:  selectInput, radioButtons, actionButton, HTML,
+#                   reactive, eventReactive
+```
+
+<sub>
+  Accel2R - Clinical R Training <br>
+  © 2021 Experis ManpowerGroup Inc. All rights reserved
+</sub>
+
+### Getting Started
+
+- Remember:
+  - <i>You</i> can use <b>HTML</b> directly in the <code>rmarkdown</code> document
+  - Use `markdown` shortcuts for common HTML styling like *italics* and **bold**
+  - `Run` button to submit code to console
+  - Help Menu > Markdown Quick Reference
+  - Shortcut to insert code chunk: `Ctrl+Alt+I` / `Cmd+Option+I`
+
+- Shiny
+  - Notice `runtime: shiny` in RMD header
+  - `Run Document` replaces `Knit`
+  - R Markdown options control if output displays in Viewer or Pop-Up Window
+  - Output is not "portable"
+  - Document runs on a server (temporary/permanent)
+  - R Markdown is 'busy' while document is running
+
+
+```{r setup, include=FALSE}
+# Set default RMarkdown options for entire document
+knitr::opts_chunk$set(
+  echo    = FALSE,     # Toggle R code display in final document
+  message = FALSE,     # Toggle R function messages in final document
+  warning = FALSE,     # Toggle R warnings in final document
+  error   = FALSE)     # Toggle R errors in final document
+
+# Load Packages
+library(shiny)
+library(tidyverse)
+```
+
+---
+
+### Using Shiny Functions
+
+- Shiny functions are generally just wrappers for HTML, JavaScript, and CSS
+- Use `Run` to see the HTML code in R console
+- Use `Run Document` to see the HTML application
+
+```{r shiny-select, echo=TRUE}
+shiny::selectInput(
+  inputId = 'input_select',
+  label   = 'Shiny: Select Something',
+  choices = c('First Choice', 'Second Choice', 'Third Choice')
+)
+```
+
+--- 
+
+### Using Raw HTML
+
+- Use HTML in `rmarkdown` text for a similar result
+
+<label class="control-label" id="select_input-label" for="select_input">
+  HTML: Select Something
+</label>
+<select id="select_input">
+  <option value="First Choice" selected>First Choice</option>
+  <option value="Second Choice">Second Choice</option>
+  <option value="Third Choice">Third Choice</option>
+</select>
+
+### Using HTML Function
+
+- Use `shiny::HTML()` to create customized HTML code using R / Shiny objects
+- Use `paste` / `str_c` / `str_glue` to generate HTML code with R objects
+
+
+```{r html-select}
+shiny::HTML(
+'<div>
+  <label class="control-label" id="select_input-label" for="select_input">
+    HTML: Select Something
+  </label>
+  <div>
+    <select id="select_input">
+      <option value="First Choice"  selected>First Choice  </option>
+      <option value="Second Choice"         >Second Choice </option>
+      <option value="Third Choice"          >Third Choice  </option>
+    </select>
+    <script type="application/json" data-for="select_input" data-nonempty="">
+      {"plugins":["selectize-plugin-a11y"]}
+    </script>
+  </div>
+</div>'
+)
+```
+
+
+---
+
+### Accessing User Input
+
+- `inputId` must always be a unique identifier to store the user's selections
+- Use the `input$` hidden global object to access various `inputId` values
+- Wrap anything related to user input in `shiny::reactive()`
+
+```{r shiny-input}
+shiny::radioButtons(
+  inputId = 'my_custom_radiobutton_name',
+  label   = 'Select Something',
+  choices = c('Apple', 'Banana', 'Cantelope')
+)
+```
+
+You selected <b>`r shiny::reactive(input$my_custom_radiobutton_name)`</b>.
+
+---
+
+### What is `reactive`?
+
+- `help(reactive, package = 'shiny')`
+- "A reactive expression is an expression whose result will change over time"
+- When a reactive object changes based on user input, all objects dependent upon that reactive object will change too
+
+```{r shiny-reactive}
+user_selection <- shiny::reactive(input$my_custom_radiobutton_name)
+
+make_use_of_the_selection <- reactive(
+  user_selection() %>% str_length()
+)
+```
+
+You selected <b>`r user_selection`</b>, which has a string length of <b>`r make_use_of_the_selection`</b>.
+
+- Note: 
+  - In the above code I use `user_selection()` when inside an R code chunk and I use `user_selection` when including it in an 'inline' R operation. 
+  - This is because `rmarkdown` assists with the interpretation of reactive objects
+  - You won't be able to do this in a stand-alone `shiny` application
+
+
+---
+
+### Reactive Buttons
+
+- Action buttons are initially set to `0` (for 0 times clicked)
+- Values that depend on the button click are initially set to `NULL`
+
+```{r shiny-button}
+
+# Remember raw HTML can be used to customize this button
+shiny::actionButton(
+  inputId = 'action_button',
+  label   = 'Button'
+)
+
+# Static Value
+static_value <- 2
+
+# Reactive Value
+action_value <- eventReactive(
+  eventExpr = input$action_button, 
+  valueExpr = {static_value ^ input$action_button})
+```
+
+The initial value is `r static_value`, the button has been pressed `r reactive(input$action_button)` times.  The equation is `r static_value`<sup>`r reactive(input$action_button)`</sup> = `r action_value`.
+
+
+### Examples of Other Output
+
+```{r shiny-output}
+shiny::selectInput(
+  inputId  = 'select_var',
+  label    = 'Select A Variable',
+  choices  = colnames(mtcars),
+  multiple = FALSE
+)
+
+# Subset Data
+# Tidyverse Subset: reactive(mtcars %>% select(one_of(input$select_var)))
+df_selection <- reactive(mtcars[[input$select_var]])
+```
+
+---
+
+#### Raw R Output
+
+```{r shiny-output-raw}
+reactive(df_selection() %>% summary())
+```
+
+---
+
+#### HTML Output
+
+`r reactive(df_selection() %>% summary())`
+
+---
+
+#### Plot Output: 
+
+`r reactive(df_selection() %>% hist())`
+
+- **Note**: Anything that can't be used in `base::cat()` function needs special attention (dataframes, lists, plots, etc.)
+- These cases will be covered in next lesson
+  
+  
+---
+
+### References
+
+**Shiny Input Functions**
+
+- Numeric Input
+  - `numericInput()`
+  - `sliderInput()`
+- Date Input
+  - `dateInput()`
+  - `daterangeInput()`
+- Text Input
+  - `textInput()`
+  - `textAreaInput()`
+  - `passwordInput()`
+- Categorical Input
+  - `selectInput()`
+  - `radioButtons()`
+  - `checkboxInput()`
+  - `selectizeInput()`
+  - `varSelectInput()`
+- Misc Input
+  - `actionButton()`
+  - `fileInput()`
+
+---  
+
+**Functions**
+
+- `help(HTML,          package = 'shiny')`
+- `help(reactive,      package = 'shiny')`
+- `help(eventReactive, package = 'shiny')`
+- `help(actionButton,  package = 'shiny')`
+- `help(radioButtons,  package = 'shiny')`
+
+---
+
+**Website Links**
+
+- [Site: Using Shiny in RMarkdown](http://rmarkdown.rstudio.com/authoring_shiny.html)
+- [Site: RStudio Shiny Tutorial](https://shiny.rstudio.com/tutorial/)
+- [Site: RStudio Shiny Cheatsheet](https://rstudio.com/resources/cheatsheets/)
+- [Site: RStudio Shiny Reference](https://shiny.rstudio.com/reference/shiny/1.6.0/)
+- [Book: Mastering Shiny](https://mastering-shiny.org/)

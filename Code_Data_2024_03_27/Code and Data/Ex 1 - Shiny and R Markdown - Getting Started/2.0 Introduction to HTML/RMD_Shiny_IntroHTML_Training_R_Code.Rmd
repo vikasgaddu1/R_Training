@@ -1,0 +1,20 @@
+
+<html>
+
+<head><title>Welcome to HTML!</title></head>
+
+<body>
+<h1> <strong><center>Intro to HTML</center></strong> </h1>
+<br>
+<br>
+<p> HTML stands for Hyper Text Markup Language
+</p>
+<p> We hope you enjoyed learning about HTML
+</p>
+<p> <strong>Bold</strong> <b> also bold</b>
+    <br>
+    <em>Italic</em> <i> also italic </i>
+</p>
+
+</body>
+</html>
