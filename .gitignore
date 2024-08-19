@@ -1,10 +1,47 @@
+# RStudio project files
 .Rproj.user
+
+# History files
 .Rhistory
+
+# Data files
 .RData
 .Ruserdata
+
+# R environment directory
 renv/
+
+# Data files (CSV, Feather, SAS, RDS)
 *.csv
 *.fcat
 *.sas7bdat
 *.rds
+
+# Log files
 *.log
+
+# Additional common files to ignore
+# Uncomment or add as needed
+
+# MacOS files
+# .DS_Store
+
+# Windows thumbnail cache files
+# Thumbs.db
+
+# RStudio files
+.Rproj.user/
+
+# Temporary files created by R
+.Rapp.history
+.Rhistory
+
+# Compiled code
+*.o
+*.so
+*.dll
+
+# Output files
+*.out
+*.pdf
+*.html
