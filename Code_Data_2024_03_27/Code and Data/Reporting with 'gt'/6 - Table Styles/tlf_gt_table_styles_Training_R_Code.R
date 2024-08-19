@@ -15,6 +15,7 @@
 library(gt)
 library(tidyverse)
 
+setwd("/cloud/project/Code_Data_2024_03_27/Code and Data/Reporting with 'gt'")
 
 # For this lesson, we will use a data frame from the _data/ directory. Let's
 # create an age bin variable and filter it down to just a few variables. We'll
@@ -66,6 +67,23 @@ adsl |>
       color  = "blue"),
     locations = cells_title())
 
+# save output in html file
+adsl |>
+  gt() |>
+  tab_header(title = "ADSL Listing") |>
+  tab_footnote(footnote = "Confidential") |>
+  tab_style(
+    style = cell_borders(
+      sides = "all",
+      color = "red"),
+    locations = cells_body()) |>
+  tab_style(
+    style = cell_borders(
+      weight = 2,
+      sides  = "all",
+      color  = "blue"),
+    locations = cells_title()) |>
+  gtsave("adsl_table.html")
 
 # Now we're adding color to the footer box using a list to hold multiple style
 # definitions. We use cell_fill to modify the background color of the footer
@@ -160,6 +178,13 @@ adsl |>
     palette = "inferno",
     target_columns = everything())
 
+
+adsl |>
+  gt() |>
+  data_color(
+    columns = AGE,
+    palette = "plasma",
+    target_columns = everything())
 
 help(data_color)    
 
