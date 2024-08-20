@@ -1,0 +1,490 @@
+---
+title: "5. Supplemental Tools and Packages"
+author: "Anova Groups"
+date: "2024-08-19"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo=TRUE
+  , warning=FALSE
+  , message=FALSE
+  , tidy = TRUE
+  , tidy.opts = list(width.cutoff = 60))
+
+```
+
+# **6 Statistical Computing**
+
+## **6.1 Introduction**
+
+In this course, we cover some basics of statistical computing in R.
+
+#### **Rounding in R**
+
+SAS will always round 0.5 up to the nearest integer, but R will round 0.5 to the nearest even integer. This is based on the international [IEEE 754 standard](https://en.wikipedia.org/wiki/IEEE_754). The `janitor` function has a function [`round_half_up()`](https://sfirke.github.io/janitor/reference/round_half_up.html) which will replicate the rounding behavior found in SAS.
+
+#### **Comparing Values**
+
+Use the `indentical()` function to compare two values with exact precision, and use the `dplyr` function [`near()`](https://dplyr.tidyverse.org/reference/near.html) to allow for a tolerance level when comparing values.
+
+```{r}
+library(dplyr)  
+identical(2, sqrt(2) ^ 2) 
+near(2, sqrt(2) ^ 2)
+```
+
+Print the `.Machine` global variable in the R console to see a listing of various precision values that R uses by default.
+
+```{r}
+print(.Machine)
+```
+
+#### **Default Statistical Output**
+
+The `broom` package will help us throughout this course to convert statistical output to a data frame format so that it may be used for reporting purposes.
+
+## **6.2 Chi-Square, T-Tests, Correlations**
+
+We’ll be using the `heart` data set from research done by [Davide Chicco and Giuseppe Jurman](https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/s12911-020-1023-5).
+
+#### **Chi-Square**
+
+Using the `janitor` package, we can run a Chi-Square test on a pre-existing `tabyl` table.
+
+```{r}
+library(janitor)  
+setwd("/cloud/project/Code_Data_2024_03_27/Code and Data/6.0 Statistical Computing")
+data_heart <- readr::read_csv(file.path(getwd(),"_data", "heart.csv"))
+data_heart %>% 
+  tabyl(sex, diabetes) %>% 
+  chisq.test()
+```
+
+Otherwise, using just `base` R we need to use vector notation to define the Chi-Square test.
+
+```{r}
+table(data_heart$sex, data_heart$diabetes) %>% 
+  chisq.test()
+```
+
+Then to use the results, we use the `broom` package and either the `tidy()` function or the `augment()` function to get the results in a dataframe format.
+
+```{r}
+data_heart %>%    
+  tabyl(sex, diabetes) %>%    
+  chisq.test() %>%    
+  broom::tidy()  
+
+table(data_heart$sex, data_heart$diabetes) %>%    
+  chisq.test() %>%    
+  broom::tidy()
+```
+
+| statistic |   p.value | parameter | method                                                       |
+|-----------------:|-----------------:|-----------------:|:------------------|
+|  6.783853 | 0.0091986 |         1 | Pearson’s Chi-squared test with Yates’ continuity correction |
+
+Other functions for categorical analyses in R are listed below. See the help pages for these functions for more information.
+
+| Test                         | Function                                                                       |
+|:-------------------------|:---------------------------------------------|
+| Goodness of Fit Test         | `chisq.test(..., p = )`                                                        |
+| Using Continuity Corrections | `chisq.test(..., correct = )`                                                  |
+| Fisher Exact Test            | [`fisher.test()`](https://sfirke.github.io/janitor/reference/fisher.test.html) |
+| McNemar’s Test               | [`mcnemar.test()`](https://rdrr.io/r/stats/mcnemar.test.html)                  |
+| Cochran-Mantel-Haenszel      | [`mantelhaen.test()`](https://rdrr.io/r/stats/mantelhaen.test.html)            |
+
+#### **Correlation**
+
+We use the [`cor()`](https://rdrr.io/r/stats/cor.html) function from the `stats` package to find correlations. You can pass in two vectors to get a single correlation estimate, or pass in a data frame to get a correlation matrix.
+
+```{r}
+# Single Value cor(data_heart$age, data_heart$platelets)  
+
+# Correlation Matrix 
+data_heart %>%    
+  dplyr::select(where(is.numeric)) %>%    
+  cor()
+```
+
+To conduct a correlation test, we use [`cor.test()`](https://rdrr.io/r/stats/cor.test.html) from the `stats` package. Notice that this function requires vector input, rather than data frame input.
+
+```{r}
+cor.test(data_heart$age, data_heart$platelets, method = "pearson")  
+cor.test(data_heart$age, data_heart$platelets, method = "spearman")
+```
+
+The output of the [`cor.test()`](https://rdrr.io/r/stats/cor.test.html) can be passed into [`broom::tidy()`](https://generics.r-lib.org/reference/tidy.html) to ensure the output is in data frame format.
+
+```{r}
+cor.test(data_heart$age, data_heart$platelets, method = "pearson") %>%    
+broom::tidy()
+```
+
+|   estimate |  statistic |   p.value | parameter |  conf.low | conf.high | method                               | alternative |
+|--------:|--------:|--------:|--------:|--------:|--------:|:--------|:--------|
+| -0.0523544 | -0.9034979 | 0.3669939 |       297 | -0.164806 | 0.0614408 | Pearson’s product-moment correlation | two.sided   |
+
+Similarly, use [`stats::var()`](https://rdrr.io/r/stats/cor.html) for variance estimates, and use [`stats::cov()`](https://rdrr.io/r/stats/cor.html) for covariance estimates.
+
+#### **T-Tests**
+
+We use the [`t.test()`](https://rdrr.io/r/stats/t.test.html) function from `stats` to run t-tests.
+
+```{r}
+# Independent T-Test 
+stats_indt <- stats::t.test(data_heart$platelets, mu = 260000)  
+
+# Paired T-Test 
+#stats_part <- stats::t.test(data$before_value, data$after_value, paired = TRUE)  
+
+# Two Sample T-Test 
+stats_twot <- stats::t.test(platelets ~ sex, data = data_heart, var = TRUE)  
+
+# Welch Two Sample T-Test 
+stats_welt <- stats::t.test(platelets ~ sex, data = data_heart, var = FALSE)
+```
+
+As usual, these results can be passed to the `tidy()` function from `broom` to ensure the results are in data frame format.
+
+**Checking Assumptions**
+
+We can check the assumptions for linear models using [`shapiro.test()`](https://rdrr.io/r/stats/shapiro.test.html), [`hist()`](https://rdrr.io/r/graphics/hist.html), and [`qqnorm()`](https://rdrr.io/r/stats/qqnorm.html). If we want to be able to edit the diagnostic plots, we can use `ggplot2` with [`geom_histogram()`](https://ggplot2.tidyverse.org/reference/geom_histogram.html) or [`geom_qq()`](https://ggplot2.tidyverse.org/reference/geom_qq.html).
+
+**Additional Linear Model Functions**
+
+The [`wilcox.test()`](https://rdrr.io/r/stats/wilcox.test.html) function can be used for Wilcoxon Signed-Rank, Wilcoxon Matched Pairs, and Mann-Whitney U Tests.
+
+## **6.3 ANOVA**
+
+We’ll be using the `heart` data set from research done by [Davide Chicco and Giuseppe Jurman](https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/s12911-020-1023-5).
+
+#### **Conducting the Test**
+
+We use [`aov()`](https://rdrr.io/r/stats/aov.html) from the `stats` package to run ANOVA analyses in base R.
+
+```{r}
+# One Way ANOVA 
+stats_anova_1 <- aov(platelets ~ sex,           data = data_heart)  
+
+# One Way ANCOVA 
+stats_anova_2 <- aov(platelets ~ sex + age,     data = data_heart)  
+
+# Two Way ANOVA 
+stats_anova_3 <- aov(platelets ~ sex + anaemia, data = data_heart)  
+
+# Factorial ANOVA 
+stats_anova_4 <- aov(platelets ~ sex * anaemia,               data = data_heart) 
+stats_anova_5 <- aov(platelets ~ sex + anaemia + sex:anaemia, data = data_heart)
+```
+
+There are also the functions [`oneway.test()`](https://rdrr.io/r/stats/oneway.test.html) and [`kruskal.test()`](https://rdrr.io/r/stats/kruskal.test.html) for testing equal means, and non-parametric tests respectively.
+
+#### **Using the Results**
+
+As with most statistical function output, we can use the `broom` package to help us convert the results to data frame format.
+
+```{r}
+diagnostic_table   <- stats_anova_3 %>% broom::tidy() 
+diagnostic_values  <- stats_anova_4 %>% broom::augment() 
+diagnostic_summary <- stats_anova_5 %>% broom::glance()
+```
+
+| term      |  df |        sumsq |      meansq | statistic |   p.value |
+|:----------|----:|-------------:|------------:|----------:|----------:|
+| sex       |   1 | 4.462605e+10 | 44626047643 | 4.7226075 | 0.0305614 |
+| anaemia   |   1 | 8.905784e+09 |  8905783534 | 0.9424657 | 0.3324371 |
+| Residuals | 296 | 2.797037e+12 |  9449450865 |        NA |        NA |
+
+#### **Model Assumptions**
+
+| Function                                                                                            | Description            |
+|:----------------------------------------------|:-----------------------|
+| [`bartlett.test()`](https://rdrr.io/r/stats/bartlett.test.html)                                     | Test Constant Variance |
+| [`shapiro.test()`](https://rdrr.io/r/stats/shapiro.test.html)                                       | Test Normality         |
+| [`hist()`](https://rdrr.io/r/graphics/hist.html), [`qqnorm()`](https://rdrr.io/r/stats/qqnorm.html) | Base R Plots           |
+| [`geom_histogram()`](https://ggplot2.tidyverse.org/reference/geom_histogram.html), `geom_qqnorm()`  | `ggplot2` Plots        |
+
+#### **Adjustments and Contrasts**
+
+Contrasts in R can be done using base R, but the `emmeans` package offers greater control over contrasts and adjustments. We will delve further into this topic in a later course.
+
+```{r}
+# Tukey TukeyHSD(stats_anova_3)  
+# Comparisons 
+pairwise.t.test(data_heart$age, g = data_heart$anaemia,   p.adjust.method = "holm",   pool.sd = FALSE,   paired = FALSE)  
+# Contrasts 
+data_heart$sex_fac <- factor(data_heart$sex)
+data_heart$anaemia_fac <- factor(data_heart$anaemia)
+aov(platelets ~ sex_fac * anaemia_fac,     
+    data = data_heart,     
+    contrasts = list(sex_fac = contr.treatment, 
+                     anaemia_fac = contr.SAS)
+    )
+```
+
+## **6.4 Sampling and Regression**
+
+We’ll be using the `heart` data set from research done by [Davide Chicco and Giuseppe Jurman](https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/s12911-020-1023-5).
+
+#### **Sampling**
+
+We use the [`sample()`](https://rdrr.io/r/base/sample.html) function to take a random sample from a vector. The random number generator seed can be set using the [`set.seed()`](https://rdrr.io/r/base/Random.html) function, which will ensure that the random sample is repeatable in the future. The RNG seed can be set to any integer.
+
+```{r}
+sample(1:100, size = 5)  
+set.seed(42) 
+sample(1:100, size = 5)
+```
+
+The RNG seed is set at the time of execution, so this code will always return the same random results when it is all run at the same time. If you run each line individually, the results will differ each time.
+
+```{r}
+set.seed(42) 
+sample(1:100, size = 5) 
+sample(1:100, size = 5) 
+sample(1:100, size = 5) 
+sample(1:100, size = 5)
+```
+
+Similarly, we use the [`slice_sample()`](https://dplyr.tidyverse.org/reference/slice.html) function from `dplyr` in the `tidyverse` to take a random sample of data.
+
+```{r}
+set.seed(42) 
+data_heart %>% 
+slice_sample(n = 5)
+```
+
+To build training and validation data frames, we can use [`anti_join()`](https://dplyr.tidyverse.org/reference/filter-joins.html).
+
+```{r}
+data_train <- data_heart %>% slice_sample(prop = 0.75) 
+data_valid <- anti_join(data_heart, data_train)
+```
+
+Or, we can take a random index of row numbers if our data is fairly large.
+
+```{r}
+# With Bigger Data, Random Index Works Better 
+set.seed(42) 
+data_nrow <- data_heart %>% 
+nrow() %>% 
+print() 
+
+data_indx <- data_nrow %>% 
+seq_len() %>% 
+print() 
+
+smp_train <- data_indx %>% 
+sample(size = floor(data_nrow * 0.75)) %>% 
+print() 
+
+smp_valid <- setdiff(data_indx, smp_train) %>%
+print()  
+
+# Using Fixed Row Selection for Demonstration 
+data_train  <- data_heart[  1:150, ] 
+data_valid  <- data_heart[151:299, ]
+```
+
+#### **Regression**
+
+###### **Conducting the Test**
+
+The two most common functions for many types of linear regression are [`lm()`](https://rdrr.io/r/stats/lm.html) and [`glm()`](https://rdrr.io/r/stats/glm.html).
+
+```{r}
+lm(platelets ~ age + serum_sodium, data = data_train)
+```
+
+As usual, we use [`broom::tidy()`](https://generics.r-lib.org/reference/tidy.html) to ensure the results are available in data frame format.
+
+```{r}
+lm(platelets ~ age + serum_sodium, data = data_train) %>%    
+broom::tidy(conf.int = TRUE)
+```
+
+| term         |   estimate |  std.error |  statistic |   p.value |    conf.low |   conf.high |
+|:----------|----------:|----------:|----------:|----------:|----------:|----------:|
+| (Intercept)  | 98527.0621 | 246095.898 |  0.4003604 | 0.6894723 | -387815.848 | 584869.9725 |
+| age          |  -367.3719 |    638.020 | -0.5758000 | 0.5656308 |   -1628.248 |    893.5045 |
+| serum_sodium |  1402.2708 |   1749.767 |  0.8014045 | 0.4241910 |   -2055.676 |   4860.2177 |
+
+###### **Model Diagnostics**
+
+There is not a single function to help us with regression model diagnostics. See the lesson scripts for more information on how to conduct model diagnostics.
+
+#### **Model Comparison**
+
+The [`step()`](https://rdrr.io/r/stats/step.html) function lets us use various variable selection methods when building a linear model. While, the [`anova()`](https://rdrr.io/r/stats/anova.html) function allows us to compare two or more models. We can use the [`AIC()`](https://rdrr.io/r/stats/AIC.html) and [`BIC()`](https://rdrr.io/r/stats/AIC.html) functions to assist in model comparison as well.
+
+```{r}
+lm(platelets ~ age + serum_sodium, data = data_train) %>%    
+  step(direction = c("backward"))
+```
+
+```{r}
+anova(   lm(platelets ~ age + serum_sodium, data = data_train),   lm(platelets ~ age + serum_sodium + anaemia, data = data_train) )
+```
+
+#### **Model Prediction**
+
+The [`predict()`](https://rdrr.io/r/stats/predict.html) function returns a vector of predicted values. The `broom` package allows us to use the `augment()` function to return a data frame with prediction values appended to the input.
+
+#### **Logistic Regression**
+
+We use [`glm()`](https://rdrr.io/r/stats/glm.html) for logistic regression, along with more complex types of regression in R.
+
+```{r}
+glm(DEATH_EVENT ~ age + platelets + smoking, data = data_train, family = "binomial")
+```
+
+And as always, the `broom` package returns results in a data frame format.
+
+```{r}
+glm(DEATH_EVENT ~ age + platelets + smoking, data = data_train, family = "binomial") %>%    
+broom::tidy(conf.int = TRUE, exponentiate = TRUE)
+```
+
+## **6.5 Survival Analysis**
+
+We’ll be using the `heart` data set from research done by [Davide Chicco and Giuseppe Jurman](https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/s12911-020-1023-5). We use the `survival` and `survminer` packages for survival analysis in R.
+
+#### **Defining a Model**
+
+We first have to define a survival vector using [`Surv()`](https://rdrr.io/pkg/survival/man/Surv.html). Notice here that the **survival event** should be a logical value, not a factor or character value.
+
+```{r}
+library(dplyr) 
+library(survival)  
+data_heart <-    data_heart %>%    
+mutate(death_event_srv = ifelse(DEATH_EVENT == 1, T, F))  
+surv_vct <- Surv(time = data_heart$time, event = data_heart$death_event_srv)
+```
+
+Then to create a survival model, we use [`survfit()`](https://rdrr.io/pkg/survival/man/survfit.html). We can use [`broom::tidy()`](https://generics.r-lib.org/reference/tidy.html) to ensure these results are stored in data frame format.
+
+```{r}
+library(survival)
+# Intercept Model 
+surv_int <- survfit(surv_vct ~ 1, data = data_heart)  
+# Stratified Model 
+surv_str <- survfit(surv_vct ~ sex, data = data_heart) 
+surv_str %>% broom::tidy()
+```
+
+#### **Investigating a Model**
+
+Interestingly, we can also use the base R [`summary()`](https://rdrr.io/r/base/summary.html) function to look at different survival times when passing in a survival model. We can also use the base R [`quantile()`](https://rdrr.io/r/stats/quantile.html) function to get estimates at various quantiles.
+
+```{r}
+summary(surv_str, times = 10:20) 
+quantile(surv_str)
+```
+
+To estimate groups of numeric values, like grouping by age, we can use [`quantile()`](https://rdrr.io/r/stats/quantile.html) and [`findInterval()`](https://rdrr.io/r/base/findInterval.html). In practice, using dplyr, the following code creates and analyzes a grouping variable.
+
+```{r}
+data_groups <-    data_heart %>%    
+mutate(age_category = findInterval(age, quantile(age)))  
+survfit(surv_vct ~ age_category, data = data_groups)
+```
+
+The `survminer` package has helper functions to make these calculations easier: [`surv_median()`](https://rdrr.io/pkg/survminer/man/surv_median.html), [`surv_cutpoint()`](https://rdrr.io/pkg/survminer/man/surv_cutpoint.html), and [`surv_categorize()`](https://rdrr.io/pkg/survminer/man/surv_cutpoint.html).
+
+#### **Survival Plots**
+
+Base R lets us use the [`plot()`](https://rdrr.io/r/graphics/plot.default.html) function to get a basic Kaplan-Meier Curve (aka. KM Plot), but the `survminer` package gives us the [`ggsurvplot()`](https://rdrr.io/pkg/survminer/man/ggsurvplot.html) function to create a `ggplot` based plot that we can customize with standard `ggplot2` functions.
+
+```{r}
+library(survminer) 
+
+surv_str %>%
+  ggsurvplot(fun = "pct")
+
+surv_str %>%
+  ggsurvplot(fun = "event")
+
+surv_str %>%
+  ggsurvplot(fun = "cumhaz")
+
+```
+
+#### **Log Rank Test**
+
+We use survdiff() to run a log-rank test, and we can use the strata() function to specify the variable we want to use as the stratification variable. The broom package will ensure these results are available as data frames.
+
+```{r}
+survdiff(surv_vct ~ sex, data = data_heart)
+survdiff(surv_vct ~ sex + strata(smoking), data = data_heart)
+```
+
+#### **Cox Proportional Hazards**
+
+We use coxph() to create a CPH model, and we can use either predict() or broom::augment() to get survival predictions.
+
+```{r}
+
+coxph(surv_vct ~ age + sex, data = data_heart)
+coxph(surv_vct ~ age + strata(sex), data = data_heart)
+
+
+coxph(surv_vct ~ age + strata(sex), data = data_heart) %>% 
+  broom::augment(newdata = tibble(age = 50, sex = factor(0)))
+```
+
+The survminer package gives us ggcoxdiagnostics() to assist with CPH model diagnostic values, along with ggcoxzph() and survival::cox.zph() to run the Schoenfeld Test.
+
+#### **Parametric Models**
+
+The survreg() function creates survival regression models, and survminer::ggsurvevents() will give us corresponding plots.
+
+```{r}
+survreg(surv_vct ~ age + sex + platelets, data = data_heart, dist = "exponential")
+survreg(surv_vct ~ age + sex + platelets, data = data_heart, dist = "weibull")
+
+ggsurvevents(
+  fit = survreg(
+    surv_vct ~ age + sex + platelets, 
+    data = data_heart, 
+    dist = "exponential")
+)
+```
+
+## **6.6 Power Analysis**
+
+In this lesson we cover the basics of estimating effect size, power, and sample sizes for the basic statistical tests in R.
+
+We focus on the pwr package, and the following functions:
+
+| Statistics                                 | Function                   | Notes                                                      |
+|------------------------|------------------|------------------------------|
+| **Correlation**                            | `pwr.r.test(r)`            | `r` is effect size                                         |
+| **T-tests (one sample, 2 sample, paired)** | `pwr.t.test(d)`            | `d` is effect size                                         |
+| **T-test (two samples with unequal n)**    | `pwr.t2n.test(n1, n2, d)`  | `d` is effect size; `n1`, `n2` are group sample sizes      |
+| **Proportion (one sample)**                | `pwr.p.test(h)`            | `h` is effect size                                         |
+| **Two proportions (equal n)**              | `pwr.2p.test(h)`           | `h` is effect size                                         |
+| **Two proportions (unequal n)**            | `pwr.2p2n.test(n1, n2, h)` | `h` is effect size; `n1`, `n2` are group sample sizes      |
+| **Chi-square test**                        | `pwr.chisq.test(w, N, df)` | `w` is effect size; `N` is total obs                       |
+| **General linear model**                   | `pwr.f2.test(u, v, f2)`    | `f2` is effect size; `u`, `v` represent degrees of freedom |
+| **Balanced one way ANOVA**                 | `pwr.anova.test(k, f)`     | `f` is effect size; `k` is number of groups                |
+
+In addition, we cover the effectsize package which is useful for determining effect size on models that already exist. Some example code for this process is provided:
+
+```{r}
+model_aov <- 
+  aov(platelets ~ smoking * time, data = data_heart)
+library(effectsize)
+model_aov %>% cohens_f()
+model_aov %>% eta_squared()
+model_aov %>% omega_squared()
+model_aov %>% epsilon_squared()
+```
+
+It is important to remember that there are many R packages available for estimating power and sample size in R. The Clinical Trial CRAN View has a listing of some of the packages available for specific use cases of power and sample estimation.

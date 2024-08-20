@@ -1,0 +1,105 @@
+---
+title: "14 Project Workflow"
+author: "Anova Groups"
+date: "2024-08-19"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo=TRUE
+  , warning=FALSE
+  , message=FALSE
+  , tidy = TRUE
+  , tidy.opts = list(width.cutoff = 60))
+
+```
+
+# **Project Workflows**
+
+## **14.1 Introduction**
+
+This course talks about some best practices for maintaining a pipeline of operations in R. We cover all-in-one scripts, series of sequential scripts, along with using the targets package for asynchronous pipelines. We also cover using the renv package to maintain a static set of R packages in your production environment, and how to customize the RStudio startup behavior to save you time and effort.
+
+## **14.2 Sequential Pipelines**
+
+For development, keeping all operations in a single script might make sense. However, for production purposes separating operations into separate scripts may be an easier way to track intermediate results and troubleshoot any issues that may arise. When designing a data pipeline, take time to consider how you want to skip steps that don’t need to run, or how you will approach adding additional steps to the middle of the pipeline without altering the overall flow of the operations.
+
+The best way to run a series of sequential scripts is using the source() function. The steps in the pipeline will be run, with intermediate results temporarily kept in the RStudio global environment.
+
+```{r eval=FALSE}
+# library("the")
+# library("packages")
+# library("for" )
+# library("pipeline")
+
+
+source("step_1.R")
+source("step_2.R")
+source("step_3.R")
+source("step_4.R")
+```
+
+Pros:
+
+-   Easy to track progress
+-   Easy to manage dependencies
+-   Easy to make changes as needed
+
+Cons:
+
+-   Adjustments require rerunning all prior steps
+-   Challenging to navigate scripts when the get large
+-   Challenging to make adjustments and test that downstream operations run successfully
+
+## **14.3 Target Pipelines**
+
+Target pipelines are a ‘make’ style of operation work flow. This means that steps can be defined in any order, and can be designed to run asynchronously from other steps. The benefit of this style of data workflow is that steps can be automatically skipped when they don’t need to be run.
+
+There is a learning curve when building a targets pipeline, because all steps are recommended to be defined using custom R functions. However, the time invested into learning this style of data workflow is time well spent, because once you gain an understanding of this type of pipeline, it’ll be easier to debug, to maintain, to automate, and to extend in the future, as compared to managing an “all-in-one” script or a series of “sequential scripts”.
+
+| Function                     | Description                                        |
+|--------------------------------|----------------------------------------|
+| `targets::tar_script()`      | Create the \_targets definition                    |
+| `targets::tar_options_set()` | Define the packages to be used inside the pipeline |
+| `targets::tar_target()`      | Define the individual steps of the pipeline        |
+| `targets::tar_make()`        | Run the pipeline                                   |
+| `targets::tar_meta()`        | Inspect the pipeline                               |
+| `targets::tar_visnetwork()`  | Visualize the pipeline dependency network          |
+
+Learn more about the targets package by exploring its online user manual.
+
+## **14.4 Package Environments**
+
+This lesson covers maintaining a reproducible package environment. In a production environment, it is important that all contributors to the project are using the same versions of packages and functions. The renv package will help you set up and maintain a package environment, allowing you to choose specific versions of packages to lock in place, and to share with all project contributors.
+
+| Function               | Description                                                                                                                                                                                       |
+|-------------------------------|----------------------------------------|
+| `renv::init()`         | Create an isolate package environment. `bare = TRUE` will create an empty repository, and `bare = FALSE` will scan the current project and collect all packages referenced in a `library()` call. |
+| `renv::dependencies()` | View all packages used in the current project                                                                                                                                                     |
+| `renv::activate()`     | Switch between existing package environment profiles. Use `profile = NULL` to revert to default R package library.                                                                                |
+| `renv::install()`      | Install specific versions of packages. An renv equivalent for `install.packages()`.                                                                                                               |
+| `renv::use()`          | Load specific versions of packages. An renv equivalent for `library()`.                                                                                                                           |
+| `renv::snapshot()`     | Create a lock file that can be shared with other contributors to the project                                                                                                                      |
+| `renv::update()`       | Update specified packages in current renv environment                                                                                                                                             |
+| `renv::remove()`       | Remove specified packages in current renv environment                                                                                                                                             |
+| `renv::upgrade()`      | Choose which version of renv to use                                                                                                                                                               |
+| `renv::diagnostics()`  | View details of current renv profile                                                                                                                                                              |
+
+Explore docker containers to ensure the package environment is transferable to any operating system.
+
+## **14.5 Controlling RStudio Startup**
+
+We can use the usethis package to customize the startup behavior of RStudio. The usethis::edit_r_profile(scope = ) function and argument determines the scope of the R Profile options. Setting scope = 'user' means that any project the current user opens will carry the same startup behaviors. While, setting scope = 'project' means that any user who opens that particular project will share the same startup behaviors.
+
+Running this command will open the .Rprofile file, and any R code included in this file will automatically be executed at startup.
+
+```{r}
+usethis::edit_r_profile()
+```
+
+This can be useful to print a startup message, to run data quality checks, to run certain scripts with the source() function, to run a targets pipeline, to load a certain renv profile, along with many other use cases.

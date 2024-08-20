@@ -1,0 +1,403 @@
+---
+title: "5. Supplemental Tools and Packages"
+author: "Anova Groups"
+date: "2024-08-19"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo=TRUE
+  , warning=FALSE
+  , message=FALSE
+  , tidy = TRUE
+  , tidy.opts = list(width.cutoff = 60))
+
+```
+
+## **5.1 Introduction**
+
+This course will begin to fill in some gaps with tools that we feel are missing from the previous courses and in some cases the R Language itself. These will include some additional packages from the `tidyverse` meta-package and some will be outside of the tidyverse.
+
+The first additional package in this course will be introduced in this lesson is `logr`. The `logr` package fills the gap of there not being a good logging facility available in R. This package works well with the `tidylog` package to provide log output for each of the tidyverse function operations. The `autolog = TRUE` argument allows `logr` to make use of `tidylog` in the background.
+
+```{r}        
+library(logr)  
+# Begin Log 
+log_open("log_name", autolog = T)  
+# Create a Header 
+sep("Create a Separator Header")  
+# Your R Code 
+my_df <- mtcars  
+# Output 
+put("This is my data:") 
+put(my_df)  
+# Close Log 
+log_close()
+```
+
+## **5.2 Tidyverse String Operations**
+
+We will be using the `stringr` and `scales` packages to explore string operations in the `tidyverse`. These functions are generally recommended over their `base` R equivalents. Some of these function support `regex` operations.
+
+#### **String Operations**
+
+|                                                                                                                                                                                                                                                                                                                                   |                                                                                                                                                      |
+|--------------------------------------|----------------------------------|
+|                                                                                                                                                                                                                                                                                                                                   | Tidyverse String Functions                                                                                                                           |
+| Function                                                                                                                                                                                                                                                                                                                          | Description                                                                                                                                          |
+| [`stringr::str_c()`](https://stringr.tidyverse.org/reference/str_c.html)                                                                                                                                                                                                                                                          | Concatenate two strings, specifying `sep` as the separator                                                                                           |
+| [`stringr::str_dup()`](https://stringr.tidyverse.org/reference/str_dup.html)                                                                                                                                                                                                                                                      | Duplicate a string a specified number of times                                                                                                       |
+| [`stringr::str_length()`](https://stringr.tidyverse.org/reference/str_length.html)                                                                                                                                                                                                                                                | Return the length of a string                                                                                                                        |
+| [`stringr::str_flatten()`](https://stringr.tidyverse.org/reference/str_flatten.html)                                                                                                                                                                                                                                              | Collapse a vector of character values                                                                                                                |
+| [`stringr::str_split()`](https://stringr.tidyverse.org/reference/str_split.html)                                                                                                                                                                                                                                                  | Split a string using the specified pattern. This returns a list, use [`unlist()`](https://rdrr.io/r/base/unlist.html) to return a vector             |
+| [`stringr::str_glue()`](https://stringr.tidyverse.org/reference/str_glue.html)                                                                                                                                                                                                                                                    | Replaces [`sprintf()`](https://rdrr.io/r/base/sprintf.html), allows for complex string concatenation using [`{}`](https://rdrr.io/r/base/Paren.html) |
+| [`stringr::str_to_lower()`](https://stringr.tidyverse.org/reference/case.html), [`stringr::str_to_upper()`](https://stringr.tidyverse.org/reference/case.html), [`stringr::str_to_title()`](https://stringr.tidyverse.org/reference/case.html), [`stringr::str_to_sentence()`](https://stringr.tidyverse.org/reference/case.html) | Control the case of strings                                                                                                                          |
+| [`stringr::str_pad()`](https://stringr.tidyverse.org/reference/str_pad.html)                                                                                                                                                                                                                                                      | Pad a string with specified characters, on either the left, the right, or both sides of the string                                                   |
+| [`stringr::str_trunc()`](https://stringr.tidyverse.org/reference/str_trunc.html)                                                                                                                                                                                                                                                  | Limit a string to a certain width                                                                                                                    |
+| [`stringr::str_wrap()`](https://stringr.tidyverse.org/reference/str_wrap.html)                                                                                                                                                                                                                                                    | Wrap a string to another line after a certain length                                                                                                 |
+| [`stringr::str_trim()`](https://stringr.tidyverse.org/reference/str_trim.html)                                                                                                                                                                                                                                                    | Remove whitespace from the left and right side                                                                                                       |
+| [`stringr::str_squish()`](https://stringr.tidyverse.org/reference/str_trim.html)                                                                                                                                                                                                                                                  | Remove repeated whitespace from the entire string                                                                                                    |
+| [`stringr::word()`](https://stringr.tidyverse.org/reference/word.html)                                                                                                                                                                                                                                                            | Subset the string by characters separated by whitespace                                                                                              |
+| [`stringr::str_extract()`](https://stringr.tidyverse.org/reference/str_extract.html)                                                                                                                                                                                                                                              | A generalized form of `word` to extract characters following regex patterns                                                                          |
+| [`stringr::str_detect()`](https://stringr.tidyverse.org/reference/str_detect.html)                                                                                                                                                                                                                                                | Return `TRUE` / `FALSE` if specified pattern is detected in string                                                                                   |
+| [`stringr::str_replace()`](https://stringr.tidyverse.org/reference/str_replace.html), [`stringr::str_replace_all()`](https://stringr.tidyverse.org/reference/str_replace.html)                                                                                                                                                    | Replace character values in a string, either once, or for all occurrences                                                                            |
+| [`stringr::str_remove()`](https://stringr.tidyverse.org/reference/str_remove.html), [`stringr::str_remove_all()`](https://stringr.tidyverse.org/reference/str_remove.html)                                                                                                                                                        | Remove specified character values from string                                                                                                        |
+| [`stringr::str_starts()`](https://stringr.tidyverse.org/reference/str_starts.html), [`stringr::str_ends()`](https://stringr.tidyverse.org/reference/str_starts.html)                                                                                                                                                              | Return logical value when string starts/ends with specified characters                                                                               |
+| [`stringr::str_which()`](https://stringr.tidyverse.org/reference/str_which.html)                                                                                                                                                                                                                                                  | Returns index of vector that has a match                                                                                                             |
+| [`stringr::str_subset()`](https://stringr.tidyverse.org/reference/str_subset.html)                                                                                                                                                                                                                                                | Returns element of vector that has a match                                                                                                           |
+
+#### **String Formats**
+
+|                                                                                     |                                                                                                                   |
+|------------------------|-----------------------------------------------|
+|                                                                                     | Tidyverse String Formats                                                                                          |
+| Function                                                                            | Description                                                                                                       |
+| [`scales::number()`](https://scales.r-lib.org/reference/number.html)                | Round a numeric value and convert to string, aruments control prefixes, suffixes, comma separators, and accuracy  |
+| [`scales::dollar()`](https://scales.r-lib.org/reference/dollar_format.html)         | A shortcut to using [`number()`](https://scales.r-lib.org/reference/number.html), using `$` as a prefix           |
+| [`scales::percent()`](https://scales.r-lib.org/reference/percent_format.html)       | A shortcut to using [`number()`](https://scales.r-lib.org/reference/number.html), using `%` as a suffix           |
+| [`scales::pvalue()`](https://scales.r-lib.org/reference/pvalue_format.html)         | A shortcut to using [`number()`](https://scales.r-lib.org/reference/number.html), in standard p-value format      |
+| [`scales::scientific()`](https://scales.r-lib.org/reference/scientific_format.html) | A shortcut to using [`number()`](https://scales.r-lib.org/reference/number.html), in standart scientific notation |
+
+#### **Strings in a Data Pipeline**
+
+```{r}        
+library(scales) 
+library(stringr)  
+library(formatR)
+library(tidyverse)
+mtcars %>%    
+  slice(1:5) %>%  
+  transmute(     
+    string_1 = str_c("This car has", cyl, "cylinders and gets", mpg, "miles per gallon", sep = " "),     
+    string_2 = str_glue("This car has {cyl} cylinders and gets {mpg} miles per gallon")   
+    )
+
+```
+
+#### **RStudio Cheat Sheet**
+
+Download the RStudio cheat sheet for the `stringr` package [here](https://raw.githubusercontent.com/rstudio/cheatsheets/main/strings.pdf).
+
+## **5.3 Tidyverse Date Operations**
+
+We will be using `lubridate` from the `tidyverse` to explore date and time operations in the tidyverse. These functions are generally recommended over their `base` R equivalents. Note that `lubridate` *is* installed when `tidyverse` is installed, but *is not* loaded by default when calling [`library(tidyverse)`](https://tidyverse.tidyverse.org/), it will have to be loaded separately.
+
+#### **Date Operations**
+
+|                                                                                                                                                                                                                                                                                                                                                                                                                                                             |                                                                                                                         |
+|--------------------------------------|----------------------------------|
+|                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Tidyverse Date Functions                                                                                                |
+| Function                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Description                                                                                                             |
+| [`lubridate::now()`](https://lubridate.tidyverse.org/reference/now.html), [`lubridate::today()`](https://lubridate.tidyverse.org/reference/now.html)                                                                                                                                                                                                                                                                                                        | Returns the time now, or the date today                                                                                 |
+| [`lubridate::as_date()`](https://lubridate.tidyverse.org/reference/as_date.html), [`lubridate::as_datetime()`](https://lubridate.tidyverse.org/reference/as_date.html)                                                                                                                                                                                                                                                                                      | Converts a string to date/datetime format, optionally specifying the date format that the string is in                  |
+| [`lubridate::ymd()`](https://lubridate.tidyverse.org/reference/ymd.html), [`lubridate::mdy()`](https://lubridate.tidyverse.org/reference/ymd.html), [`lubridate::dmy()`](https://lubridate.tidyverse.org/reference/ymd.html), [`lubridate::ydm()`](https://lubridate.tidyverse.org/reference/ymd.html), etc.                                                                                                                                                | Shortcuts for [`as_date()`](https://lubridate.tidyverse.org/reference/as_date.html) with various `format` arguments     |
+| [`lubridate::ymd_h()`](https://lubridate.tidyverse.org/reference/ymd_hms.html), [`lubridate::ymd_hm()`](https://lubridate.tidyverse.org/reference/ymd_hms.html), [`lubridate::ymd_hms()`](https://lubridate.tidyverse.org/reference/ymd_hms.html), etc.                                                                                                                                                                                                     | Shortcuts for [`as_datetime()`](https://lubridate.tidyverse.org/reference/as_date.html) with various `format` arguments |
+| [`lubridate::year()`](https://lubridate.tidyverse.org/reference/year.html), [`lubridate::month()`](https://lubridate.tidyverse.org/reference/month.html), [`lubridate::day()`](https://lubridate.tidyverse.org/reference/day.html), [`lubridate::minute()`](https://lubridate.tidyverse.org/reference/minute.html), [`lubridate::second()`](https://lubridate.tidyverse.org/reference/second.html), etc.                                                    | Return the specified part of the date/datetime value                                                                    |
+| [`lubridate::yday()`](https://lubridate.tidyverse.org/reference/day.html), [`lubridate::mday()`](https://lubridate.tidyverse.org/reference/day.html), [`lubridate::wday()`](https://lubridate.tidyverse.org/reference/day.html)                                                                                                                                                                                                                             | Return the day of the year, month, or weekday. Optionally include character `labels` instead of integer day number      |
+| [`stats::update()`](https://rdrr.io/r/stats/update.html)                                                                                                                                                                                                                                                                                                                                                                                                    | Changes the parts of an existing date/datetime value                                                                    |
+| [`lubridate::round_date()`](https://lubridate.tidyverse.org/reference/round_date.html), [`lubridate::floor_date()`](https://lubridate.tidyverse.org/reference/round_date.html), [`lubridate::ceiling_date()`](https://lubridate.tidyverse.org/reference/round_date.html), [`lubridate::rollback()`](https://lubridate.tidyverse.org/reference/rollbackward.html), [`lubridate::rollforward()`](https://lubridate.tidyverse.org/reference/rollbackward.html) | Rounds dates to the nearest `unit`                                                                                      |
+
+See [`help(strptime)`](https://rdrr.io/r/base/strptime.html) for a listing of all possible date and time formats in R.
+
+#### **Date Periods**
+
+A date period in `lubridate` is similar to the observed clock time, meaning that these periods automatically adjust for leap years and daylight savings time.
+
+Define a date period with [`lubridate::period()`](https://lubridate.tidyverse.org/reference/period.html), or one of the period functions: [`years()`](https://lubridate.tidyverse.org/reference/period.html), [`months()`](https://rdrr.io/r/base/weekday.POSIXt.html), [`days()`](https://lubridate.tidyverse.org/reference/period.html), etc. Using these functions allows for an intuitive way of doing date arithmetic.
+
+It’ll be important to remember the distinction between these functions: [`year()`](https://lubridate.tidyverse.org/reference/year.html) will grab the date part of an existing, while [`years()`](https://lubridate.tidyverse.org/reference/period.html) is used for the period operations.
+
+```{r}        
+library(lubridate)  
+# Define a Period 
+period("10y 10m 10d") 
+period(years = 10, months = 10, days = 10)  
+# Period Arithmetic 
+years(10) + months(10) + days(10) 
+
+as_date("2020-01-01") + years(10) 
+
+as_date("2020-01-01") - years(10)  
+# Vector Arithmetic  
+
+as_date("2020-01-01") + months(1:12)
+```
+
+#### **Time Durations**
+
+A time duration in `lubridate` refers to the number of seconds that have passed since a given datetime. This **does not** adjust for leap years or daylight savings.
+
+```{r}        
+# Define a Period 
+duration("10y 10m 10d") 
+duration(years = 10, months = 10, days = 10)  
+# Duration Arithmetic 
+dyears(10) + dmonths(10) + ddays(10) 
+as_datetime("2020-01-01 12:30:00") + dyears(10) 
+as_datetime("2020-01-01 12:30:00") - dyears(10)
+```
+
+#### **Date Intervals**
+
+Date intervals are used to work with the time between two points, and are useful for calculating age values.
+
+```{r}        
+my_interval <- interval("2020-01-01", "2020-06-01")  
+# Return seconds between two dates 
+int_length(my_interval)  
+# Return amount of time between two dates 
+my_interval / period("day") 
+my_interval / period("months") 
+my_interval / period("years")    
+# Adjusted for daylight savings, leap years 
+my_interval / duration("years")  
+# Unadjusted  
+# Check if a date is within an interval 
+as_date("2020-03-01") %within% my_interval
+```
+
+#### **RStudio Cheat Sheet**
+
+Download the RStudio cheat sheet for the `lubridate` package [here](https://raw.githubusercontent.com/rstudio/cheatsheets/main/lubridate.pdf).
+
+## **5.4 Tables with the Janitor Package**
+
+In this lesson we create frequency tables and various utility functions included in the `janitor` package.
+
+#### **Frequency Tables**
+
+The [`janitor::tabyl()`](https://sfirke.github.io/janitor/reference/tabyl.html) function is an alternative to the `base` R [`table()`](https://rdrr.io/r/base/table.html) function. This function can be used in a `tidyverse` pipeline format.
+
+```{r}        
+library(janitor)  
+mtcars %>% 
+  tabyl(cyl) 
+mtcars %>% 
+  tabyl(cyl, am) 
+mtcars %>% 
+  tabyl(cyl, am, vs)
+```
+
+The `adorn_*()` functions allow us to prepare the janitor tables for display. See [`vignette("tabyls")`](https://sfirke.github.io/janitor/articles/tabyls.html) for more information.
+
+```{r}        
+mtcars %>%    
+  tabyl(cyl, am) %>%    
+  adorn_totals() %>%    
+  adorn_percentages()
+```
+
+|                                                                                                           |                                           |
+|--------------------------------|----------------------------------------|
+|                                                                                                           | Janitor Table Functions                   |
+| Function                                                                                                  | Description                               |
+| [`janitor::adorn_totals()`](https://sfirke.github.io/janitor/reference/adorn_totals.html)                 | Add a total column, total row, or both    |
+| [`janitor::adorn_percentages()`](https://sfirke.github.io/janitor/reference/adorn_percentages.html)       | Add percentages to columns, rows, or both |
+| [`janitor::adorn_pct_formatting()`](https://sfirke.github.io/janitor/reference/adorn_pct_formatting.html) | Control formatting of percent columns     |
+| [`janitor::adorn_rounding()`](https://sfirke.github.io/janitor/reference/adorn_rounding.html)             | Round values to specified accuracy        |
+| [`janitor::adorn_ns()`](https://sfirke.github.io/janitor/reference/adorn_ns.html)                         | Add counts to a table                     |
+| [`janitor::adorn_title()`](https://sfirke.github.io/janitor/reference/adorn_title.html)                   | Add a title to a table                    |
+
+#### **Utility Functions**
+
+The `janitor` package contains many helpful utility functions. See [`vignette("janitor")`](https://sfirke.github.io/janitor/articles/janitor.html) for more information.
+
+|                                                                                                 |                                            |
+|-----------------------------|-------------------------------------------|
+|                                                                                                 | Janitor Utility Functions                  |
+| Function                                                                                        | Description                                |
+| [`janitor::get_dupes()`](https://sfirke.github.io/janitor/reference/get_dupes.html)             | Identify rows with duplicated information  |
+| [`janitor::clean_names()`](https://sfirke.github.io/janitor/reference/clean_names.html)         | Standardize all variable names             |
+| [`janitor::remove_empty()`](https://sfirke.github.io/janitor/reference/remove_empty.html)       | Remove empty rows or columns               |
+| [`janitor::remove_constant()`](https://sfirke.github.io/janitor/reference/remove_constant.html) | Remove rows or columns with a single value |
+| [`janitor::round_half_up()`](https://sfirke.github.io/janitor/reference/round_half_up.html)     | Replicate the rounding behavior of SAS     |
+| [`janitor::compare_df_cols()`](https://sfirke.github.io/janitor/reference/compare_df_cols.html) | Compare two dataframes                     |
+
+## **5.5 Tidyverse Graphics I**
+
+This lesson covers the basics of using the `ggplot2` package. In short, we cover scatter plots, line plots, box plots, bar charts, histograms, and density plots.
+
+Be aware, `ggplot2` is a complex package, so don’t hesitate to use an online search, StackOverflow, or the [online documentation](https://ggplot2-book.org/) to find a way to create the chart you want to create.
+
+Remember that `ggplot2` is an old package, and was written before the pipe operator `%>%` was commonly used. So in `ggplot2`, we have to use a `+` to chain operations together.
+
+```{r}        
+library(dplyr)
+library(ggplot2)
+
+# convert diamonds data frame to a tibble
+diamonds_t <- as_tibble(diamonds)
+diamonds_t %>%
+  slice_sample(n = 100) %>%   
+  ggplot(aes(x = carat, y = price)) + 
+  geom_point(size = 5,              
+             shape = 22,
+             fill = "red",
+             alpha = 0.50)
+
+```
+
+Some notes:
+
+ggsave() will let you save an image to the file directory colors() will list all of the English named colors available for use in ggplot2 scales::show_col() will display a sample of what the color looks like in the Plots panel vignette("ggplot2-specs") will give examples of the available aesthetics for line types, shapes, sizes, text, colors, and fills RStudio Cheat Sheet Download the RStudio cheat sheet for the ggplot2 package here.
+
+## **5.6 Tidyverse Graphics II**
+
+This lesson builds upon the basics covered in the previous lesson. In short, we cover how to use multiple geometries, how to created facetted views of data, how to use summary data, and how to create summary-based charts.
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+diamonds %>% 
+  slice_sample(n = 100) %>%           
+  ggplot(aes(x = carat, y = price)) + 
+  geom_point() +
+  geom_smooth()
+```
+
+### **Multiple Geometries**
+
+```{r}
+diamonds %>% 
+  slice_sample(n = 100) %>% 
+  ggplot(aes(x = carat, y = price)) +
+  facet_grid(rows = vars(cut)) +
+  geom_line()
+```
+
+### **Plot Facets**
+
+```{r}
+df_summary <- 
+  diamonds %>% 
+  group_by(cut) %>%
+  summarise(n   = n(),
+            avg = mean(price),
+            std = sd(price),
+            min = min(price),
+            med = median(price),
+            max = max(price)) 
+
+df_summary %>% 
+  ggplot(aes(x = cut, y = avg)) +
+  geom_point(size = 3) +
+  geom_line(aes(group = 1)) +
+  geom_errorbar(aes(ymin = avg - std, ymax = avg + std), width = 0.50)
+```
+
+Plotting Summary Data Some notes:
+
+-   `ggsave()`: This function allows you to save an image to the file directory. It is commonly used to save plots created with `ggplot2`[3][5].
+-   `colors()`: This function will list all of the English named colors available for use in `ggplot2`[6].
+-   `scales::show_col()`: This function will display a sample of what the color looks like in the Plots panel[6].
+-   `vignette("ggplot2-specs")`: This command will provide examples of the available aesthetics for line types, shapes, sizes, text, colors, and fills in `ggplot2`[6].
+-   **RStudio Cheat Sheet**: You can download the RStudio cheat sheet for the `ggplot2` package to get a quick reference guide for using `ggplot2` effectively[6].
+
+## **5.7 Tidyverse Factor Operations**
+
+This lesson covers using forcats to assist with factor operations in R. Generally, statistical functions in R will require categorical variables be coded as factor values. In addition to this, setting our character variables as factors will give us greater control over their display in tables or plots.
+
+```{r}
+library(forcats) 
+library(ggplot2)
+
+my_data <- diamonds %>% 
+  slice_sample(n = 100)
+
+## Default Factor Order
+
+my_data  %>%  
+  ggplot(aes( x = cut, y = price)) + 
+  geom_boxplot()
+
+## Factors Ordered by Price
+
+my_data  %>%  
+  ggplot(aes( x = fct_reorder(cut, price), y = price)) + 
+  geom_boxplot()
+```
+
+There are many forcats functions that you may find useful.
+
+| Forcats Functions                                   | Function Description                                                                        |
+|----------------------------|--------------------------------------------|
+| `forcats::fct_inorder()`                            | Reorder factor levels by order of first appearance in data                                  |
+| `forcats::fct_infreq()`                             | Reorder factor levels by frequency count                                                    |
+| `forcats::fct_rev()`                                | Reverse the order of factor levels                                                          |
+| `forcats::fct_relevel()`                            | Reorder factor levels manually, specified levels will be moved to the front of the ordering |
+| `forcats::fct_shift()`                              | Adjust order of factors by specified increment                                              |
+| `forcats::fct_shuffle()`                            | Randomly order factor levels                                                                |
+| `forcats::fct_reorder()`                            | Sort factor levels by another numeric variable                                              |
+| `forcats::fct_expand()`                             | Add additional factor levels                                                                |
+| `forcats::fct_drop()`                               | Remove unused factor levels                                                                 |
+| `forcats::fct_collapse()`                           | Collapse factor levels into specified groups                                                |
+| `forcats::fct_lump()`, `forcats::fct_lump_min()`,   | Automatically collapse factor levels into an ‘other’ group                                  |
+| `forcats::fct_lump_n()`, `forcats::fct_lump_prop()` |                                                                                             |
+| `forcats::fct_other()`                              | Manually collapse factor levels into an ‘other’ group                                       |
+| `forcats::fct_recode()`                             | Change factor level labels manually                                                         |
+| `forcats::fct_relabel()`                            | Change factor level labels using a function, like `str_to_upper` for example                |
+| `forcats::fct_anon()`                               | Anonymize factor levels                                                                     |
+
+## **5.8 Formatting with the fmtr Package**
+
+This lesson covers the fmtr package, which will help us format a dataframe in a way that is similar to SAS.
+
+From the vignette:
+
+-   The fdata() function to apply formatting to any data frame or tibble. - The fapply() function to apply formatting to any vector.
+-   The formats() and fattr() functions to easily assign formatting attributes.
+-   The value() and condition() functions to create a user-defined format. - The fcat() function to create a format catalog.
+-   The flist() function to create a formatting list. See vignette("fmtr", package = "fmtr") to learn more.
+
+## **5.9 Reporting** 
+
+This lesson covers the reporter package, which is used to create text based reports like TLFs in R. Supported output formats are: .txt, .rtf, .pdf, .html, and .docx.
+
+| Reporter Functions            | Function Description                                                              |
+|-------------------|-----------------------------------------------------|
+| `reporter::create_report()`   | Creates a report template that you can add to using additional reporter functions |
+| `reporter::create_table()`    | Creates a table template that you can add to using additional reporter functions  |
+| `reporter::write_report()`    | Saves a report to the file system                                                 |
+| `reporter::titles()`          | Adds a title block                                                                |
+| `reporter::footnotes()`       | Adds a footnote block                                                             |
+| `reporter::page_header()`     | Adds a header to the top of each page in the report                               |
+| `reporter::page_footer()`     | Adds a footer to the bottom of each page in the report                            |
+| `reporter::section_header()`  | Adds a section header to the report                                               |
+| `reporter::section_footer()`  | Adds a section footer to the report                                               |
+| `reporter::add_table()`       | Adds a table to the report                                                        |
+| `reporter::add_text()`        | Adds text to the report                                                           |
+| `reporter::add_image()`       | Adds an image to the report                                                       |
+| `reporter::add_page_break()`  | Adds a page break to the report                                                   |
+| `reporter::add_line_break()`  | Adds a line break to the report                                                   |
+| `reporter::add_new_line()`    | Adds a new line to the report                                                     |
+| `reporter::add_space()`       | Adds a space to the report                                                        |
+| `reporter::add_page_number()` | Adds a page number to the report                                                  |
+| `reporter::add_date_time()`   | Adds the current date and time to the report                                      |
+
+See vignette("reporter", package = "reporter") to learn more.

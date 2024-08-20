@@ -1,0 +1,58 @@
+---
+title: "9 Creating Tables, Listings, Figures"
+author: "Anova Groups"
+date: "2024-08-19"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo=TRUE
+  , warning=FALSE
+  , message=FALSE
+  , tidy = TRUE
+  , tidy.opts = list(width.cutoff = 60))
+
+```
+
+# **10 Refresh R Course**
+
+## **Introduction**
+
+In the `RefreshR Course` we offer a brief review of all of the concepts covered in the first few courses of `Accel2R`. These topics are arranged to give you both the base R and the tidyverse approach at the same time.
+
+The assumptions here are that you have already completed the core curriculum of `Accel2R`, and are simply interested in refreshing what you had learned previously. It will be assumed that you know how to:
+
+-   Load and navigate RStudio
+
+-   Execute code and save scripts
+
+-   Use the assignment operator `<-`
+
+-   Use the tidyverse pipe `%>%` or the native R pipe `|>`
+
+## **R Basics**
+
+### **Rounding**
+
+SAS will always round 0.5 up to the nearest integer, but R will round 0.5 to the nearest even integer Based on the international IEEE 754 standard.
+
+### **Open-Source Community**
+
+The R community is continuously growing, there are many places to look for help solving the programming questions that you may have.
+
+## **Data Types**
+
+These lessons review data frames, lists, vectors, and working with character, numeric, date, and factor values.
+
+## **Working with Data**
+
+These lessons review the import and export of data, subset and filter, variable creation and summarization, group operations, combining and joining data, along with pivoting and visualizing data.
+
+## **Miscellaneous Operations**
+
+These lessons review loops, conditions, creating functions, creating tables, formatting values, and more.

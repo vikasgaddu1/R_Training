@@ -1,0 +1,52 @@
+---
+title: "8 Creating ADaM Datasets"
+author: "Anova Groups"
+date: "2024-08-19"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo=TRUE
+  , warning=FALSE
+  , message=FALSE
+  , tidy = TRUE
+  , tidy.opts = list(width.cutoff = 60))
+
+```
+
+# **8 Creating ADaM Datasets**
+
+In this course, we create ADaM data frames.
+
+## **8.1 Introduction**
+
+This introduction lesson will contain the following activities:
+
+-   Using data frame specifications
+
+-   Finishing partially completed code
+
+-   Using look up tables
+
+-   Discussion on comparing expected vs actual results
+
+## **8.2 ADaM Data Set Builds**
+
+The rest of the lessons focus on building out an ADaM data set by following specifications in a spreadsheet and/or by following instructions in the exercise. For each data set built, we compare the actual results to a data set with the expected results.
+
+We will have the learner build or finish building the following ADaM data sets to finish out this course:
+
+-   `ADSL`
+
+-   `ADVS`
+
+-   `ADAE`
+
+-   `ADLB`
+
+-   `ADEX`

@@ -1,0 +1,339 @@
+---
+title: "Getting Started with R"
+author: "Anova Groups"
+date: "2024-08-19"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+# **3 R Language Foundation - Part II**
+
+## **3.1 Introduction**
+
+This course will focus specifically on Base R, using a bare minimum of external R packages. The content of this course is laid out in a building block approach, using topics consistently as we introduce them, and steadily increasing in complexity as we move forward.
+
+When appropriate, we will provide side by side comparisons between SAS and the concepts we’re introducing in R.
+
+#### **Saving and Loading Data**
+
+In RStudio, we begin this course by walking through the process of saving a data frame to disk using the [`saveRDS()`](https://rdrr.io/r/base/readRDS.html) function, and reading a data frame from disk using the [`readRDS()`](https://rdrr.io/r/base/readRDS.html) function. These two functions accept any R object: vectors, lists, data frames, plots, and more.
+
+#### **Run an External Script**
+
+Using the [`source()`](https://rdrr.io/r/base/source.html) function, we can run an entire external R script, and make all the objects and definitions from the external script available in the current script.
+
+#### **File Paths in R**
+
+When working in an RStudio project, you generally won’t need to worry about filepaths. However, if you are including a full filepath in [`source()`](https://rdrr.io/r/base/source.html) or [`readRDS()`](https://rdrr.io/r/base/readRDS.html), then you will need to use either a double backslash (`\\`) or a single forward slash (`/`). This is because R uses a single backslash (`\`) as an ‘escape’ character inside a string.
+
+```{r}
+# Path with Forward Slashes 
+# source("C://path/to/my_file.R")  
+# Path with Backslashes 
+# source("C:\\\\path\\to\\my_file.R")
+```
+
+## **3.2 Conditions and Loops**
+
+#### **If Conditions**
+
+The structure of an if-else condition is as follows.
+
+```{r eval=FALSE}
+if (condition == TRUE){   
+  # Operation if condition is met 
+  }else {   
+    # Operation if condition is not met 
+    }
+```
+
+And to create a series of chained if-else statements, we can use this structure.
+
+```{r eval=FALSE}
+if (condition_1 == TRUE){
+  
+} else if (condition_2 == TRUE){
+  
+} else if (condition_3 == TRUE){
+  
+} else { 
+  }
+```
+
+Some notes on conditional operations:
+
+-   The conditional check can include `==`, `<`, `>`, `<=`, `>=`, `!`, or any other R function that returns a logical `TRUE` or `FALSE` value.
+
+-   The functions [`message()`](https://rdrr.io/r/base/message.html), [`warning()`](https://rdrr.io/r/base/warning.html), and [`stop()`](https://rdrr.io/r/base/stop.html) can be used inside a conditional operation to provide contextual information of the operation
+
+-   Conditional operations in this structure are not vectorized, but the [`ifelse()`](https://rdrr.io/r/base/ifelse.html) function does allow for vectorized operations
+
+-   The `case_when()` function from the `dplyr` package allows for more complex conditional logic, but this will be covered more in the `tidyverse` course
+
+#### **For Loops**
+
+The structure of a for-loop is as follows:
+
+```{r eval=FALSE}
+for (element in vector){ 
+  # Operations to Loop 
+  }
+```
+
+Some notes on for loops:
+
+-   The functions [`message()`](https://rdrr.io/r/base/message.html), [`warning()`](https://rdrr.io/r/base/warning.html), and [`stop()`](https://rdrr.io/r/base/stop.html) can be used to provide additional contextual messages inside the loop
+
+-   Loops are generally not recommended in R because there is usually a better approach using an already existing vectorized function
+
+## **3.3 Functions**
+
+The structure of a function in R is as follows:
+
+```{r}
+my_function <- function(argument_1, argument_2 = NULL){ 
+  # Work with function arguments   
+  step_1 <- argument_1 + argument_2   
+  step_2 <- step_1 / 100   
+  step_3 <- step_2 + 1      
+  # Choose what to return when the function operation is complete   
+  return(step_3) 
+  }
+```
+
+In this sample code, the function is constructed to allows two incoming arguments. Because `argument_1` does not have a default value, the user of the function must provide an input for this argument. However, because `argument_2` does have a default assignment of `NULL`, it is treated as an optional argument in the functions.
+
+Some notes on functions:
+
+-   In this example, we are using `=` in the function definition because we are assigning a value of `NULL` to `argument_2`
+
+-   The functions [`message()`](https://rdrr.io/r/base/message.html), [`warning()`](https://rdrr.io/r/base/warning.html), and [`stop()`](https://rdrr.io/r/base/stop.html) can be used to provide additional contextual messages while the function is running
+
+-   When constructing functions, you will have to set up your own process of validating of the incoming arguments (i.e. using [`warning()`](https://rdrr.io/r/base/warning.html) or [`stop()`](https://rdrr.io/r/base/stop.html))
+
+-   Any errors that occur in your functions will not appear until they are executed by the end-user, be sure to thoroughly test your functions before other people use them
+
+-   Be aware of any package dependencies that you include when creating a function, because the end user will need to have that package installed as well
+
+-   The `vectorize()` function will help you create functions that can be applied to every element of a vector
+
+-   It is recommended to keep your custom functions in a separate script, so that you can [`source()`](https://rdrr.io/r/base/source.html) the function definitions from a single location and use them in any other script you are using
+
+#### **The `apply` Functions**
+
+The apply family of functions are shortcuts that allow you to repeatedly apply a function to some input, like you would with a for-loop, without having to write a for-loop.
+
+The most commonly used apply functions are `lapply` and `sapply`. There are many others, but their use has diminished as other packages (like `purrr`) offer similar functionality with more consistent input and results.
+
+## **3.4 String Operations**
+
+This lesson covers many functions related to string operations.
+
+|                                                           |                                                  |
+|---------------------------------------|---------------------------------|
+|                                                           | String Functions                                 |
+| Function                                                  | Description                                      |
+| [`print()`](https://rdrr.io/r/base/print.html)            | Print text to the console                        |
+| [`cat()`](https://rdrr.io/r/base/cat.html)                | Print and evaluate text                          |
+| [`file.path()`](https://rdrr.io/r/base/file.path.html)    | Concatenate strings using ‘/’ as a separator     |
+| [`nchar()`](https://rdrr.io/r/base/nchar.html)            | Count the number of characters in a string       |
+| [`toupper()`](https://rdrr.io/r/base/chartr.html)         | Convert string to upper case                     |
+| [`tolower()`](https://rdrr.io/r/base/chartr.html)         | Convert string to lower case                     |
+| [`substring()`](https://rdrr.io/r/base/substr.html)       | Subset a string based on character location      |
+| [`paste()`](https://rdrr.io/r/base/paste.html)            | Concatenate strings using a space as a separator |
+| [`paste0()`](https://rdrr.io/r/base/paste.html)           | Concatenate strings using no separator           |
+| [`as.character()`](https://rdrr.io/r/base/character.html) | Convert a value to a character type              |
+| [`as.integer()`](https://rdrr.io/r/base/integer.html)     | Convert a value to an integer type               |
+| [`sub()`](https://rdrr.io/r/base/grep.html)               | Replaces only the first character it encounters  |
+| [`gsub()`](https://rdrr.io/r/base/grep.html)              | Replaces all the character values it encounters  |
+| [`strsplit()`](https://rdrr.io/r/base/strsplit.html)      | Split a string using a specified character       |
+| [`trimws()`](https://rdrr.io/r/base/trimws.html)          | Removes extra spaces from a string               |
+
+#### **Value Recycling**
+
+R tends to recycle short vectors.
+
+```{r}
+paste("Patient", 1:5) 
+## [1] "Patient 1" "Patient 2" "Patient 3" "Patient 4" "Patient 5"
+```
+
+In this sample code we are concatenating a single value vector (`"Patient"`) with a vector of integers (`1:5`). Because the first vector is only a single element, that element is recycled to match the number of elements of the longer vector.
+
+#### **Escape Characters**
+
+The backslash (`\`) is an escape character in R. This means that when this character is detected in a string, some other operation will be performed within that string.
+
+```{r}
+cat("To use quotes inside a string, we can use the escape character \"like this\"") 
+## To use quotes inside a string, we can use the escape character "like this"
+```
+
+```{r}
+cat("Use `\\n` to create a new line\nlike this") 
+## Use `\n` to create a new line ## like this
+```
+
+```{r}
+cat("We can include unicode characters like this mu symbol \u03BC") 
+## We can include unicode characters like this mu symbol μ
+```
+
+## **3.5 Dates and Times**
+
+#### **Dates**
+
+**Create a Date**
+
+Use the [`as.Date()`](https://rdrr.io/r/base/as.Date.html) function to convert a string in date format to an actual value of date type.
+
+```{r}
+as.Date("2020-01-01")
+```
+
+Dates in R are simply the number of days since the origin date of `1970-01-01`.
+
+```{r}
+as.numeric(as.Date("2020-01-01")) ## [1] 18262
+```
+
+**Format a Date**
+
+Note that the default format for dates is `YYYY-MM-DD`. This can be adjusted using either the `format =` argument in [`as.Date()`](https://rdrr.io/r/base/as.Date.html), or by using other packages (i.e. `lubridate`, `anytime`).
+
+```{r}
+as.Date("01JAN2020", format = "%d%b%Y")
+```
+
+|        |                       |
+|--------|-----------------------|
+|        | Date Formats          |
+| Format | Description           |
+| %d     | Day as a number       |
+| %a     | Abbreviated weekday   |
+| %A     | Unabbreviated weekday |
+| %m     | Month                 |
+| %b     | Abbreviated month     |
+| %B     | Unabbreviated month   |
+| %y     | 2-digit year          |
+| %Y     | 4-digit year          |
+| %H     | Hour                  |
+| %M     | Minute                |
+| %S     | Second                |
+
+We can use the [`format()`](https://rdrr.io/r/base/format.html) function to format a date while converting it to a string.
+
+```{r}
+format(as.Date("2020-01-01"), format = "%d/%m/%Y")
+```
+
+**Helpful Date Functions**
+
+Some other helpful functions are listed here.
+
+|                                                            |                                      |
+|--------------------------------------------|----------------------------|
+|                                                            | Date Functions                       |
+| Function                                                   | Description                          |
+| [`weekdays()`](https://rdrr.io/r/base/weekday.POSIXt.html) | Return the weekday of the given date |
+| [`months()`](https://rdrr.io/r/base/weekday.POSIXt.html)   | Return the month of the given date   |
+| [`quarters()`](https://rdrr.io/r/base/weekday.POSIXt.html) | Return the quarter of the given date |
+| [`Sys.Date()`](https://rdrr.io/r/base/Sys.time.html)       | Return the current date              |
+
+**Date Arithmetic**
+
+We can easily add or subtract days from a given date.
+
+```{r}
+# Add Days 
+as.Date("2020-01-01") + 20 
+## [1] "2020-01-21"  
+# Subtract Days 
+as.Date("2020-01-01") - 20 
+## [1] "2019-12-12"
+```
+
+But to get the difference of two dates, we use the [`difftime()`](https://rdrr.io/r/base/difftime.html) function, which will need to be converted to a numeric value in order to be used elsewhere.
+
+```{r}
+# Difference Between Two Dates 
+my_timedifference <- difftime(as.Date("2022-01-01"), as.Date("2020-01-01"))  
+
+my_timedifference 
+## Time difference of 731 days  
+
+as.numeric(my_timedifference) 
+## [1] 731
+```
+
+To get a sequence of dates, use the [`seq()`](https://rdrr.io/r/base/seq.html) function.
+
+```{r}
+seq(as.Date("2020-01-01"), as.Date("2020-03-01"), by = "month") 
+## [1] "2020-01-01" "2020-02-01" "2020-03-01"
+```
+
+Note that along with what we’ve covered here, we can also use the typical R summary functions like [`min()`](https://rdrr.io/r/base/Extremes.html), [`max()`](https://rdrr.io/r/base/Extremes.html), [`mean()`](https://rdrr.io/r/base/mean.html), etc., to get summary values when we are working with a vector of dates.
+
+#### **Times**
+
+Unfortunately, the function we use this time isn’t as memorable as [`as.Date()`](https://rdrr.io/r/base/as.Date.html). We have to use [`as.POSIXct()`](https://rdrr.io/r/base/as.POSIXlt.html) to define date and time values, unless using another package like `lubridate`. Notice this time that we are using the `YYYY-MM-DD HH:MM:SS` string format with the timezone included.
+
+```{r}
+as.POSIXct("2020-01-01 12:45:00 EST")
+```
+
+Again, to adjust the input or output format of a date time value, consult Table \@ref(tab:datetime-formats) above.
+
+## **3.6 Missing Values**
+
+There are a handful of types of missing values in R.
+
+|               |        |             |                                                     |
+|---------------|---------------|---------------|---------------------------|
+|               |        |             | Missing Values                                      |
+| Description   | Value  | Class       | Check                                               |
+| Not Available | `NA`   | `Logical`   | [`is.na()`](https://rdrr.io/r/base/NA.html)         |
+| Not a Number  | `NaN`  | `Numeric`   | [`is.nan()`](https://rdrr.io/r/base/is.finite.html) |
+| Infinity (±)  | `±Inf` | `Numeric`   | `is.inf()`                                          |
+| Empty Value   | `NULL` | `NULL`      | [`is.null()`](https://rdrr.io/r/base/NULL.html)     |
+| Empty String  | `""`   | `Character` | `nchar() == 0`                                      |
+
+Some notes on missing values:
+
+-   Assigning `NULL` to a list or dataframe tends to remove that value
+
+-   `NA` values are “contagious”, in that if there exists a single `NA` value in a vector, any summary statistics will return `NA`
+
+    -   To overcome this issue, most summary functions allow the argument `na.rm = TRUE` to remove missing values prior to calculation (i.e. [`mean()`](https://rdrr.io/r/base/mean.html), [`min()`](https://rdrr.io/r/base/Extremes.html), [`max()`](https://rdrr.io/r/base/Extremes.html))
+
+## **3.7 Formatting Data**
+
+|                                                    |                                                                                                                                 |
+|------------------|------------------------------------------------------|
+|                                                    | Rounding and Formatting Functions                                                                                               |
+| Function                                           | Description                                                                                                                     |
+| [`round()`](https://rdrr.io/r/base/Round.html)     | Round numeric value to nearest integer\*                                                                                        |
+| [`ceiling()`](https://rdrr.io/r/base/Round.html)   | Round numeric value up to next integer                                                                                          |
+| [`floor()`](https://rdrr.io/r/base/Round.html)     | Round numeric value down to prior integer                                                                                       |
+| [`signif()`](https://rdrr.io/r/base/Round.html)    | Round to specified number of significant digits                                                                                 |
+| [`trunc()`](https://rdrr.io/r/base/Round.html)     | Remove values after the decimal point                                                                                           |
+| [`format()`](https://rdrr.io/r/base/format.html)   | Control how values are displayed as text (including numeric, date, time, and strings)                                           |
+| [`sprintf()`](https://rdrr.io/r/base/sprintf.html) | Similar to [`format()`](https://rdrr.io/r/base/format.html), but allows for more complex concatenation and formatting of values |
+
+It is important to note that rounding is R uses a method based on the international standard *IEEE 754*, which rounds `0.5` to the nearest even number. You can read more about this standard on [Wikipedia](https://en.wikipedia.org/wiki/IEEE_754). This behavior differs based on operating system and the error representation specification.
+
+From the help page [`help(round)`](https://rdrr.io/r/base/Round.html):
+
+> *Note that for rounding off a 5, the IEC 60559 standard (see also ‘IEEE 754’) is expected to be used, ‘go to the even digit’. Therefore round(0.5) is 0 and round(-1.5) is -2. However, this is dependent on OS services and on representation error (since e.g. 0.15 is not represented exactly, the rounding rule applies to the represented number and not to the printed number, and so round(0.15, 1) could be either 0.1 or 0.2).*
+
+## **3.8 Capstone**
+
+In this lesson we create a demographics table using all of the concepts introduced in both *R Language Foundations I* and *R Language Foundations II*.
