@@ -1,0 +1,512 @@
+---
+title: "Getting Started with R"
+author: "Anova Groups"
+date: "2024-08-19"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo=TRUE
+  , warning=FALSE
+  , message=FALSE
+  , tidy = TRUE
+  , tidy.opts = list(width.cutoff = 60))
+
+```
+
+# **4 Tidyverse Data Manipulation**
+
+## **4.1 Introduction to the Tidyverse**
+
+This course will begin to shift our focus away from Base R and into the tidyverse family of packages.
+
+Visit [the tidyverse](https://www.tidyverse.org/) website to learn more about the packages included, the tidyverse blog, how to learn more about the tidyverse, and where to get help.
+
+#### **Tidyverse Philosophy**
+
+The tidyverse enforces a stricter standards on the consistency of input and output when using its functions. You can read more about Hadley Wickham’s idea of “tidy data” [here](https://r4ds.had.co.nz/tidy-data.html).
+
+#### **Package Conflicts**
+
+When we load the tidyverse, we will see a listing of the functions that will be overwritten. This means that now when you attempt to use the [`filter()`](https://dplyr.tidyverse.org/reference/filter.html) function, it will no longer use the function from the `stats` package, but will instead use the function from the tidyverse `dplyr` package. After loading the tidyverse or dplyr package, if you still wanted to use the `stats` version of [`filter()`](https://dplyr.tidyverse.org/reference/filter.html), then you can prefix the function with the package it comes from, like [`stats::filter()`](https://rdrr.io/r/stats/filter.html).
+
+```{r}
+library(tidyverse) 
+
+```
+
+#### **Function Pipelines**
+
+The tidyverse provides the `%>%` pipe operator to help us chain functions together in a manner that allows operations to be read from left to right, and top to bottom. All three examples below run the same operations, so the style you use is a matter of personal preference.
+
+```{r}
+# Example 1: Nested 
+mean(sample(seq(1:10), size = 2), na.rm = T)  
+# Example 2: Step by Step Assignment 
+step_1 <- seq(1:10) 
+step_2 <- sample(step_1, size = 2) 
+step_3 <- mean(step_2, na.rm = T)  
+# Example 3: Using a Pipeline 
+seq(1:10) %>%    
+  sample(size = 2) %>%    
+  mean(na.rm = T)
+```
+
+Take note of the [keyboard shortcut](https://learn.accel2r.com/files/51612f0f-f79f-49ee-a216-5e5d52841b03/Private/Courses/8fc4f7de-7ae3-455c-91fa-bb71fef55f11/tvhxsuco/appendices/ap_shortcuts.html) to create the pipe operator, it’ll save you a lot of time.
+
+| Keyboard Shortcuts          | Windows / Linux  | Mac             |
+|-----------------------------|------------------|-----------------|
+| Pipe Operator `%>%` or `|>` | Ctrl + Shift + M | Cmd + Shift + M |
+
+#### **Function Prefixes**
+
+Many tidyverse packages construct their functions to contain a common prefix to allow the user to quickly navigate to the specific functions they are looking for. In RStudio, when typing the prefix `str_`, for example, and letting the auto-complete menu pop up, you will be shown a list of all the tidyverse function that operate on character strings.
+
+Here are some of the most common prefixes in the tidyverse
+
+-   `readr::read_`: Lists functions that import data from a directory
+
+-   `readr::write_`: Lists functions that write data to a directory
+
+-   `readr::parse_`: Lists functions that parse strings
+
+-   `stringr::str_`: Lists functions that assist in working with strings
+
+-   `forcats::fct_`: Lists functions that assist with categorical factors
+
+## **4.2 Tibbles**
+
+In this lesson, we give an introduction to the `tibble`, which is the `tidyverse` interpretation of a `data.frame`.
+
+#### **Data Frames**
+
+Data frames in base R have a few of inconveniences:
+
+-   Prior to R v4.0, all strings were converted to factors by default
+
+-   Printing a data frame to the console shows a large quantity of text
+
+-   Data frames have inconsistent subsetting behavior
+
+#### **Tibbles**
+
+The concept of a tibble was created to address these issues. For some context, tibbles will:
+
+-   Keep strings as strings
+
+-   Truncate the amount of text printed to the console
+
+-   Display variable types under the variable names
+
+-   Display the dimensions of the tibble
+
+-   Consistently remain a tibble when subsetting with single brackets `[]`
+
+It is important to remember that a tibble is nothing more than a data frame with some additional attributes built in. We can see that converting `mtcars` to a tibble is still a `data.frame` with the additional tidyverse specific classes of `tbl_df` and `tbl`.
+
+```{r}
+class(as_tibble(mtcars)) 
+## [1] "tbl_df"     "tbl"        "data.frame"
+```
+
+#### **The Tibble Package**
+
+Some additional helpful functions introduced in the `tibble` package are:
+
+-   [`tribble()`](https://tibble.tidyverse.org/reference/tribble.html): Useful for creating data row by row, similar to `cards` and `datalines` in SAS
+
+-   [`rowid_to_column()`](https://tibble.tidyverse.org/reference/rownames.html): Useful for quickly creating a variable to represent the numeric row number
+
+## **4.3 Data Import**
+
+The data import functions in the tidyverse will always store the output as a tibble.
+
+| File Format     | Function                                                                                                                                   | Package   |
+|:----------|:--------------------------------------------------|:----------|
+| Flat Text Files | `read_*()` / `write_*()`                                                                                                                   | `readr`   |
+| R Objects       | [`read_rds()`](https://readr.tidyverse.org/reference/read_rds.html) / [`write_rds()`](https://readr.tidyverse.org/reference/read_rds.html) | `readr`   |
+| Excel Workbooks | `read_excel()`                                                                                                                             | `readxl`  |
+| Excel Workbooks | `write_xlsx()`                                                                                                                             | `writexl` |
+| SAS Files       | `read_sas()`                                                                                                                               | `haven`   |
+
+Some notes on reading data from a file:
+
+-   When using the `readr` functions, we can use the [`spec()`](https://readr.tidyverse.org/reference/spec.html) function to view the column specifications for data
+
+-   Use the `col_*` functions from readr to specify column types when data is being read in
+
+-   The `parse_*` functions from readr can help you convert column types from one type to another
+
+#### **Variable Labels**
+
+When working with SAS datasets, the `labelled` package and `var_label()` function allows us to easily manipulate variables.
+
+## **4.4 Subsetting and Sorting**
+
+This lesson covers the basics of manipulating data in the tidyverse.
+
+#### **Subset Data by Rows**
+
+The [`slice()`](https://dplyr.tidyverse.org/reference/slice.html) family of functions lets us subset data by index or row number:
+
+-   [`slice_head()`](https://dplyr.tidyverse.org/reference/slice.html) gives us the top rows
+
+-   [`slice_tail()`](https://dplyr.tidyverse.org/reference/slice.html) gives us the bottom rows
+
+-   [`slice_sample()`](https://dplyr.tidyverse.org/reference/slice.html) gives us a random sample of the data
+
+-   [`slice_max()`](https://dplyr.tidyverse.org/reference/slice.html) gives us the row with the maximum value of the specified column
+
+-   [`slice_min()`](https://dplyr.tidyverse.org/reference/slice.html) gives us the row with the minimum value of the specified column
+
+The [`filter()`](https://dplyr.tidyverse.org/reference/filter.html) function lets us use conditional logic to subset a data frame. While, the [`distinct()`](https://dplyr.tidyverse.org/reference/distinct.html) function removes repeated rows.
+
+#### **Working with Data Columns**
+
+-   [`select()`](https://dplyr.tidyverse.org/reference/select.html) lets us select columns from the data to keep
+
+-   [`rename()`](https://dplyr.tidyverse.org/reference/rename.html) lets us rename columns in the data
+
+-   [`relocate()`](https://dplyr.tidyverse.org/reference/relocate.html) lets us rearrange the order of columns from left to right
+
+-   [`arrange()`](https://dplyr.tidyverse.org/reference/arrange.html) lets us rearrange to order of rows based on a specified column
+
+#### **Column Selection Helpers**
+
+In each of functions listed above, we can use the `tidyselect` functions to quickly identify columns to operate on:
+
+-   [`everything()`](https://tidyselect.r-lib.org/reference/everything.html) will keep all columns in the data
+
+-   [`contains()`](https://tidyselect.r-lib.org/reference/starts_with.html), [`starts_with()`](https://tidyselect.r-lib.org/reference/starts_with.html), and [`ends_with()`](https://tidyselect.r-lib.org/reference/starts_with.html) allow you to keep columns that match the supplied string
+
+-   [`last_col()`](https://tidyselect.r-lib.org/reference/everything.html) is a substitute for grabbing the last column, when you don’t always know what the last column is named
+
+-   [`where()`](https://tidyselect.r-lib.org/reference/where.html) lets you keep columns based on their data type
+
+-   [`any_of()`](https://tidyselect.r-lib.org/reference/all_of.html), [`all_of()`](https://tidyselect.r-lib.org/reference/all_of.html) lets you pass in a character vector of column names to keep
+
+#### **Isolate a Value**
+
+The [`pull()`](https://dplyr.tidyverse.org/reference/pull.html) function is a tidyverse pipe-friendly substitute for subsetting a vector using `$` or `[]`.
+
+## **4.5 Creating Variables**
+
+In the tidyverse, [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) is the primary function we use to create new variables in a data frame. This will add new variables to the right hand side of the data frame. This allows us to easily create many variables at a time, rather than being limited to using the `$` to create variables with Base R.
+
+```{r}
+library(tidyverse)  
+diamonds %>%    
+  mutate(     
+    new_var_1 = 999,     
+    new_var_2 = "text",     
+    new_var_3 = price,     
+    new_var_4 = mean(price),     
+    new_var_5 = price / carat)
+```
+
+Here is a listing of some common tidyverse functions that can be used inside of a mutate.
+
+| Function                                                                | Package   | Purpose                                                |
+|:-------------|:-------------|:-------------------------------------------|
+| [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html)         | `dplyr`   | Create new variables in a data frame                   |
+| [`transmute()`](https://dplyr.tidyverse.org/reference/transmute.html)   | `dplyr`   | Create new variables, drops all others                 |
+| [`case_when()`](https://dplyr.tidyverse.org/reference/case_when.html)   | `dplyr`   | Create variables based on conditional values           |
+| [`na_if()`](https://dplyr.tidyverse.org/reference/na_if.html)           | `dplyr`   | Replace a value with an `NA`                           |
+| [`replace_na()`](https://tidyr.tidyverse.org/reference/replace_na.html) | `tidyr`   | Replace an `NA` with a value                           |
+| [`lead()`](https://dplyr.tidyverse.org/reference/lead-lag.html)         | `dplyr`   | Use the next value from the row below the current      |
+| [`lag()`](https://dplyr.tidyverse.org/reference/lead-lag.html)          | `dplyr`   | Use the previous value from the row before the current |
+| [`dense_rank()`](https://dplyr.tidyverse.org/reference/row_number.html) | `dplyr`   | Rank the values of given variable in ascending order   |
+| [`ntile()`](https://dplyr.tidyverse.org/reference/ntile.html)           | `dplyr`   | Break given numeric vector into distinct groups        |
+| [`cumsum()`](https://rdrr.io/r/base/cumsum.html)                        | `dplyr`   | Calculate the cumulative sum                           |
+| [`cummean()`](https://dplyr.tidyverse.org/reference/cumall.html)        | `dplyr`   | Calculate the cumulative mean                          |
+| [`paste()`](https://rdrr.io/r/base/paste.html)                          | `base`    | Concatenate text with numeric values                   |
+| [`str_c()`](https://stringr.tidyverse.org/reference/str_c.html)         | `stringr` | Concatenate text with numeric values                   |
+
+To control the location of the new variables being created in a [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html), use the `.before` or `.after` arguments. Note that the period prefix in these arguments is simply a design choice made by the functions’ authors, and does not affect any operations in the function.
+
+```{r}
+diamonds %>%    
+  mutate(     
+    new_var_1 = price / carat,     .before = 1)  
+diamonds %>%    
+  mutate(     
+    new_var_1 = price / carat,     .before = carat)  
+diamonds %>%    
+  mutate(     
+    new_var_2 = price / carat,     .after = last_col())
+```
+
+#### **Advanced Variable Creation**
+
+To quickly create variables that make use of many existing variables, we can use the [`across()`](https://dplyr.tidyverse.org/reference/across.html) function inside [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html). In the following example, notice that we use a vector of unquoted variable names to identify which we want to apply the function to; and notice that the function we are applying **does not** have the `()` next to it. This means we are referencing the function definition that we want to apply to the supplied variables.
+
+```{r}
+diamonds %>%    
+  mutate(across(     .cols = c(carat, cut, color),   
+                                   # Take these variables     
+                                   .fns  = as.character))          
+# Apply this function   
+diamonds %>%    mutate(
+  across(     
+  .cols = where(is.numeric),      
+  # Take these variables     
+  .fns  = as.character))         
+# Apply this function
+```
+
+#### **Learning More**
+
+To see why [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) was designed this way, and to see more working examples see the following pages:
+
+-   To compare Base R functions to tidyverse equivalents, see [`vignette("base",    package = "dplyr")`](https://dplyr.tidyverse.org/articles/base.html)
+
+-   For another introduction to the dplyr style of coding, see [`vignette("dplyr",   package = "dplyr")`](https://dplyr.tidyverse.org/articles/dplyr.html)
+
+-   For examples on using the [`across()`](https://dplyr.tidyverse.org/reference/across.html) function, see [`vignette("colwise", package = "dplyr")`](https://dplyr.tidyverse.org/articles/colwise.html):
+
+## **4.6 Summaries**
+
+Similar to the [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) function above, we can use the [`summarize()`](https://dplyr.tidyverse.org/reference/summarise.html) function to create data summaries. This function will almost always reduce the number of rows being returned, whereas [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) will always maintain the same number of rows in the result.
+
+```{r}
+library(tidyverse)  
+diamonds %>%    
+  summarize(     
+    n    = n(),     
+    med  = median(price),     
+    mean = mean(price),     
+    min  = min(price),     
+    max  = max(price))
+```
+
+In the same way that we used the [`across()`](https://dplyr.tidyverse.org/reference/across.html) function in the [previous lesson](https://learn.accel2r.com/files/51612f0f-f79f-49ee-a216-5e5d52841b03/Private/Courses/8fc4f7de-7ae3-455c-91fa-bb71fef55f11/tvhxsuco/courses/ch_course-4.html#mutate-across), we can use it inside a summarize as well.
+
+```{r}
+diamonds %>%    
+  summarize(
+    across(     
+      .cols = where(is.numeric),      
+      # Take these variables     
+      .fns  = mean))                  
+# Apply this function
+```
+
+A nice thing about [`across()`](https://dplyr.tidyverse.org/reference/across.html) is that we can also apply many functions to the same variable. The difference here is that we should supply a named vector when requesting the functions that we want to apply. Notice here that the vector names become the variable names.
+
+```{r}
+diamonds %>%    
+  summarize(
+    across(     
+      .cols = price,          
+      # Take this variable     
+      .fns  = c(v1 = mean,    
+                # Apply these function               
+                v2 = median,                
+                v3 = min,                
+                v4 = max))) 
+## # A tibble: 1 × 4 
+##   price_v1 price_v2 price_v3 price_v4 
+##      <dbl>    <dbl>    <int>    <int> 
+## 1    3933.     2401      326    18823
+```
+
+#### **Functions used in `summarize()`**
+
+| Function                                                                | Package | Description                                                                      |
+|:-----------|:-----------|:-----------------------------------------------|
+| [`n()`](https://dplyr.tidyverse.org/reference/context.html)             | `dplyr` | Return the number of rows                                                        |
+| [`n_distinct()`](https://dplyr.tidyverse.org/reference/n_distinct.html) | `dplyr` | Return the number of distinct values for specified variable                      |
+| [`first()`](https://dplyr.tidyverse.org/reference/nth.html)             | `dplyr` | Return the first value in the data                                               |
+| [`last()`](https://dplyr.tidyverse.org/reference/nth.html)              | `dplyr` | Return the last value in the data                                                |
+| [`n()`](https://dplyr.tidyverse.org/reference/context.html)             | `dplyr` | Return the specified Nth value in the data                                       |
+| `any(is.na())`                                                          | `base`  | Return logical value if any missing values are present in the specified variable |
+| `sum(is.na())`                                                          | `base`  | Return the number of missing values for the specified variable                   |
+
+#### **Learning More**
+
+To see why [`summarize()`](https://dplyr.tidyverse.org/reference/summarise.html) was designed this way, and to see more working examples see the following pages:
+
+-   To compare Base R functions to tidyverse equivalents, see [`vignette("base",    package = "dplyr")`](https://dplyr.tidyverse.org/articles/base.html)
+
+-   For another introduction to the dplyr style of coding, see [`vignette("dplyr",   package = "dplyr")`](https://dplyr.tidyverse.org/articles/dplyr.html)
+
+-   For examples on using the [`across()`](https://dplyr.tidyverse.org/reference/across.html) function, see [`vignette("colwise", package = "dplyr")`](https://dplyr.tidyverse.org/articles/colwise.html)
+
+## **4.7 Group Operations**
+
+Use the [`group_by()`](https://dplyr.tidyverse.org/reference/group_by.html) function to define the variables we want to use as grouping variables in the data. Notice here that the tibble output now displays a `Groups: color, cut [35]` in the header. This means that the data is being grouped by these two variables, and that there are 35 unique combinations of these two groups.
+
+```{r}
+diamonds %>%    
+  group_by(color, cut)
+```
+
+To remove the grouping attributes from a data frame, we use [`ungroup()`](https://dplyr.tidyverse.org/reference/group_by.html).
+
+```{r}
+diamonds %>%    
+  group_by(color, cut) %>%    
+  ungroup()
+```
+
+#### **Subset by Group**
+
+We can use any of the [`slice()`](https://dplyr.tidyverse.org/reference/slice.html) family of functions that we covered in the [Subsetting and Sorting](https://learn.accel2r.com/files/51612f0f-f79f-49ee-a216-5e5d52841b03/Private/Courses/8fc4f7de-7ae3-455c-91fa-bb71fef55f11/tvhxsuco/courses/ch_course-4.html#tidy-subset) lesson. In this case, we’re slicing our data to keep the maximum price for each level of the cut category.
+
+```{r}
+diamonds %>%    
+  group_by(cut) %>%    
+  slice_max(price)
+```
+
+#### **Mutate by Group**
+
+We can use [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) to create new variables with values that differ by group using any of the techniques we covered in the [Creating Variables](https://learn.accel2r.com/files/51612f0f-f79f-49ee-a216-5e5d52841b03/Private/Courses/8fc4f7de-7ae3-455c-91fa-bb71fef55f11/tvhxsuco/courses/ch_course-4.html#tidy-mutate) lesson. In this case, we are taking each individual price, and subtracting it from the cut group mean.
+
+```{r}
+diamonds %>%    
+  group_by(cut) %>%    
+  mutate(difference = price - mean(price))
+```
+
+#### **Summarize by Group**
+
+We can also use [`summarize()`](https://dplyr.tidyverse.org/reference/summarise.html) to create data summaries using any of the concepts we covered in the [Summaries](https://learn.accel2r.com/files/51612f0f-f79f-49ee-a216-5e5d52841b03/Private/Courses/8fc4f7de-7ae3-455c-91fa-bb71fef55f11/tvhxsuco/courses/ch_course-4.html#tidy-summary) lesson. In this example, we’re getting the count, minimum, and maximum price values for each level of the cut category.
+
+```{r}
+diamonds %>%    
+  group_by(cut) %>%    
+  summarize(     
+    count = n(),     
+    minimum = min(price),     
+    maximum = max(price)   
+                 )
+```
+
+There is a shortcut function [`count()`](https://dplyr.tidyverse.org/reference/count.html) we can use when we’re only interested in a count of distinct values.
+
+```{r}
+diamonds %>% 
+  group_by(cut) %>% 
+  summarise(n = n())   
+# Group by and summarize diamonds %>% count(cut)                             
+# Shortcut
+```
+
+#### **Row Groups**
+
+When we want to treat each row as its own row, we use the [`rowwise()`](https://dplyr.tidyverse.org/reference/rowwise.html) function.
+
+```{r}
+diamonds %>%    
+  rowwise() %>%    
+  mutate(     
+    sum_vars  =  sum(c(x, y, z)),     
+    mean_vars = mean(c(x, y, z)))
+```
+
+We can also use [`across()`](https://dplyr.tidyverse.org/reference/across.html) when treating each row as its own group. We use [`c_across()`](https://dplyr.tidyverse.org/reference/c_across.html) when listing out the variables to include.
+
+```{r}
+diamonds %>%    
+  slice(1:10) %>%     
+  # Only use first ten rows, for simplicity   
+  rowwise() %>%   mutate(     
+    sum_vars  = sum(c_across(x:z)),     
+    mean_vars = mean(c_across(where(is.numeric)))    
+    )
+```
+
+#### **Learning More**
+
+To see why [`group_by()`](https://dplyr.tidyverse.org/reference/group_by.html) was designed this way, and to see more working examples see the following pages:
+
+-   For examples on using [`group_by()`](https://dplyr.tidyverse.org/reference/group_by.html), see [`vignette("grouping", package = "dplyr")`](https://dplyr.tidyverse.org/articles/grouping.html)
+
+-   For examples on using [`rowwise()`](https://dplyr.tidyverse.org/reference/rowwise.html), see [`help(rowwise, package = "dplyr")`](https://dplyr.tidyverse.org/reference/rowwise.html)
+
+-   For examples on using the [`across()`](https://dplyr.tidyverse.org/reference/across.html) function, see [`vignette("colwise", package = "dplyr")`](https://dplyr.tidyverse.org/articles/colwise.html)
+
+## **4.8 Joins**
+
+There are many joining functions in the tidyverse.
+
+| Function                                                                  | Description                                                                                           |
+|:-------------|:---------------------------------------------------------|
+| [`left_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html)  | Join two data frames, keeping variables from the right hand side that has matching values in the left |
+| [`right_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html) | Join two data frames, keeping variables from the left hand side that has matching values in the right |
+| [`full_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html)  | Join two data frames, keeping all variables from both data frames                                     |
+| [`inner_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html) | Join two data frames, keeping only the variables that occur in both data frames                       |
+| [`semi_join()`](https://dplyr.tidyverse.org/reference/filter-joins.html)  | Join two data frames, keeping only the row values that occur in both data frames                      |
+| [`anti_join()`](https://dplyr.tidyverse.org/reference/filter-joins.html)  | Join two data frames, keeping only the row values that do not have matching values in the right       |
+
+If we are interested in doing simple operations, like binding data frames together based on row or column index, then we can use the following functions:
+
+| Function                                                              | Description                                                    |
+|:---------------|:-------------------------------------------------------|
+| [`bind_rows()`](https://dplyr.tidyverse.org/reference/bind_rows.html) | Combine data frames by adding more rows, based on column names |
+| [`bind_cols()`](https://dplyr.tidyverse.org/reference/bind_cols.html) | Combine data frames by adding more columns, based on row index |
+| [`add_row()`](https://tibble.tidyverse.org/reference/add_row.html)    | Add a new row to an existing data frame                        |
+| `add_col()`                                                           | Add a new column to an existing data frame                     |
+
+## **4.9 Pivots**
+
+The pivot functions in the tidyverse allow us to transpose data. Here, we are setting up an example data frame.
+
+```{r}
+diamonds_short <-    
+  diamonds %>%    
+  select(cut, x:z) %>%    
+  slice(1:5) %>%    
+  rowid_to_column() %>%    
+  print() 
+## # A tibble: 5 × 5 
+##   rowid cut         x     y     z 
+##   <int> <ord>   <dbl> <dbl> <dbl> 
+## 1     1 Ideal    3.95  3.98  2.43 
+## 2     2 Premium  3.89  3.84  2.31 
+## 3     3 Good     4.05  4.07  2.31 
+## 4     4 Premium  4.2   4.23  2.63 
+## 5     5 Good     4.34  4.35  2.75
+```
+
+Then, we use [`pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html) to lengthen this data frame, by stacking the values of the `x`, `y`, and `z` variables on top of each other.
+
+```{r}
+diamonds_long <-    
+  diamonds_short %>%    
+  pivot_longer(     cols = x:z,     names_to  = 'variable',      values_to = 'value') %>%    print() 
+```
+
+And to get back to a wide format, we use [`pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.html), indicating that we want to maintain `rowid` and `cut` in this case by including them in the `id_cols` argument.
+
+```{r}
+diamonds_wide <-    
+  diamonds_long %>%    
+  pivot_wider(     
+    id_cols = c(rowid, cut),     
+    names_from  = variable,     
+    values_from = value) %>%    
+  print()
+```
+
+#### **Learning More**
+
+To see why the `pivot_*()` functions were designed this way, and to see more working examples see [`vignette("pivot", package = "tidyr")`](https://tidyr.tidyverse.org/articles/pivot.html).
+
+## **4.10 Capstone**
+
+In this lesson we create a demographics table using all of the concepts introduced in the *Tidyverse Data Manipulation* course.
+
+## **Code Bank**
+
+See the code bank for corresponding [Lesson Scripts](https://learn.accel2r.com/files/51612f0f-f79f-49ee-a216-5e5d52841b03/Private/Courses/8fc4f7de-7ae3-455c-91fa-bb71fef55f11/tvhxsuco/codebank/cb_syntax_v3.html#ls-course4) and [Exercise Scripts](https://learn.accel2r.com/files/51612f0f-f79f-49ee-a216-5e5d52841b03/Private/Courses/8fc4f7de-7ae3-455c-91fa-bb71fef55f11/tvhxsuco/codebank/cb_exercise_v2.html#es-course4).
+
+## **RStudio Cheat Sheets**
+
+Here are links to download the RStudio cheat sheets for the [dplyr functions](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf) and the [tidyr functions](https://raw.githubusercontent.com/rstudio/cheatsheets/main/tidyr.pdf) covered in this course.

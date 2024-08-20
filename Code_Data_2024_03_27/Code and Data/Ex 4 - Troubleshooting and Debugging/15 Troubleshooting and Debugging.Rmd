@@ -1,0 +1,88 @@
+---
+title: "14 Project Workflow"
+author: "Anova Groups"
+date: "2024-08-19"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo=TRUE
+  , warning=FALSE
+  , message=FALSE
+  , tidy = TRUE
+  , tidy.opts = list(width.cutoff = 60))
+
+```
+
+# **15 Troubleshooting and Debugging**
+
+## **15.1 Introduction**
+
+This course will familiarize you with troubleshooting your code in R, understanding why certain error and warning messages appear, how to solve them, how to build good habits to prevent them, and how to use the debug console to step through operation execution.
+
+## **15.2 Common Error and Warning Messages**
+
+This [blog](https://github.com/noamross/zero-dependency-problems/blob/master/misc/stack-overflow-common-r-errors.md) post from 2015 analysis the most commonly asked questions on StackOverflow regarding errors and warnings.
+
+## **15.3 Troubleshooting in R**
+
+This lesson covers some Global Options in RStudio that can be used to help you prevent warnings and errors from occurring, along with implicit errors and debugging a `tidyverse` pipeline.
+
+Even though most warning messages can be ignored, you should always try to understand why the messages is appearing before moving on.
+
+#### **RStudio Options**
+
+In Global Options \> Code \> Display:
+
+-   `Show Line Numbers` can help keep track of where you are in your script
+
+-   `Highlight R Function Calls` ensures that R functions in the script are a different color than R objects
+
+-   `Rainbow Parentheses` give each nested parentheses a unique color, to help track operations when nesting functions and using many parentheses. Also, `Ctrl + P` will quickly jump to the beginning/end of the current parentheses
+
+#### **Implicit Errors**
+
+Many functions in R change their functionality based on the type of input that is given. This allows for flexibility in how a function can be used for a variety of use cases, however one of the downsides to this is that it allows for undefined arguments to passed in as if they were actual arguments to the function. To combat this, always confirm the valid arguments for a function by checking the documentation.
+
+```         
+help(mean)
+```
+
+#### **Troubleshoot a Tidyverse Pipeline**
+
+Tidyverse packages have been working to improve error handling and debugging messages in its functions. One useful tip is to add `%>% print()` whenever you want to see the output of a pipeline at a particular point in the operation. You can even pipe through [`print()`](https://rdrr.io/r/base/print.html) statements to see the output at each step of the pipeline.
+
+```{r}
+library(dplyr) 
+
+mtcars %>%    
+  group_by(am) %>% 
+  print() %>%    
+  arrange(mpg) %>% 
+  print() %>%    
+  slice_head(n = 2) %>% 
+  print()
+```
+
+## **15.4 Using the Debug Console**
+
+In this lesson, we use the [`debug()`](https://rdrr.io/r/base/debug.html) function to walkthrough how to use the R debug console. Debugging in RStudio works best when the functions you are using are saved in a separate script from the one you are currently working in, so that RStudio can take a snapshot of the function definition and identify which lines are causing execution errors.
+
+We cover the debug buttons:
+
+-   `Next`: Run the next line of code
+
+-   `Step Into`: Delve into the next function environment
+
+-   `Finish Loop/Function`: Finish the sub-function’s operation
+
+-   `Continue`: Continue operation until breakpoint or - completion
+
+-   `Stop`: Exit the debug menu
+
+We also talk about using the [`traceback()`](https://rdrr.io/r/base/traceback.html), the [`browser()`](https://rdrr.io/r/base/browser.html) and breakpoints in RStudio.

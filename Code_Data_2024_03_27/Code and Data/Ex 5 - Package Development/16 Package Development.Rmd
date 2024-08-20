@@ -1,0 +1,139 @@
+# **16  Package Development**
+
+## **Introduction**
+
+In this course we provide an overview of the process to create and maintain a package of your own. We do this using the assistance tools provided by RStudio, including:
+
+-   `devtools`
+
+-   `usethis`
+
+-   `testthat`
+
+-   `roxygen2`
+
+We also give a brief overview of using `Git` to maintain the version history of your package files. We do not cover online `git` services like GitHub, GitLab, or BitBucket.
+
+The aim of this course is to give you an understanding of when it is beneficial to create a package, how to use existing packages in the creation of a new package, how to maintain the file structure of a package, how to create unit tests, how to manage version control, and how to share your finalized packages either privately or publicly.
+
+## **Package Development Cycle**
+
+In this lesson we define what a package is, we talk about why you might want to create a package, and we cover the package development lifecycle and workflow.
+
+|           |                                                                                                                                                                                                                                                                                  |
+|------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|           | Package Development Cycle                                                                                                                                                                                                                                                        |
+| Lifecycle | Description                                                                                                                                                                                                                                                                      |
+| Source    | A typical directory of scripts and files                                                                                                                                                                                                                                         |
+| Bundled   | The directory after being compressed into a single file, stored in .tar.gz format. To use a bundled package, the user must have development tools installed. Can be be installed on any OS.                                                                                      |
+| Binary    | The directory after being compressed into a single file, stored in an OS specific format. To use a binary package, the user does not need development tools. Can only be installed on the same OS that created the binary package. Packages on CRAN are stored in binary format. |
+| Installed | The package after it has been decompressed into a package library on the end users’ filesystem                                                                                                                                                                                   |
+| In Memory | The package has been loaded into memory using the ‘library()’ function, and the package’s functions are available for interactive use                                                                                                                                            |
+
+In order to create a package, you will need to install some additional software outside of R and RStudio. On Windows you will need [RTools](https://cran.r-project.org/bin/windows/Rtools/), macOS will need [XCode](https://itunes.apple.com/ca/app/xcode/id497799835?mt=12), and Linux will need `r-base-dev`.
+
+And finally, the workflow to use when creating a package is:
+
+-   Create package structure
+
+-   Create custom functions with documentation
+
+-   Create unit tests to ensure proper execution of custom functions
+
+-   Use the RStudio Build menu to *Document*, *Test*, and *Load All* functions
+
+-   Finalize your package with RStudio Build Menu to *Check* your package files and structure for proper specifications, *Build* to compile the files into .tar.gz format, and *Install* to test the installation of your package.
+
+## **Creating Packages with `devtools`** 
+
+In this lesson we give details on how to use `devtools` to assist in the development of packages. We go over how to actually create a new package, we give a tour of the RStudio build menu, along with the file structure required by a package.
+
+In particular, we recommend using the `create_tidy_package()` function to create the structure of the package. This will remove some of the manual work required when starting fresh with a new package, by making some basic default choices for us.
+
+## **Package Description File**
+
+This lesson covers the DESCRIPTION file in the package directory, including the purpose of this file, the basic syntax required in this file, along with dealing with package licenses and dependencies.
+
+|             |                                                                                                                                                                                                               |
+|-----------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|             | Description File Arugments                                                                                                                                                                                    |
+| Argument    | Explanation                                                                                                                                                                                                   |
+| Title       | One line description of the package (Less than 65 characters)                                                                                                                                                 |
+| Description | One paragraph giving a more detailed description of the package (80 characters per line)                                                                                                                      |
+| Authors\@R  | The person() function helps you define the package authors and maintainers with relevant contact information. Every package must have at least one author, and at least one maintainer, with an email address |
+| URL         | A website where the users can go for more information regarding the package or author                                                                                                                         |
+| BugReports  | A URL where users can submit issues with the packages                                                                                                                                                         |
+| License     | Describes who can use your package. This is only necessary if making package public                                                                                                                           |
+| Imports     | Lists the external packages that your package functions need to work                                                                                                                                          |
+| Suggests    | Lists the external packages that are not required by your functions, but having them offers additional functionality                                                                                          |
+| Version     | At least two integers (0.10, 1.0.0, 3.2.1). Recommended version format [major].[minor].[patch]                                                                                                                |
+
+## **Version Control with Git**
+
+In this lesson, we provide an introduction to all things `git` inside of RStudio.
+
+Git allows any number of people to work together on a single project, ensuring everyone has access to the most current versions of the files, and allowing users to merge their changes into the main version of the file. There is a learning curve to understand command-line git commands, but RStudio integration makes it simple.
+
+If working on your own instance of RStudio, you will have to download and install `git` from its own [website](https://git-scm.com/downloads). While, cloud based environments will already have `git` available.
+
+The functions `use_git_config()` and `use_git()` from the `usethis` package make configuring `git` for the first time fairly easy in RStudio. Refer to the online documentation [Happy Git with R](https://happygitwithr.com/) for more information on setting up and using `git` for version control in RStudio.
+
+## **Creating Package Functions**
+
+You should consider creating a function if you are running the same lines of code more than three times. This way you can centralize the definition of this code, without worrying about copying and pasting code in many different places. Functions should be general enough to cover different situations of the same use case, but you also don’t want to over-engineer a single function to do everything at once.
+
+It is best to define small functions in a single script, and store large functions in their own script. This makes it easier to manage and navigate your function definitions. It is important to remember that functions are tools for end-users, and you should strive to make your function names easy to remember, and easy to determine the usecase of the function, and with well-named arguments. Similar to the functions in `stringr`, you should consider using a common prefix for all of your end-user functions. If your functions are hard to use or understand, then end-users will simply not use them.
+
+By using `devtools` inside of RStudio, you will have an easier time creating documentation for your function with the builtin `roxygen2` parameters that allow you to provide documentation and examples of how to use your functions and arguments. Remember to include `@export` in the function’s documentation when you want this function to be available for the end-user.
+
+Once your functions are well-defined, you can use the build menu to *Document* your functions, which will convert the `roxygen2` definitions into usable help pages for each function.
+
+## **Creating Unit Tests**
+
+The `testthat` package makes is easy to develop and automate unit tests for all of your package’s functions. Unit tests check each functions operation and output for expectations that you set, either to fail in certain situations, or to succeed in others. Building unit tests as you develop your functions forces you to create testable code, which will improve the entire process. These tests should not be created prior to creating your function, and they should not be created after your function is completed. It is up to you to find the balance between developing and testing.
+
+Unit Test Guidance:
+
+-   The entire testing process should be as simple and as fast as possible
+
+-   A test should report clearly and exactly where a problem occurs
+
+-   There should be no manual testing of your code
+
+-   Tests should be independent of each other, so they can all run in parallel
+
+-   Setting basic expectations first will help you catch bugs throughout development
+
+## **Capstone**
+
+The capstone for this course asks you to finalize the package we’ve been developing throughout these lessons. We then discuss how to share the package, how to submit it to CRAN.
+
+Remember the workflow of development:
+
+-   Create package project in Rstudio using devtools and ‘create_package’
+
+-   Add a license to inform users how your package can be used
+
+-   Add a NEWS file to inform users of major/minor/patched changes to functions
+
+-   Create git repository to offer version control as your package grows
+
+-   Create functions and roxygen2 documentation
+
+-   Create unit tests using testthat and covr
+
+-   Finalize package build and share with others
+
+And remember the steps to build the final package:
+
+-   Document
+
+-   Test
+
+-   Check
+
+-   Build
+
+-   Install
+
+-   Load

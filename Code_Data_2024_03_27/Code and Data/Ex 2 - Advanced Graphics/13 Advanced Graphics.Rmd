@@ -1,0 +1,214 @@
+---
+title: "13 Advanced Graphics with R"
+author: "Anova Groups"
+date: "2024-08-19"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo=TRUE
+  , warning=FALSE
+  , message=FALSE
+  , tidy = TRUE
+  , tidy.opts = list(width.cutoff = 60))
+
+```
+
+# **13 Advanced Graphics**
+
+## **13.1 Introduction**
+
+This course covers customized ggplot2 graphics with labels, limits, legends, scales, themes, adding text annotations to graphs, and using plotly to create interactive graphics.
+
+## **13.2 Tidyverse Graphics Annotations I**
+
+This lesson covers titles, limits, legends, and scales.
+
+Be aware, ggplot2 is a complex package, so don’t hesitate to use an online search, StackOverflow, or the online documentation to find a way to create the chart you want to create.
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+diamonds %>% 
+  slice_sample(n = 100) %>%
+  ggplot(aes(x = carat, y = price, color = cut)) +
+  geom_point(size = 5, alpha = 0.75) +
+  labs(
+    title = "A Scatter Plot", 
+    subtitle = "Carat by Price",
+    x = "Carat Value",
+    y = "Price (Dollars)",
+    color = "Diamond Cut") +
+  guides(
+    color = guide_legend(
+      nrow = 2, 
+      title.position = "top",
+      direction = "horizontal")) +
+  scale_color_brewer(palette = "Blues") +
+  scale_y_continuous(labels = scales::dollar_format()) +
+  theme_minimal()
+```
+
+Note that every aesthetic has a corresponding scale\_\*() function to control that portion of the plot, along with a corresponding argument in the labs() and guides() functions.
+
+Some general ggplot2 notes:
+
+-   ggsave() will let you save an image to the file directory
+-   colors() will list all of the English named colors available for use in ggplot2
+-   scales::show_col() will display a sample of what the color looks like in the Plots panel
+-   vignette("ggplot2-specs") will give examples of the available aesthetics for line types, shapes, sizes, text, colors, and fills
+
+## **13.3 Tidyverse Graphics Annotations II**
+
+This lesson covers plot annotations, customizing themes, exporting plots, along with giving an overview of how additional packages can further customize ggplot2 plots. See the Code Bank for more sample code from the videos.
+
+```{r}
+
+library(dplyr)
+library(ggplot2)
+
+diamonds %>% 
+  slice_sample(n = 100) %>%
+  ggplot(aes(x = carat, y = price, label = scales::dollar(price))) +
+  geom_label()
+
+```
+
+Using Labels
+
+```{r}
+diamonds %>% 
+  slice_sample(n = 100) %>%
+  ggplot(aes(x = carat, y = price)) +
+  geom_point(alpha = 0.25) +
+  annotate(
+    geom = "rect",
+    xmin = 2, xmax = 3, ymin = 14000, ymax = 16000,
+    fill = "orange", color = "black") +
+  annotate(
+    geom = "label",
+    x = 2.5, y = 15000,
+    label = "Math: italic(abc) ^ 2 + bold(def)", parse = TRUE)
+```
+
+#### **Extension Packages**
+
+There are many extension packages that provide additional geometries, themes, controls, or functionality to the default ggplot2 framework. Here are some of the more popular extension packages.
+
+-   ggAlly: Helps when using transformed data
+-   ggtext: Finer control over text display on the plot labels, titles, annotations
+-   svglite: Allows ggsave to save plots as SVG to edit manually later
+-   ggforce: More options when highlighting certain areas of a plot
+-   ggrepel: Additional assistance with controlling annotation labels on a plot
+-   patchwork: Useful when combining multiple plots into a single plot
+-   survminer: Used when creating survival analysis plots with ggplot2
+
+## **13.4 Interactive Graphics with Plotly I**
+
+The plotly package is a “wrapper” of the JavaScript Plotly library.
+
+#### **Plots Using ggplot2**
+
+If all you want is to convert an existing ggplot2 plot to an interactive one, the ggplotly() function is all you’ll need to know.
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(plotly)
+
+my_ggplot <- 
+  diamonds %>% 
+  slice_sample(n = 100) %>%
+  ggplot(aes(x = carat, y = price, color = cut)) +
+  geom_point(size = 5, alpha = 0.75) +
+  labs(
+    title = "A Scatter Plot", 
+    subtitle = "Carat by Price",
+    x = "Carat Value",
+    y = "Price (Dollars)",
+    color = "Diamond Cut") +
+  guides(
+    color = guide_legend(
+      nrow = 2, 
+      title.position = "top",
+      direction = "horizontal")) +
+  scale_color_brewer(palette = "Blues") +
+  scale_y_continuous(labels = scales::dollar_format()) +
+  theme_minimal()
+
+ggplotly(my_ggplot)
+
+```
+
+#### **Plots Using plotly**
+
+To learn how to create interactive graphics using plotly alone, we use the plot_ly() function to get started. Notice that we use %\>% to connect our plotly functions together. The add\_\*() functions will control the type of plot we are creating, while the layout() will control the layout and annotations on the plot.
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(plotly)
+
+diamonds %>% 
+  slice_sample(n = 100) %>% 
+  plot_ly(
+    x = ~carat,
+    y = ~price,
+    color = ~cut,
+    size  = I(100),
+    alpha = I(0.90)) %>% 
+  add_markers() %>% 
+  layout(
+    title = "A Scatter Plot",
+    xaxis = list(title = "A Scatter Plot"),
+    yaxis = list(title = "Price (Dollars)")
+    )
+```
+
+To learn more about the many options available for each add\_\*() function, and the hidden arguments in the layout() function, refer to the schema() viewer to inspect the available options.
+
+```{r}
+plotly::schema()
+```
+
+#### **Learning More**
+
+To learn more about using plotly in R, refer to the online documentation or the online book.
+
+## **13.5 Interactive Graphics with Plotly II**
+
+This lesson covers the various additional plots that plotly can create, along with combining plots, and adding annotations to a plot.
+
+```{r}
+my_barchart <- 
+  diamonds %>% 
+  count(cut, color) %>% 
+  plot_ly(
+    y = ~n,
+    x = ~cut,
+    color = ~color
+  ) %>% 
+  add_bars()
+
+my_boxplot <- 
+  diamonds %>% 
+  slice_sample(n = 100) %>% 
+  plot_ly(
+    x = ~cut,
+    y = ~price,
+    color = ~cut
+  ) %>% 
+  add_boxplot()
+
+subplot(my_barchart, my_boxplot)
+```
+
+#### **Learning More**
+
+To learn more about using plotly in R, refer to the online documentation or the online book. - <https://plotly-r.com/welcome.html> - <https://plotly.com/r/>

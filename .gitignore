@@ -45,3 +45,7 @@ renv/
 *.out
 *.pdf
 *.html
+.Rdata
+.httr-oauth
+.DS_Store
+.quarto

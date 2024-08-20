@@ -1,0 +1,52 @@
+---
+title: "9 Creating Tables, Listings, Figures"
+author: "Anova Groups"
+date: "2024-08-19"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo=TRUE
+  , warning=FALSE
+  , message=FALSE
+  , tidy = TRUE
+  , tidy.opts = list(width.cutoff = 60))
+
+```
+
+# 9 Creating Tables, Listings, Figures
+
+## **9.1 Introduction**
+
+This course will cover methods for creating tables, listings, and figures for clinical output reporting. To create the final reports, we will be using a package called reporter. Creating the desired output with the reporter package follows a pattern of using some or all of the following functions:
+
+create_table() create_report() create_plot() write_report()
+
+## **9.2 Listings**
+
+Listings include reports of the detail data. In this lesson, you will be asked to create a listing that is too wide for one page and needs to wrap with an ID variable.
+
+## **9.3 Demographics**
+
+In this lesson, we create a demographic summary table complete with tests of association using Chi-Square and ANOVA test statistics.
+
+## **9.4 Adverse Events**
+
+In this lesson, we create an adverse event table displaying the counts by system organ class and preferred term and maximum severity.
+
+## **9.5 Vitals Change from Baseline**
+
+In this lesson, we create a change from baseline summary statistics table by vital signs parameter.
+
+## **9.6 Labs Change from Baseline**
+
+In this lesson, we create a change from baseline summary statistics table by lab parameter.
+
+## **9.7 Basic Figures**
+
+## **9.8 Survival**

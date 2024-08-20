@@ -1,0 +1,64 @@
+---
+title: "5. Supplemental Tools and Packages"
+author: "Anova Groups"
+date: "2024-08-19"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo=TRUE
+  , warning=FALSE
+  , message=FALSE
+  , tidy = TRUE
+  , tidy.opts = list(width.cutoff = 60))
+
+```
+
+# **7 Creating SDTM Datasets**
+
+In this course, we create SDTM data frames.
+
+## **7.1 Introduction**
+
+This introduction lesson will contain the following activities:
+
+-   Producing some common data quality checks.
+
+-   Using data frame specifications
+
+-   Examining a format catalog
+
+-   Examining template code
+
+-   Discussion on comparing expected vs actual results
+
+## **7.2 Data Quality Checks**
+
+In this lesson, we perform some simple data quality checks on the clinical data. The QC checks include:
+
+-   Checking for missing values
+
+-   Checking for duplicates on primary keys
+
+-   Performing cross data frame quality checks
+
+## **7.3 SDTM Data Set Builds**
+
+The rest of the lessons focus on building out an SDTM data set by following specifications in a spreadsheet and/or by following instructions in the exercise. For each data set built, we compare the actual results to a data set with the expected results.
+
+We build the following SDTM data sets to finish out this course:
+
+-   `DM`
+
+-   `VS`
+
+-   `AE`
+
+-   `LAB`
+
+-   `EX`

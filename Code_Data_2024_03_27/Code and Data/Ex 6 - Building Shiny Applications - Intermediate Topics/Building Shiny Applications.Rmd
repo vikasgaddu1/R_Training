@@ -1,0 +1,446 @@
+---
+title: "Building Shiny Application"
+author: "Anova Groups"
+date: "2024-08-19"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo=TRUE
+  , warning=FALSE
+  , message=FALSE
+  , eval = FALSE
+  , tidy = TRUE
+  , tidy.opts = list(width.cutoff = 60))
+
+```
+
+# **12 Building Shiny Applications**
+
+## **12.1 Introduction**
+
+In this course we continue to expand our understanding of how `shiny` works, and the process behind building `shiny` applications that can meet the complex needs of your use cases.
+
+#### **Lesson Sequence**
+
+Following our suggested sequence may help certain concepts stick together if you are learning them for the first time, but following this sequence is optional. We can think of these lessons in five general concepts:
+
+-   General Shiny
+
+-   Shiny Reactions
+
+-   Shiny Debugging
+
+-   Shiny Performance
+
+-   Shiny User Interface
+
+Or we can think of these lessons as being focused on either the `server` portion of the application (being only topics that the developer is concerned about), and being focused on the `ui` portion of the application (the design and usability of the application).
+
+Focusing on the Developer:
+
+-   Dynamic Interfaces II
+
+-   Controlling Updates
+
+-   Resetting Output
+
+-   Debugging for the R User
+
+-   Performance Profiles
+
+-   Caching Results
+
+-   Building Reusable Modules
+
+-   Building Temporary Gadgets
+
+Focusing on the End User:
+
+-   Dashboard Layouts
+
+-   Linking Output with Crosstalk
+
+-   UI for the End User
+
+-   Debugging for the End User
+
+-   Bookmarking Application States
+
+Regardless of how you choose to sequence your learning, the exercises will help reinforce the topics you are learning, and the course capstone will help tie all of these concepts together into creating an application for a particular usecase.
+
+#### **Documentation**
+
+Much of the information provided in this course can be further explored in the [RStudio Articles](https://shiny.rstudio.com/articles/) and the [Mastering Shiny](https://learn.accel2r.com/files/51612f0f-f79f-49ee-a216-5e5d52841b03/Private/Courses/8fc4f7de-7ae3-455c-91fa-bb71fef55f11/tvhxsuco/courses/ex_shiny2.html#%20https://mastering-shiny.org/) book.
+
+## **12.2 General Shiny**
+
+### **Building Reusable Modules**
+
+This lesson introduces `shiny` modules which are like R functions in that they can be saved and shared or included in packages, allowing you to define common procedures in a single location. Modules can include both `ui` and `server` portions of the application.
+
+Modules must be defined in a typical `.R` script, not in a `.app` script like typical `shiny` applications. It is recommended to name your modules in a way that fits in with typical `shiny` function name syntax. This means that functions should always end in either `Input`, `Output`, `UI`, or `Server` depending on where their purpose.
+
+#### **Defining UI Modules**
+
+Namespaces are very important in `shiny` modules, because they link the module functions to the overall application. For this reason, all module functions *must* begin with an `id` argument. Then, inside the module function definition we use the `NS(id)` function to define the namespace link. Finally, we use this namespace link with out `inputId` arguments for UI elements, instead of using `input$...` syntax.
+
+Remember that we need to use `tagList` to define UI elements in a `shiny` module.
+
+```{r eval = FALSE}         
+sampleUI <- function(id, label_1, label_2){      
+namespace_link <- NS(id)      
+tagList(
+  h2("Demonstrating a Module"),     
+  selectInput(       
+    inputId = namespace_link("select_chr"),
+    label   = label_1,
+    choices = c("A", "B", "C")),
+  hr(),     
+  radioButtons(       
+    inputId = namespace_link("select_num"),       
+    label   = label_2,       
+    choices = c(1, 2, 3)     
+  )   
+) 
+}
+```
+
+#### **Defining Server Modules**
+
+For server modules, the first argument must be `id` again. We need to use `moduleServer` to take the place of our typical `shiny` server definition. And because this is still an R function, we need to decide what the output of this module will be using `return`.
+
+```{r eval = FALSE}         
+sampleServer <- function(id, label_3){   
+  moduleServer(id, 
+               module = function(input, output, session){     
+                 result <- stringr::str_glue(.sep = " ",
+                                             "For the process '{label_3}',",         "you chose {input$select_chr} and {input$select_num}.")     return(result)   }) }
+```
+
+#### **Using a Module**
+
+With our modules created, we must `source` the script containing the modules in our application script, and then we use our modules as if they were any other `shiny` function that we are used to using. The only difference is that we now make use of the `id` argument instead of the `inputId` argument.
+
+**Documentation**
+
+-   [Introduction to Modules](https://shiny.rstudio.com/articles/modules.html)
+
+-   [Advanced Modules](https://shiny.rstudio.com/articles/communicate-bet-modules.html)
+
+### **Building Temporary Gadgets**
+
+Gadgets are different from typical `shiny` applications because they are meant to be used temporarily and then disappear. They are like typical R functions in that they help you accomplish a single simple task, but `shiny` gadgets allow for some level of interactivity while accomplishing this task. For example, instead of using `read_csv` to read in a data set, you could build a `shiny` gadget to help you explore a data set prior to reading it in.
+
+Gadgets are stored in a `.R` script rather than a `.app` script, and are defined using `function`. You include all the processes you want this function to run, and use `runGadget` to launch the interactive `shiny` portion of the function. Inside the `runGadget` function, define the `ui` and `server` portions of the process - like a typical `shiny` application. For gadgets though, we use the `miniUI` package and the `miniPage`, `gadgetTitleBar`, and `miniContentPanel` functions to structure the UI.
+
+It is important to remember that gadget definitions *must* include a series of actions to take once the `done` button is pressed. Use `observeEvent(input$done, {...})` to run these actions, using `assign` if you want return any values to the global environment, and using `stopApp` to end the gadget’s running process.
+
+Once the gadget is defined, `source` the script containing the gadget, and use it like any other function in your workspace.
+
+**Documentation**
+
+-   [Introduction to Gadgets](https://shiny.rstudio.com/articles/gadgets.html)
+
+-   [Advanced Gadgets](https://shiny.rstudio.com/articles/gadget-ui.html)
+
+### **Bookmarking Application States**
+
+This lesson introduces `shiny` bookmarks. Bookmarks allow end users to restore `shiny` applications to a previous state.
+
+There are two types of bookmarks: encoded and server states. Encoded states store all chosen user inputs in the application URL, and are easier to manage but are much longer than server states. Server states actually save the selected input values to disk, allowing the bookmark URL to be shortened. However, server states require a `shiny` hosting server that allows for saved states.
+
+```{r eval = FALSE}         
+# Examples: 
+# 
+# Encoded URL - https://appname/_input_&n=50&color=blue 
+# Server  URL - https://appname/_state_id=abc123
+```
+
+To enable bookmarking you must:
+
+-   Add `enableBookmarking()` to the application script
+
+-   Define the UI portion of the application as a function with the `request` argument (i.e.`ui <- function(request){...}`),
+
+-   Add a `bookmarkButton()` to the UI
+
+To save and restore a bookmark:
+
+-   Click the bookmarking button in the running application,
+
+-   Copy the given URL to save the state
+
+-   Restore the state by pasting the URL into the browser
+
+**Documentation**
+
+-   [Intro to Bookmarks](https://shiny.rstudio.com/articles/bookmarking-state.html)
+
+-   [Advanced Bookmarks](https://shiny.rstudio.com/articles/advanced-bookmarking.html)
+
+## **12.3 Shiny Reactions**
+
+### **Controlling Updates**
+
+In this lesson we introduce the `isolate` function. This function is the basis for both `observeEvent` and `eventReactive`. So you may not need to call `isolate` directly, but it is still good to understand how this function works in case you want some more flexibility that neither of the other two functions provides.
+
+Generally, `isolate` is useful when you defining a reactive that you will *not* use elsewhere in the application.
+
+```{r eval = FALSE}        
+# These two operations are equivalent  
+# Using Isolate 
+if (input$action_button == 0) {
+  return() 
+} else {
+  isolate({
+    n_bins  <- seq(min(df), max(df), 
+                   length.out = input$select_bins + 1)     
+    h_color <- input$select_color}
+  ) 
+  }  
+# Using Event Reactive 
+n_bins  <- eventReactive(
+  input$action_button,   
+  seq(min(df), 
+      max(df), 
+      length.out = input$select_bins + 1))  
+h_color <- eventReactive(   
+  input$action_button,   
+  input$select_color)
+```
+
+**Documentation**
+
+-   [Shiny Isolation](https://shiny.rstudio.com/articles/isolation.html)
+
+-   [Reactive Overview](https://shiny.rstudio.com/articles/reactivity-overview.html)
+
+-   [Reactive Functions](https://mastering-shiny.org/reactivity-objects.html#observeevent-and-eventreactive)
+
+-   [Reactives Motivation](https://mastering-shiny.org/reactive-motivation.html)
+
+-   [Execution Scheduling](https://shiny.rstudio.com/articles/execution-scheduling.html)
+
+-   [Understanding Reactivity](https://shiny.rstudio.com/articles/understanding-reactivity.html)
+
+### **Reset Output**
+
+This lesson ties together the various reactive functions. We accomplish that by designing our application to reset its output whenever changes are made to the input selections by the end user.
+
+The `reactiveValues` function lets us define initial values for reactive functions when the application first starts. Remember that `observeEvent`s cannot be used with assignment to be used later, but `eventReactive`s can.
+
+With these three concepts in mind, we can use if-else statements to alter the flow of the end user’s journey through the UI based on their. interactions
+
+**Documentation**
+
+-   [Shiny Isolation](https://shiny.rstudio.com/articles/isolation.html)
+
+-   [Reactive Overview](https://shiny.rstudio.com/articles/reactivity-overview.html)
+
+-   [Reactive Functions](https://mastering-shiny.org/reactivity-objects.html#observeevent-and-eventreactive)
+
+-   [Reactives Motivation](https://mastering-shiny.org/reactive-motivation.html)
+
+-   [Execution Scheduling](https://shiny.rstudio.com/articles/execution-scheduling.html)
+
+-   [Understanding Reactivity](https://shiny.rstudio.com/articles/understanding-reactivity.html)
+
+## **12.4 Shiny Debugging**
+
+### **Debugging for the End User**
+
+This lesson helps the `shiny` developer create a messaging structure for the end user who may not be familiar with `R`, `shiny`, or programming languages at all. These messages are intended to help guide the ends user through proper usage of the application.
+
+Using `options(shiny.sanitize.errors = T)` in the application script ensures that any errors that appear in the application UI are generic messages, rather than specific technical messages. Using this option is recommended if the audience of users are not R developers.
+
+Using the `validate` and `need` functions allows the `shiny` developer to check the various input values for proper usage. These functions allow you to create custom messages as well, helping guide the end user on steps to take when something goes wrong with their input selections.
+
+It is recommended to create validation steps that “fail fast” and in a useful way. This means you should structure your app in such a way as to validate the input before any heavy processing is done. One way to do this is to test reactive inputs individually before they are used elsewhere.
+
+**Documentation**
+
+-   [Validation](https://shiny.rstudio.com/articles/validation.html)
+
+-   [Sanitize Errors](https://shiny.rstudio.com/articles/sanitize-errors.html)
+
+### **Debugging for the R User**
+
+This lesson helps the `shiny` developer as they are developing the application.
+
+Using the RStudio debugging menu with the `browser` function. Note that using breakpoints in `shiny` scripts seems to work in some cases but not in other, while the `browser` function will always launch the debug console.
+
+Using `shiny`’s showcase mode to visualize which lines of code are running as an end user clicks through the application. In order to use showcase mode, you must launch the application remotely with the `runApp` function with the `display.mode = "showcase"` argument. This means that you *cannot* access showcase mode while using the `Run App` button in the RStudio IDE.
+
+Using `reactlog` to visualize the reactive interactions taking place in the backend, along with giving an estimate of the time to run each reaction. This is a separate package that must be installed alongside `shiny`, and you enable this visualization by including `options(shiny.reactlog = T)` in your application script. Once the application is running, use `Ctrl + F3` to access the `reactlog` visualization.
+
+Using `print`, `cat`, and the `stderr` functions we can print messages to the console to display intermediary results as inputs are selected or changed in the UI.
+
+Finally, using `list` with the `renderPrint` and `verbatimTextOutput` functions we can create a debug section of the UI so we can see a large amount of information from the backend process.
+
+**Documentation**
+
+-   [Debugging](https://shiny.rstudio.com/articles/debugging.html)
+
+-   [React Log](https://rstudio.github.io/reactlog/)
+
+## **12.5 Shiny Performance**
+
+### **Performance Profiles**
+
+This lesson uses `profvis` to help `shiny` developers identify bottlenecks in their shiny application.
+
+To use this package with a `shiny` application, you have to use the `profvis` function to remotely run an application script using `runApp` (i.e.You cannot use `profvis` inside the script of the application you want to profile). This will open the app, then you need to click around in the application UI so that the profiling process can measure various runtimes of the code chunks. Once you’re done, quit the application and click the ‘Stop Profiling’ button.
+
+Then the visual flamegraph will appear. This visual is read from left to right and bottom to top, with the application runtime on the x-axis and function call stacks on the y-axis. It takes some effort to understand this graph, but pairing this with the breakdown of runtimes per code chunk can help developers identify which portions of the code are requiring the most time to complete.
+
+#### **General Performance Guidelines**
+
+-   Pre-process as much data as possible
+
+-   Reading CSV files tends to be faster than RDS files
+
+-   Try to avoid applying dynamic filters to grouped data
+
+-   Test using a cache to speed up UI results with bindCache
+
+-   Be aware of where you’re reading in data, see ‘scoping’ link for more
+
+-   Consider asynchronous processing in specific use cases, see ‘async’ link for more
+
+**Documentation**
+
+-   [Profvis Package](https://rstudio.github.io/profvis/welcome.html)
+
+-   [Shiny Scoping Rules](https://shiny.rstudio.com/articles/scoping.html)
+
+-   [Asynchronous Shiny](https://shiny.rstudio.com/articles/async.html)
+
+-   [Performance on ShinyApps.io](https://shiny.rstudio.com/articles/scaling-and-tuning.html)
+
+-   [Performance on Shiny Server Pro & Posit Connect](https://shiny.rstudio.com/articles/scaling-and-tuning-ssp-rsc.html)
+
+### **Caching Results**
+
+This lesson introduces `bindCache` to store intermediary results and output results to disk in order to avoid re-processing them in the future. The cache is shared with all users of the application, so all users will benefit from these cached results. This sharing behavior can be modified with the `cache` argument in the `bindCache` function. Certain server backends will require different knowledge for managing the caching process.
+
+There are no objective best practices to design which results to cache, but through testing you can make educated guesses as to which inputs, which intermediary results, and which output results would benefit the most from caching their results, and saving lengthy processing time for the end user. Just remember to set the cache keys to represent the unique combination of inputs that can uniquely store and recall that chunk of code.
+
+**Documentation**
+
+-   [Shiny Cache](https://shiny.rstudio.com/articles/caching.html)
+
+## **12.6 Shiny User Interface**
+
+### **Dashboard Layouts**
+
+This lesson introduces `shinydashboard` dashboard layouts, comparing the functions required to create a dashboard to those in the default `shiny` layout.
+
+We don’t need to make any changes to the `server` definition to accomplish this, all the changes take place in the `ui` definition. We use `dashboardPage`, `dashboardHeader`, `dashboardSidebar`, `dashboardBody`, with `fluidRow` and `box` to create these layouts.
+
+With `fluidRow` we can control the height out our UI outputs, and with `box` we can control the width of these outputs. Remember that there are 12 units of width to work with in `shinydashboard`, so setting a width of 4 is equivalent to 1/3 of the available space, a width of 6 is 1/2 the available space, and so on.
+
+**Documentation**
+
+-   [Introduction to shinydashboard](https://rstudio.github.io/shinydashboard/get_started.html)
+
+-   [Advanced shinydashboard](https://rstudio.github.io/shinydashboard/structure.html)
+
+### **Dynamic Interfaces II**
+
+This lesson is a continuation of [Section 11.7](https://learn.accel2r.com/files/51612f0f-f79f-49ee-a216-5e5d52841b03/Private/Courses/8fc4f7de-7ae3-455c-91fa-bb71fef55f11/tvhxsuco/courses/ex_shiny1.html#sec-dynamic-shiny-1) `Shiny and R Markdown: Dynamic Shiny`. Instead of using `observeEvent` and the `update*` functions, we focus on `renderUI` and `uiOutput`, along with `conditionalPanel`.
+
+Using `renderUI` and `uiOutput` allows us to change what is displayed in the output based on code in the `server` definition. This means that we can choose any type of UI to occupy the same space in the final interface.
+
+```{r eval = FALSE}         
+output$dynamic_view <- renderUI({   
+  if (input$choose_view == "Vector"){     
+    renderText(mtcars$mpg)   
+    } else if (input$choose_view == "Table"){
+      renderTable(mtcars[1:5, 1:5])   
+      } else if (input$choose_view == "Plot"){
+        renderPlot(plot(mtcars[c("mpg", "disp")])     )
+        } 
+  })
+```
+
+And we pair this with `uiOutput` in the `ui` definition to create the dynamic UI element.
+
+```{r eval = FALSE}         
+uiOutput("dynamic_view")
+```
+
+#### **Using Conditional Panels**
+
+Using `conditionalPanel` allows us to skip the `server` definitions altogether. This is primarily useful for input elements, rather than output elements. We use `conditionalPanel` to check for conditions satisfied by a separate input element. Then we use *JavaScript notation* to check that condition (i.e.`"input.{inputId} == 'value'"`. See the example below to illustrate how this works.
+
+```{r eval = FALSE}         
+# Select dynamic input 
+radioButtons(   inputId = "buttons",   
+                label   = "Select a new input type:",   
+                choices = c("None", "Slider", "Check Box", "Text Box"))  
+# Create new input panel based on selection 
+conditionalPanel(   condition = "input.buttons == 'Slider'",   
+                    sliderInput(     "new_slide",     "Here's a slider",     min = 1, max = 5, value = 1))
+```
+
+**Documentation**
+
+-   [Dynamic UI](https://shiny.rstudio.com/articles/dynamic-ui.html)
+
+### **UI for the End User**
+
+This lesson covers how to include UI elements that help the end user feel more engaged with the application. We introduce progress bars, modal dialog “popup windows”, and notifications.
+
+#### **Modal Dialog Popups**
+
+Popup windows are connected to an `actionButton` and are launched with `observeEvent` and `showModal(modalDialog())`. Within that function, we can define a title, a message, and a footer for the popup window. The footer requires a `tagList` in order to add other UI input elements like action buttons, and a `modalButton` that will close the window.
+
+Once the `modalButton` to close the window is pressed, we need to write an `observeEvent` handler to determine what happens after the window is closed. We use `removeModal` to actually close the window in the interface.
+
+#### **Progress Bars**
+
+We use `withProgress` to launch the progress bar, where we can define a message to display, and optionally how to increment the progress bar with `incProgress`. If the process you’re running can’t be incremented in an easy way, then don’t increment the bar at all.
+
+#### **Notifications**
+
+We use `showNotification` to display the notification popup in the user interface. We can adjust the message, the type of box, and the duration that the notification is displayed.
+
+**Documentation**
+
+-   [Progress Bars](https://shiny.rstudio.com/articles/progress.html)
+
+-   [Modal Dialogs](https://shiny.rstudio.com/articles/modal-dialogs.html)
+
+-   [Notifications](https://shiny.rstudio.com/articles/notifications.html)
+
+### **Linking Output with Crosstalk**
+
+This lesson introduces `crosstalk` to link various HTML based UI outputs together. This means that the selections from one plot will select the same points in another plot or table. This lesson focuses on using `crosstalk` with `plotly` and `DT`, but there are a variety of packages that `crosstalk` can work with. Note that you can learn more about the `plotly` package in [Section 13.4](https://learn.accel2r.com/files/51612f0f-f79f-49ee-a216-5e5d52841b03/Private/Courses/8fc4f7de-7ae3-455c-91fa-bb71fef55f11/tvhxsuco/courses/ex_graphics.html#sec-plotly), part of the Accel2R Advanced Graphics course.
+
+To begin, `crosstalk` requires a primary key be created that can uniquely identify each row of data that is being shared across the output elements. In some cases we may need to create this unique row key manually. Ensure that these keys are safe to be shared, because these keys will be visible in the HTML source code of the application.
+
+Next, we create the `crosstalk`-ready shared data using `SharedData$new()` where we pass in the dataframe to share, and we use the `key = ~ {key_var}` to identify the unique key variable name.
+
+Finally, we use the non-reactive form of this dataframe (i.e.we use `data` instead of [`data()`](https://rdrr.io/r/utils/data.html), as is typical with `shiny` applications) when writing the code to create the HTML output.
+
+```{r}
+# Non-Reactive Dataframe  
+output$plot_1 <- renderPlotly({   df_shared |>
+    plot_ly(x = ~Sepal.Length, y = ~Sepal.Width, color = ~Species) |>
+    add_markers() |>     
+    highlight(on = "plotly_selected", off = "plotly_deselect") })
+```
+
+Each package will have its own way of interacting with `crosstalk`, so visit the documentation for the package to learn more. In the example given above, we can use the `highlight` `plotly` function to determing how to select and deselect points on the interactive plot.
+
+**Documentation**
+
+-   [Using Crosstalk](https://rstudio.github.io/crosstalk/using.html)
+
+-   [Crosstalk and Shiny](https://rstudio.github.io/crosstalk/shiny.html)
