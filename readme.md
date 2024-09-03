@@ -3,6 +3,31 @@
 Repository for the course "R programming for SAS programmer" by Anova Groups.
 
 ### GitHUB repo steps
+Create a github.com account
+Vikas will add you as contributor
+
+Create an account on posit.cloud
+Create New project -> https://github.com/vikasgaddu1/R_Training.git
+Tools -> Version Control -> project setup -> select git and restart R
+
+Go to Terminal and add global options
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+
+Tools -> Global options -> Create SSH Key in R studio
+In terminal type cat ~/.ssh/id_ed25519.pub
+Copy the ssh public key
+Go to github.com -> click icon on right ->settings -> ssh and gpg keys -> click 'new ssh key' ->
+description add 'rstudio_cloud' and paste ssh key from above step
+
+Come back to r studio and in terminal type following
+git remote remove origin
+git remote add origin git@github.com:vikasgaddu1/R_Training.git  
+git remote -v
+
+confirm the connection by
+ssh -T git@github.com
+
 
 <p xmlns:cc="http://creativecommons.org/ns#">
 
