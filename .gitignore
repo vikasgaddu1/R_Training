@@ -12,10 +12,10 @@
 renv/
 
 # Data files (CSV, Feather, SAS, RDS)
-*.csv
+#*.csv
 *.fcat
-*.sas7bdat
-*.rds
+#*.sas7bdat
+#*.rds
 
 # Log files
 *.log
