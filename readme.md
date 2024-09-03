@@ -10,7 +10,7 @@ This repository is for the course "R Programming for SAS Programmers" by Anova G
 
 2. **Set Up Posit Cloud (formerly RStudio Cloud)**
    - Create an account on [posit.cloud](https://posit.cloud).
-   - Create a new project using the repository URL: `https://github.com/vikasgaddu1/R_Training.git`.
+   - Create a new project using the Git repository URL: `https://github.com/vikasgaddu1/R_Training.git`.
    - Navigate to `Tools` > `Version Control` > `Project Setup`, select `Git`, and restart RStudio.
 
 3. **Configure Git Global Options**
@@ -21,7 +21,7 @@ This repository is for the course "R Programming for SAS Programmers" by Anova G
      ```
 
 4. **Create an SSH Key in RStudio**
-   - Go to `Tools` > `Global Options` and create an SSH key.
+   - Go to `Tools` > `Global Options` -> `Git/SVN` -> and create an SSH key using the create `SSH key` button under SSH window in R studio.
    - In the terminal, display your SSH public key:
      ```bash
      cat ~/.ssh/id_ed25519.pub
@@ -42,10 +42,18 @@ This repository is for the course "R Programming for SAS Programmers" by Anova G
      ```
 
 7. **Confirm SSH Connection**
-   - Verify the SSH connection to GitHub:
+   - Verify the SSH connection to GitHub: and if prompted say 'yes`
      ```bash
-     ssh -T git@github.com
+     ssh -T git@github.com 
      ```
+8. **Create test file**
+   - create the test file in the folder under Code_data_2024_03_27/GH_testfolder/Name_testfile.r
+   - go to upper right corner Git tab in Rstudio, stage the file by clicking the check box and press the `commit` icon, put initial commit as comment and press ok.
+   - go to terminal and type
+     ```bash
+       git push origin main
+     ```
+   - go to github.com and navigate to r training repository and verify if you can see your file.
 
 By following these steps, you will have your development environment set up for the course "R Programming for SAS Programmers."
 
