@@ -1,0 +1,70 @@
+---
+title: 'Exercise: R Studio Tour'
+output: html_document
+date: "2024-09-03"
+---
+
+```{r setup, include=FALSE}
+library(klippy)
+knitr::opts_chunk$set(echo = TRUE)
+klippy::klippy()
+```
+
+# **Objectives**
+
+Get familiar with RStudio by working with an R script and reviewing the different panels in the IDE.
+
+# **Exercise**
+
+1.  Open RStudio
+
+    a.  If in RStudio Cloud, click on the “New Project” Button.
+
+    b.  If in RStudio on your desktop, open RStudio.
+
+2.  Create a new R script `File> New File> R Script` and type the following code into the script editor of your RStudio session:
+
+```{r EX1, echo=TRUE}
+# this is a section header: 4 or more trailing dashes ---- 
+# this is a comment: three or fewer trailing dashes --- 
+# define a variable named patient 
+patient <- 1  
+# define a variable named ae 
+ae <- "HEADACHE"  
+# create a data frame from ToothGrowth 
+tg <- ToothGrowth  
+# Examine the first record 
+head(tg)  
+# Examine the last record 
+tail(tg)  
+# Examine a summary of the data frame tg 
+summary(tg)
+```
+
+3.  Save your R script to the course directory (1.0 Getting Started). Name it RStudioTour.R
+
+4.  Open the document outline using the `Show document` outline button. Click on the sections in the outline to navigate between them.
+
+5.  Place your cursor on line 3 of your R script which is the comment above the patient variable definition. Insert a section by performing the following steps. From the RStudio menus, Go to `Code > Insert Section`. Type `Variable Definitions` into the dialogue box and click OK.
+
+6.  Place your cursor on the line of code that reads: `patient <- 1` and click on the `Run` button in the upper right corner of your code editor.
+
+7.  Check the Console Panel for any messages.
+
+8.  Review the Environment Panel to view the value for the variable patient that was just created.
+
+9.  In the upper right of the Environment Panel, switch from `List` view to `Grid` view and examine the information.
+
+10. Check the box next to the patient variable and click on the `Clear objects from workspace` button with the broom icon.
+
+11. Select all lines of the program and click the `Run` button.
+
+12. Check the Console Panel for any messages.
+
+13. Review the Environment Panel to view the value for the variables and data frames that were just created.
+
+14. Place your cursor on the [`head()`](https://rdrr.io/r/utils/head.html) function in your program and hit the `F1` key to view the documentation on the head function.
+
+15. Highlight the lines of code from `head(tg)` to `tail(tg)`. Go to `Code > Comment/Uncomment Lines`. Note the keyboard shortcut for this feature.
+
+16. Save and close your script.
