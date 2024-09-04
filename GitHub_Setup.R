@@ -9,6 +9,7 @@ usethis::edit_r_environ()
 usethis::use_git()
 usethis::use_git_remote("origin", url = NULL, overwrite = TRUE)
 # usethis::use_github()
+
 pat <- Sys.getenv("GITHUB_PAT")
 user <- Sys.getenv("GITHUB_USER")
 
