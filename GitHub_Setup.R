@@ -8,4 +8,5 @@ usethis::create_github_token()
 
 usethis::edit_r_environ()
 usethis::use_git()
+usethis::use_git_remote("origin", url = NULL, overwrite = TRUE)
 usethis::use_github()
