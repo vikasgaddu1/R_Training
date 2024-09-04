@@ -1,7 +1,7 @@
 # RStudio project files
 .Rproj.user
 .Rprofile
-*.lock
+
 
 # History files
 .Rhistory
