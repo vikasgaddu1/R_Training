@@ -1,3 +1,14 @@
+### GitHub Repository Setup Steps
+# 
+# 1. **Create a GitHub Account**
+#   - Sign up for an account at [github.com](https://github.com).
+# - Vikas will add you as a contributor to the repository.
+# 
+# 2. **Set Up Posit Cloud (formerly RStudio Cloud)**
+#   - Create an account on [posit.cloud](https://posit.cloud).
+# - Create a new project using the Git repository URL: `https://github.com/vikasgaddu1/R_Training.git`.
+# - Navigate to `Tools` > `Version Control` > `Project Setup`, select `Git`, and restart RStudio.
+
 # Install and load the usethis package, which provides functions to streamline project setup and management
 install.packages("usethis")
 library(usethis)
@@ -53,3 +64,19 @@ write.csv(data, file = file_name, row.names = FALSE)
 system("git push origin main")
 
 # Go to github.com and navigate to the R_Training repository to verify if you can see your file (manual step)
+
+# Use a reproducible environment for our R project to avoid compatibility issues.
+install.packages("renv")
+library(renv)
+
+
+# To create a .lock file
+# renv::init() # Commented as we will inherit the .lock file from github
+
+# Creates environment with same package version
+renv::restore()
+
+# if new packages installed then use snapshot command to update the lock file
+renv::snapshot()
+
+
