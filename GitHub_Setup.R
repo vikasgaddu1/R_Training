@@ -14,10 +14,11 @@ install.packages("usethis")
 library(usethis)
 
 # Configure Git with your name and email, necessary for committing changes
-usethis::use_git_config(user.name = "Kalyani Gaddu", user.email = "kalyanigaddu@gmail.com")
+usethis::use_git_config(user.name = "Your Name", user.email = "YourName@Email.com")
+
 
 # Create a GitHub Personal Access Token (PAT) for authentication
-usethis::create_github_token()
+create_github_token()
 
 # Open the .Renviron file to store the PAT securely
 usethis::edit_r_environ()
@@ -68,12 +69,13 @@ system("git push origin main")
 # Use a reproducible environment for our R project to avoid compatibility issues.
 install.packages("renv")
 library(renv)
+renv::status()
 
 
 # To create a .lock file
 # renv::init() # Commented as we will inherit the .lock file from github
 
-# Creates environment with same package version
+# Creates environment with same package versions as in the lock file
 renv::restore()
 
 # if new packages installed then use snapshot command to update the lock file
