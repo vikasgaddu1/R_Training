@@ -1,0 +1,47 @@
+# **Objective**
+
+Become familiar with R Vectors by creating, traversing, subsetting, and decoding them.
+
+# **Exercise**
+
+1.  Launch Learning Lab or Local environment.
+
+2.  Open a new R script in RStudio.
+
+3.  Declare a vector named `resting_pulse` containing the following values: `76,67,78,67,56,89,58,65,66,61`.
+
+4.  Examine the values written to the console using the following functions on the vector `resting_pulse` using the functions [`class()`](https://rdrr.io/r/base/class.html), [`min()`](https://rdrr.io/r/base/Extremes.html), [`median()`](https://rdrr.io/r/stats/median.html), [`max()`](https://rdrr.io/r/base/Extremes.html), [`quantile()`](https://rdrr.io/r/stats/quantile.html).
+
+5.  Declare a vector named `outliers` containing only resting pulses less than `60` and greater than `80`.
+
+6.  Declare a vector named `exceptfirst` containing all elements from the vector `resting_pulse` except the first element.
+
+7.  Using the [`mean()`](https://rdrr.io/r/base/mean.html) and [`sd()`](https://rdrr.io/r/stats/sd.html) functions, create a new vector named `standardized_resting_pulse` from `resting_pulse` by subtracting the mean and dividing by the standard deviation of the `resting_pulse` vector.
+
+8.  Examine the mean and standard deviation of the vector `standardized_resting_pulse`. Does it have a mean of `0` and standard deviation of `1` as expected?
+
+9.  Save your R script to Vectors_Exercises.R.
+
+# **Exercise**
+
+1.  Open the R script, Vectors_Exercises.R, in RStudio.
+
+2.  Declare a vector named `inv_sites` containing the following values. `'NIH'`, `'Mayo Clinic'`, `'Cleveland CLINIC'`, `'Northwestern'` and print the value of the third element of the vector to the console.
+
+3.  Declare a named vector named `inv_sites_named` containing the following name value pairs. `NIH='NIH', MC='MAYO Clinic', CC='Cleveland Clinic', NW='Northwestern'` and print the value of the third element of the vector to the console using the element name instead of the element number.
+
+4.  Update the value of the third element of the vector `inv_sites` to the value `'Cleveland Clinic'`.
+
+5.  Update the value of the element `MC` of the vector `inv_sites_named` to the value `'Mayo Clinic'`.
+
+6.  Declare a vector named `group_code` with the values `'a','B','C','d','A','b','c','D','d','d','a','b','B'`.
+
+7.  Declare a vector named `group_name` with the values `A='100mg',B='200mg',C='300mg',D='400mg'`.
+
+8.  Using the decode technique, declare a vector named `groups` as `groups <- group_name[group_code]` and examine the values of the vector `groups`.
+
+9.  Fix the case issue by using the [`toupper()`](https://rdrr.io/r/base/chartr.html) function in the vector definition of `groups` that you created in exercise 15. The [`toupper()`](https://rdrr.io/r/base/chartr.html) function is used in the same way as the `upcase()` function in SAS.
+
+10. Update the `group_code` vector to be all upper case. Use the [`toupper()`](https://rdrr.io/r/base/chartr.html) function to change the `group_code` vector to all upper case.
+
+11. Save your R script.

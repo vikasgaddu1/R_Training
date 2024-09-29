@@ -1,0 +1,86 @@
+# **Objective**
+
+Become familiar with Data Frames by creating them and working with the variables within the data frames. We will start out with some additional vector creation exercises.
+
+# **Exercise**
+
+1.  Launch Learning Lab or Local environment.
+
+2.  Open a new script in RStudio and name it `Data_Frames.R`.
+
+3.  Let’s get more familiar with the [`rep()`](https://rdrr.io/r/base/rep.html) function. Enter the code below, examine the results, and get comfortable with the [`rep()`](https://rdrr.io/r/base/rep.html) function and arguments `times =`, `each =`, and `length.out =` arguments. Experiment on your own.
+
+```{r}
+tcr_times <- rep(c('A20', 'A50', 'P'), times = 3)
+print(tcr_times)
+
+tcr_each <- rep(c('A20', 'A50', 'P'), each = 3)
+print(tcr_each)
+
+tcr_times_each <- rep(c('A20', 'A50', 'P'), times = c(4, 3, 2))
+print(tcr_times_each)
+
+tcr_times_lenout <- rep(c('A20', 'A50', 'P'), length.out = 8)
+print(tcr_times_lenout)
+```
+
+4.  Now let’s build a data frame by creating some vectors and putting them together using the [`data.frame()`](https://rdrr.io/r/base/data.frame.html) function. Our first data frame should be named `trt_table` and will have two rows and three columns. The columns will be named `trt_code`, `blinded_code`, and `trt_label`. The data frame should look like below,
+
+```         
+trt_code  blinded_code  trt_label 
+A5        X             Active 5mg 
+P         Y             Placebo
+```
+
+5.  Print your data frame to the console and also examine it in the environment tab’s grid and list formats.
+
+6.  Build a data frame named `demo_p100` that looks like data table below.
+
+```         
+study   subjid  sex     age     trtarm 
+P100      1      F      33      A10 
+P100      2      M      41      A50 
+P100      3      F      29      P 
+P100      4      F      25      P 
+P100      5      M      28      A50
+```
+
+7.  Save file as `Data_Frames.R`and close your R script.
+
+# **Exercise**
+
+1.  Launch Learning Lab or Local environment.
+
+2.  Open the script `Data_Frames.R` in RStudio. Run and review the code to refresh your memory of what it does.
+
+3.  Using the [`attr()`](https://rdrr.io/r/base/attr.html) function, attach labels to the variables in your `trt_table` data frame. `(trt_code = 'Treatment Code', blinded_code = 'Blinded Code', trt_label = 'Treatment Label')`
+
+4.  Print your data frame to the console and also examine it in the environment tab’s grid and list formats.
+
+5.  Add labels to the variables of the `demo_p100` data frame. Make up labels that you think are appropriate.
+
+6.  Examine the metadata of the data frame `demo_p100` using the [`class()`](https://rdrr.io/r/base/class.html), [`attributes()`](https://rdrr.io/r/base/attributes.html), [`typeof()`](https://rdrr.io/r/base/typeof.html), and [`str()`](https://rdrr.io/r/utils/str.html) functions.
+
+7.  Examine the data of the data frame `demo_p100` using the [`print()`](https://rdrr.io/r/base/print.html) function.
+
+8.  Save and close your R script.
+
+# **Exercise**
+
+1.  Launch Learning Lab or Local environment.
+
+2.  Open the script `Data_Frames.R` in RStudio. Run and review the code to refresh your memory of what it does.
+
+3.  Create vectors called `bc_v1` and `bc_v2` which subset the `trt_table` keeping only the `blinded_code` variable. Use the `dataframe$variable` notation for the `bc_v1` variable and `dataframe[['variable']]` notation for the `bc_v2` variable. Use the [`class()`](https://rdrr.io/r/base/class.html) function on `bc_v1` and `bc_v2` to examine the object type.
+
+4.  Create a data frame called `bc_df` which subsets the `trt_table` keeping only the `blinded_code` variable using the `dataframe['variable']` notation. Use the [`class()`](https://rdrr.io/r/base/class.html) function on `bc_df` to examine the object type.
+
+5.  Find the range of `subjid` using the [`range()`](https://rdrr.io/r/base/range.html) function. Refer to the `subjid` variable using the double-bracket `dataframe[['variable']]` notation.
+
+6.  Find the mean, median, and quantiles of age in `demo_p100` using the [`mean()`](https://rdrr.io/r/base/mean.html), [`median()`](https://rdrr.io/r/stats/median.html), and [`quantile()`](https://rdrr.io/r/stats/quantile.html) functions respectively. Refer to the `age` variable using the `dataframe$variable` notation.
+
+7.  Using the [`subset()`](https://rdrr.io/r/base/subset.html) function, create a data frame named `demo_subset` that only contains the variables `subjid`, age, and `trtarm` for only subjects that are between `30` and `40` years old.
+
+8.  Examine the metadata of `demo_subset` using the [`str()`](https://rdrr.io/r/utils/str.html) function. Notice if the variable labels were propagated from `demo_p100`.
+
+9.  Save and close your R script.

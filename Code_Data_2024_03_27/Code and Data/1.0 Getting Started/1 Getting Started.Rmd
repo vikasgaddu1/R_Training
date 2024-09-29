@@ -19,6 +19,11 @@ Over the last decade, the pharmaceutical industry has been moving away from SAS,
 
 Along with all of this R is free and open source, meaning that anyone can contribute to the publicly available tools within R. Even though R is free, the RStudio company offers free and fee-based services to support R use at scale.
 
+```{r}
+name <- "Vikas"
+print(name)
+```
+
 #### **How is R different from SAS?**
 
 |                                    |                                     |                                                                                                                                          |
@@ -33,7 +38,7 @@ Along with all of this R is free and open source, meaning that anyone can contri
 | Automatic log generation           | No automatic log                    | R requires 3rd party packages like `logr` or `tidylog`                                                                                   |
 | Datasets                           | Vectors and Data Frames             | A dataset is a table, but a dataframe is equivalent to a list of vectors                                                                 |
 | Data libraries                     | Projects                            | Data Libraries in SAS and RStudio Projects help maintain workind directories and file structure                                          |
-| Formats                            | Formatting                          | SAS has formats, informats, and lengths; but R has no such equivalent                                                                    |
+| Formats                            | Formatting                          | SAS has formats, informats, and lengths; but R has fmtr package that can mimic format and informat.                                      |
 | ODS                                | R Markdown and other packages       | SAS ODS adjusts how results are displayed and stored, the `rmarkdown` package offers similar report customization                        |
 
 ## **1.2 History of R**

@@ -1,0 +1,51 @@
+# **Objective**
+
+Become familiar with factors and lists. We will continue to work with vector decodes but will also be creating and traversing factors and lists.
+
+# **Exercise**
+
+1.  Launch Learning Lab or Local environment.
+
+2.  Open a new R script in RStudio.
+
+3.  Declare a vector named `labflags`. Let `labflags` contain the following values `"N", "H", "L", "N", "N", "N", "N", "H", "H", "L"`.
+
+4.  Use the [`table()`](https://rdrr.io/r/base/table.html) function on `labflags` and review the results.
+
+5.  Create a vector for decoding `labflags` with the values `H = 'High', L = 'Low', N = "Normal", F = "Fatal"` and name it `labflags_decodes`.
+
+6.  Create a decoded vector named `labflags_decoded` using the `labflags` and `labflags_decodes` vectors.
+
+7.  Use the [`table()`](https://rdrr.io/r/base/table.html) function on `labflags_decoded` and review the results. Notice that it does not tell us that there are zero occurrences of `labcodes = "F"`.
+
+8.  Declare a factor called `labflags_factor` using the `labflags` vector and the following levels: `"N", "H", "L", "F"`.
+
+9.  Use the [`print()`](https://rdrr.io/r/base/print.html) and [`table()`](https://rdrr.io/r/base/table.html) functions to view the `labflags_factor` contents and summary table respectively. Note that even though there are no `"F"` values in the `labflags` vector, the [`table()`](https://rdrr.io/r/base/table.html) function still reports it with a zero count unlike the decoded vector.
+
+10. Similar to the previous two steps, create `labflags_decoded_factor` using the `labflags_decoded` vector and the appropriate levels.
+
+11. Use the [`print()`](https://rdrr.io/r/base/print.html) and [`table()`](https://rdrr.io/r/base/table.html) functions to view the `labflags_decoded_factor` contents and summary table respectively. Note that even though there are no `"Fatal"` values in the `labflags_decoded vector`, the [`table()`](https://rdrr.io/r/base/table.html) function still reports it with a zero count unlike the decoded vector.
+
+12. Assign the table name `labflags_decoded_factor_table` to `table(labflags_decoded_factor)`.
+
+13. Create a variable called `fatalities`, and set it to the count of Fatal elements from the `labflags_decoded_factor_table` and examine the value.
+
+14. Save and close your R script.
+
+# **Exercise**
+
+1.  Create a list named `userprofile` for a fictious person. Include elements for `first_name`, `last_name`, `date_of_birth`, `gender`, `pet_names` (one dog and one cat using a named vector), `street_address`, `city`, `state`, `zipcode`.
+
+2.  Use the `userprofile` list to answer the following questions about this fictitious person using your knowledge of the R language. i.e. “What is your last name?” would be `last_name <- userprofile["last_name"]`.
+
+    a.  What is your date of birth?
+
+    b.  What city do you live in?
+
+    c.  What are your pet’s names?
+
+3.  The user in question needs to update their last name to `"Jetson"`. Update the last_name element of your `userprofile` list to `"Jetson"`.
+
+4.  Use the [`print()`](https://rdrr.io/r/base/print.html) function to view the contents of the `userprofile` list.
+
+5.  Save and close your R script.

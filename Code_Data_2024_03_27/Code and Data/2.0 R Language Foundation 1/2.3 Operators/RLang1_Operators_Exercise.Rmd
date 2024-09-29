@@ -1,0 +1,51 @@
+# **Objective**
+
+Become familiar with R operators by using them in formulas for Mean Arterial Pressure and temperature conversions.
+
+# **Exercise**
+
+1.  Launch Learning Lab or Local environment.
+
+2.  Open a new R script in RStudio.
+
+3.  Declare numeric variables named `bps` and `bpd` and assign them values of `120` and `80` respectively.
+
+4.  The formula for estimated Mean Arterial Pressure is `(2/3 * diastolic blood pressure) + (1/3 * systolic blood pressure)`. Declare a numeric variable for Mean Arterial Pressure named `MAP` and assign the calculation for estimated Mean Arterial Pressure.
+
+5.  Print the value for `MAP` to the console.
+
+6.  Declare a variable for `patient_temp_f` and assign it the value `98.6`.
+
+7.  Using the formula `(patient_temp_f - 32) * (5/9)`, create a variable called `patient_temp_c`.
+
+8.  Print the value for `patient_temp_c`.
+
+9.  Let’s check our work and create a variable called `patient_temp_f_check` using the formula `(9/5)*patient_temp_c + 32`.
+
+10. Create a variable called `checkwork` and test to see if `patient_temp_f` is equal to `patient_temp_f_check`.
+
+11. Print the value of `checkwork` to the console. The `"FALSE"` value should be explained by the next few steps.
+
+12. Create a variable called `diff` that subtracts `patient_temp_f_check` from `patient_temp_f`.
+
+13. Print the value of `diff` and reconcile with value of `checkwork`.
+
+14. Use the code `print(patient_temp_f, digits = 20)` to print with enough precision to see the actual value.
+
+15. Use the code `print(patient_temp_f_check, digits = 20)` to print with enough precision to see the actual value.
+
+# **Exercise**
+
+1.  Create a vector called `temp_vector_c` with the values `0` to `100`.
+
+2.  Create a vector called `temp_vector_f` using the formula `(9/5)*temp_vector_c + 32`.
+
+3.  Print `temp_vector_f` to the console.
+
+4.  Create a variable called group_min that is equal to 86 and group_max that is equal to 120.
+
+5.  Create a vector, called group, of values from the group_min to the group_max.
+
+6.  Suppose we have a threshold of 98. Use the sum() function to determine the number of values in group that are less than that threshold.
+
+7.  Save your R script to Operators_Exercises.R

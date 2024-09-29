@@ -1,0 +1,46 @@
+# **Objectives**
+
+Use concepts learned so far to create a data frame that looks like a simple demographics table. This will be accomplished by modifying an existing R script that creates a similar table.
+
+# **Exercise**
+
+1.  Launch Learning Lab or Local environment.
+
+2.  In this lesson, we will be leveraging an existing R script and modifying it per the requirements.
+
+3.  Open RStudio and type the following command on the Console command line and hit return: install.packages(‘randomNames’)
+
+4.  Open the Training R Code in RStudio and save it as RLang1_Capstone_Solution.R.
+
+5.  Work through the program from the top and execute it step by step to understand how it works and what it produces.
+
+6.  Alter the existing code to produce a demog table containing statistics for each arm variable value.
+
+7.  You should only have to modify the code below the comment “Perform calculations”.
+
+8.  The resulting demog data frame should look like the table below when examining with the View() function.
+
+    +----------+------------+----------+----------+
+    | stub\    | labels\    | stats_a\ | stats_b\ |
+    | Variable | Statistics | Arm A    | Arm B    |
+    +==========+============+==========+==========+
+    | Age      | n          | 5        | 5        |
+    +----------+------------+----------+----------+
+    |          | Mean       | 44.6     | 39.8     |
+    +----------+------------+----------+----------+
+    |          | Median     | 43       | 38       |
+    +----------+------------+----------+----------+
+    |          | Min        | 39       | 21       |
+    +----------+------------+----------+----------+
+    |          | Max        | 53       | 62       |
+    +----------+------------+----------+----------+
+    |          |            |          |          |
+    +----------+------------+----------+----------+
+    | Sex      | Male       | 3        | 2        |
+    +----------+------------+----------+----------+
+    |          | Female     | 2        | 3        |
+    +----------+------------+----------+----------+
+    |          | Unknown    | 0        | 0        |
+    +----------+------------+----------+----------+
+
+9.  Save and close your R script.
