@@ -1,0 +1,75 @@
+# **Objectives**
+
+Become familiar with the RStudio Interface and compare/contrast with SAS® Enterprise Guide.
+
+# **Exercise**
+
+1.  Launch Learning Lab or Local environment.
+
+2.  If using RStudio Cloud, perform the following steps and skip Step 4:
+
+    a.  Click on the “New Project” Button.
+
+    b.  Name the project by replacing the word “Untitled Project” at the top of your screen with “R LF1”.
+
+3.  If using RStudio on your desktop, perform the following steps:
+
+    a.  Navigate to File \> New Project.
+
+    b.  Click on “New Directory”.
+
+    c.  Click on “New Project”.
+
+    d.  Enter “R LF1 Introduction” in “Directory name:” field.
+
+    e.  Click “Browse” and navigate to where you would like to create the directory for your new project.
+
+    f.  Click “Open”.
+
+    g.  Click “Create Project”.
+
+4.  You should now be in a new `RStudio` script.
+
+5.  Your working directory will be the directory where your new project is stored.
+
+6.  Note the working directory for the Console tab by submitting the command getwd().
+
+7.  Note the working directory for the Terminal tab.
+
+8.  Note the working directory for the Files tab of the lower right panel.
+
+9.  Navigate to File \> New File \> R Script.
+
+10. Type in the following lines of code:
+
+```         
+    # Define variable a then print a to the console.     a <- 1     a
+```
+
+11. Highlight those lines and click on the Run button.
+
+12. Now create a new script using the appropriate keyboard shortcut below based on your OS and browser
+
+    Ctrl+Alt+Shift+N (for Windows using Chrome browser)
+
+    Ctrl+Shift+N (for Windows using non-Chrome browser)
+
+    Cmd+Shift+Alt+N (for Mac using Chrome browser)
+
+    Cmd+Shift+N (for Mac using non-Chrome browser)
+
+paste the lines of code used above, and run the highlighted code using the keyboard shortcut Ctrl+Enter (for Windows) / Cmd+Return (for Mac).
+
+13. Map the following concepts in your mind:
+
+    a.  RStudio to R is like SAS® EG to SAS®.
+
+    b.  The RStudio code editor is like the SAS® EG Program Node.
+
+    c.  The RStudio console is like the SAS® EG log.
+
+    d.  The RStudio Environment Tab is like the SAS® EG Libraries navigation area.
+
+    e.  The RStudio File tab is like the SAS® EG File navigation area.
+
+    f.  You don’t have to save your work as RStudio Projects just like you don’t have to save your SAS® programs in SAS® EG Projects.

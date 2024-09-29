@@ -1,0 +1,61 @@
+# **Objective**
+
+Become familiar with basics of the R Language by learning about naming conventions, defining a few variables, and examining values and results in the RStudio panels.
+
+# **Exercise**
+
+1.  Launch Learning Lab or Local environment.
+
+2.  Open a new R script in RStudio.
+
+3.  Go to `Code > Insert Section` and add a section description with the text `"Names & Assignments"`.
+
+4.  Go to `Code > Comment/Uncomment` Lines and add a comment with the text “Variables”.
+
+5.  Now repeat the previous two steps using RStudio keyboard shortcuts. Add a section header using `Ctrl+Shift+R / Cmd+Shift+R`; and then `comment / uncomment` the line using `Ctrl+Shift+C / Cmd+Shift+C`
+
+6.  Declare a numeric variable named `num_var1` and set the value to `1000` using the left directional assignment operator `<-`.
+
+7.  Declare a character variable named `ae_raw` using a different assignment method, and set the value to `"MIGRAINE HEADACHE"`.
+
+8.  Declare a character variable named `ae_start_dt` and set the string value to `"2020-02-28"`.
+
+9.  Declare a date variable named `date_visit` using a different assignment method, and set the value to `"2020-03-05"` using the [`as.Date()`](https://rdrr.io/r/base/as.Date.html) function.
+
+    Note: as.Date(): Date is case sensitive
+
+10. Declare an integer variable named `int_var1` and set the value to `1000L` using a left directional assignment operator.
+
+11. Print each of the variables and note the output.
+
+12. Save your R script to the course directory `2.0 R Language Foundation 1` using the keyboard shortcut `Ctrl+S/Cmd+S`. Name it `NamesAssignmentVectors.R`.
+
+# PART II - Exercise
+
+1.  Launch Learning Lab or Local environment.
+
+2.  Open the R script `NamesAssignmentVectors.R`.
+
+3.  Refresh your memory with the RStudio keyboard shortcuts. Add a section header using `Ctrl+Shift+R / Cmd+Shift+R`; and then `comment / uncomment` the line using `Ctrl+Shift+C / Cmd+Shift+C`
+
+4.  Run your script from the previous Names and Assignments exercises, which will create and print the variables: `num_var1`, `ae_raw`, `ae_start_dt`, `date_visit`, and `int_var1`
+
+5.  Now that the variables are defined, print the class, length, and value of each variable to the console.
+
+    Note: In R, the [`length()`](https://rdrr.io/r/base/length.html) function returns the length of an R object. A variable is just a vector of length 1. To find the length of a character string, the [`nchar()`](https://rdrr.io/r/base/nchar.html) function can be used. We will cover that in future courses.
+
+6.  Convert the character variable `ae_start_dt` to a date using the [`as.Date()`](https://rdrr.io/r/base/as.Date.html) function, and reassign it to `ae_start_date`.
+
+7.  Print the class and length of the `ae_start_date` variable to the console.
+
+8.  Insert a comment with the text `"Vectors"`.
+
+9.  Declare a date vector named `vect_dates` and set the values to the first three days of May, 2020.
+
+10. Declare a vector named `vect_nums` and set the values to the numbers `1`, `2`, and `3`.
+
+11. Print the length, class, and values for the two vectors you just created to the console.
+
+12. Which sets of the variables you created previously can be combined into a vector? Try different combinations of the variables. Why do you get the results you do?
+
+13. Save and close your script.

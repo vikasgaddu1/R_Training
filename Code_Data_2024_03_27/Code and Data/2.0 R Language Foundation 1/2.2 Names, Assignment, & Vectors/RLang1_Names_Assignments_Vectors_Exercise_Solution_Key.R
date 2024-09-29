@@ -6,16 +6,22 @@
 
 ## Insert a section description (Ctrl + Shift + R) with the text "Variables & Assignments"
 
+# Variables and Assignments -----------------------------------------------
+
+
 # Names & Assignments Exercises -------------------------------------------------
 
 # Exericse Step 6
 ## Insert a comment(Ctrl + Shift + C) with the text "Variables"
 # Variables
-num_var1 <- 1000
+num_var1 <- c(1000,2000)
+length(num_var1)
 
 # Exercise Step 7
 ## Declare a character variable named ae_raw and set the value to "MIGRAINE HEADACHE".
 ae_raw <- "MIGRAINE HEADACHE"
+nchar(ae_raw)
+length(ae_raw)
 
 # Exercise Step 8
 ## Declare a character variable named ae_start_dt and set the value to "2020-02-28".
@@ -76,13 +82,17 @@ length(ae_start_date)
 ## Insert a comment with the text "Vectors"
 # Vectors
 
+# Vectors are homogeneous 
+mixed <- c(1,"1")
+class(mixed)
+
 # Exercise Step 9
 ## Declare a date vector named vect_dates and set the values to the first three days of May, 2020.
 vect_dates <-
   c(as.Date("2020-05-01"),
     as.Date("2020-05-02"),
     as.Date("2020-05-03"))
-
+class(vect_dates[1])
 # Exericse Step 10
 ## Declare a vector named vect_nums and set the values to the numbers 1, 2, and 3
 vect_nums <- c(1, 2, 3)
@@ -99,23 +109,38 @@ print(vect_nums)
 
 # Exercise Step 12
 # Remember, only vectors of the same type should be combined.
+
 combine_vects_good <- c(vect_nums, num_var1)
 print(combine_vects_good)
 class(combine_vects_good)
 
+class(int_var1)
+class(vect_nums)
 combine_vects_ok1 <- c(int_var1, vect_nums)
 print(combine_vects_ok1)
 class(combine_vects_ok1)
-
+check <- function(val1, val2)
+  {
+  if (class(val1) != class(val2))
+    {
+    print("Error:")
+    return()
+  }
+  return (c(val1, val2))
+}
+result <- check(int_var1, int_var1)
+result
 combine_vects_ok2 <- c(num_var1, vect_dates)
+vect_dates
 print(combine_vects_ok2)
 class(combine_vects_ok2)
 
 combine_vects_bad1 <- c(vect_nums, ae_raw)
+class(vect_nums)
 print(combine_vects_bad1)
 class(combine_vects_bad1)
 
-combine_vects_bad2 <- c(vect_dates, ae_raw)
+combine_vects_bad2 <- c(vect_dates,ae_raw)
 print(combine_vects_bad2)
 class(combine_vects_bad2)
 
