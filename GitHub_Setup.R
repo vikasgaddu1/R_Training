@@ -14,7 +14,8 @@ install.packages("usethis")
 library(usethis)
 
 # Configure Git with your name and email, necessary for committing changes
-usethis::use_git_config(user.name = "Vikas Gaddu", user.email = "vikasgaddu@Email.com")
+usethis::use_git_config(user.name = "Your Name", user.email = "YourName@Email.com")
+
 
 # Create a GitHub Personal Access Token (PAT) for authentication
 create_github_token()
