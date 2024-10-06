@@ -35,7 +35,7 @@ print(v)
 #### Example: Arithmetic with Logical Values
 
 ```{r}
-result <- TRUE + FALSE
+result <- TRUE + TRUE
 print(result)
 ```
 

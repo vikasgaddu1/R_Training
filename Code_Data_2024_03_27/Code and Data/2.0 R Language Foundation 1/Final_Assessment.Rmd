@@ -2,6 +2,7 @@
 title: "Quiz R Language Foundation"
 output: 
   learnr::tutorial:
+    progressive: true
     css: quiz.css
 runtime: shiny_prerendered
 editor_options: 
@@ -10,178 +11,212 @@ editor_options:
 ---
 
 
+
 ```{r setup, include=FALSE}
 library(learnr)
 ```
 ```{r questions, echo=FALSE}
 quiz(
-  question(
-    "Which of the following is a named vector?",
-    type = "learnr_radio",
-    answer("exvec <- c(CURLY = 'Larry', LARRY = 'Moe', MOE = 'Curly')", message = "This is a named vector, but it's not the only one."),
-    answer("exvec <- c(a = 1, b = 2, c = 3)", message = "This is also a named vector, but there are others."),
-    answer(
-      "named_vector <- c(g1 = 'hello', g2 = 'good-bye', g3 = 'aloha')",
-      message = "This is a named vector as well, but it's not the only one."
+    question("1. Which of the following is a named vector?",
+      answer("exvec <- c(CURLY = 'Larry', LARRY = 'Moe', MOE = 'Curly')", message = "This is a named vector, but it's not the only one."),
+      answer("exvec <- c(a = 1, b = 2, c = 3)", message = "This is also a named vector, but there are others."),
+      answer("named_vector <- c(g1 = 'hello', g2 = 'good-bye', g3 = 'aloha')", message = "This is a named vector as well, but it's not the only one."),
+      answer("All the above", correct = TRUE, message = "Correct! All of the examples are named vectors.")
     ),
-    answer("All the above", correct = TRUE, message = "Correct! All of the examples are named vectors.")
-  ),
-  
-  question(
-    "In the expression a <- 237, the variable a is really a vector of length 1.",
+    
+    
+    question(
+      "2. In the expression a <- 237, the variable a is really a vector of length 1.",
+      answer("True", correct = TRUE, message = "Correct! In R, even a single value is treated as a vector of length 1."),
+      answer("False", message = "Remember, in R, every object is a vector, even if it contains only one element.")
+    ),
+    
+    question(
+      "3. What is the value of the variable exp_result from the equation exp_result <- 2 ^ 3?",
+      type = "learnr_radio",
+      answer("1", message = "Remember that 2^3 means 2 raised to the power of 3."),
+      answer("8", correct = TRUE, message = "Correct! 2 raised to the power of 3 is 8."),
+      answer("6", message = "Check your calculation: 2^3 means 2 * 2 * 2."),
+      answer("3", message = "2^3 means 2 multiplied by itself 3 times.")
+    ),
+    
+    question(
+      "4. What is the value of the variable unknown_counts after running the code below?
+        <br>
+        data <- c('F', 'M', 'M', 'U') <br>
+        data_factor <- factor(data, levels = c('M', 'F', 'U')) <br>
+        d_table <- table(data_factor) <br> <br>
+        <br>
+        unknown_counts <- d_table['U']",
     type = "learnr_radio",
-    answer("True", correct = TRUE, message = "Correct! In R, even a single value is treated as a vector of length 1."),
-    answer("False", message = "Remember, in R, every object is a vector, even if it contains only one element.")
-  ),
+    answer("U", message = "The table contains counts, not the character 'U'."),
+    answer("1", correct = TRUE, message = "Correct! The factor 'U' occurs once in the original data."),
+    answer("NA", message = "There is no missing value (NA) in this case."),
+    answer("0", message = "The value 'U' does exist in the data, so the count is not zero.")
+      ),
   
-  question(
-    "What is the value of the variable exp_result from the equation exp_result <- 2 ^ 3?",
+    question(
+      "5. How many elements does the following vector contain?
+    
+    trt_arm <- rep(c('A', 'BB', 'CC'), c(1, 2, 1))",
     type = "learnr_radio",
-    answer("1", message = "Remember that 2^3 means 2 raised to the power of 3."),
-    answer("8", correct = TRUE, message = "Correct! 2 raised to the power of 3 is 8."),
-    answer("6", message = "Check your calculation: 2^3 means 2 * 2 * 2."),
-    answer("3", message = "2^3 means 2 multiplied by itself 3 times.")
+    answer("121", message = "Check the 'rep' function again; this number seems too high."),
+    answer("4", correct = TRUE, message = "Correct! The vector contains 'A', 'BB', 'BB', and 'CC', totaling 4 elements."),
+    answer("6", message = "The total count is smaller than this; review the 'rep' function call."),
+    answer("3", message = "The 'rep' function is creating more than 3 elements.")
+    ),
+  
+    question(
+      "6. The %/% operator returns the quotient and the %% operator returns the remainder.",
+      type = "learnr_radio",
+      answer("True", message = "It's actually the other way around! Check again."),
+      answer("False", correct = TRUE, message = "Correct! The %/% operator returns the integer quotient, and the %% operator returns the remainder.")
+    ),
+    
+    question(
+      "7. What does the class function print to the console for the code below?
+    
+    dta <- '2020-01-01'
+    
+    class(dta)",
+    type = "learnr_radio",
+    answer("\"character\"", correct = TRUE, message = "Correct! Without conversion, the date remains a character string."),
+    answer("\"date\"", message = "To be considered a date, it must be explicitly converted using as.Date()."),
+    answer("\"Happy New Year\"", message = "This is not a valid data type in R."),
+    answer("\"holiday\"", message = "This is not a valid class for date values in R.")
+    ),
+    
+    question(
+      "8. The & operator means the same thing in SAS and R.",
+      type = "learnr_radio",
+      answer("True", correct = TRUE, message = "Correct! The & operator performs a logical AND operation in both languages."),
+      answer("False", message = "The & operator works as a logical AND in both SAS and R.")
+    ),
+    
+    question(
+      "9. What is the resulting value for the variable q2 below?
+    
+    q2 <- median(c(1, 3, 3000))",
+    type = "learnr_radio",
+    answer("3000", message = "Remember, the median is the middle value in a sorted list."),
+    answer("1", message = "The median is not necessarily the first value; consider all values."),
+    answer("3", correct = TRUE, message = "Correct! The median of (1, 3, 3000) is 3."),
+    answer("3.5", message = "The median is the middle value, not the average.")
+    ),
+    
+    question(
+      "10. A data frame has to contain at least two vectors.",
+      type = "learnr_radio",
+      answer("True", message = "Actually, a data frame can consist of a single vector (as a single-column data frame)."),
+      answer("False", correct = TRUE, message = "Correct! A data frame can consist of just one vector.")
+    ),
+    question(
+      "11. How many elements will the vector vnumlt3 have?
+    
+    vnums <- c(1,2,3,4,5)
+    vnumlt3 <- vnums[vnums < 3]",
+    type = "learnr_radio",
+    answer("3", message = "Remember, the condition vnums < 3 will select only elements less than 3."),
+    answer("2", correct = TRUE, message = "Correct! Only 1 and 2 are less than 3."),
+    answer("4", message = "The condition vnums < 3 will not include elements that are equal to or greater than 3."),
+    answer("0", message = "There are elements in vnums that satisfy the condition vnums < 3.")
+    ),
+    question(
+      "12. How many elements will the vector vnumlt3 have?
+    
+    vnums <- c(1,2,3,4,5) <br>
+    vnumlt3 <- vnums[vnums < 3]",
+    type = "learnr_radio",
+    answer("3", message = "The condition vnums < 3 selects elements less than 3 only, so there aren't three elements."),
+    answer("2", correct = TRUE, message = "Correct! The elements 1 and 2 meet the condition vnums < 3."),
+    answer("4", message = "Only elements strictly less than 3 are selected, not all four."),
+    answer("0", message = "There are indeed elements that satisfy the condition vnums < 3.")
+    ),
+  
+    question("13. What does the print function print to the console for the code below?
+  
+    tf <- 3 == 4 <br>
+    print(tf)",
+             type = "learnr_radio",
+             answer("3", message = "The expression `3 == 4` is a logical comparison, not a numeric value."),
+             answer("4", message = "The comparison is checking if 3 is equal to 4, not returning the number 4."),
+             answer("TRUE", message = "The comparison `3 == 4` is false, as 3 is not equal to 4."),
+             answer("FALSE", correct = TRUE, message = "Correct! The expression `3 == 4` evaluates to FALSE.")
+    ),
+    question("14. What does the length function print to the console for the code below?
+  
+  dta <- '2020-01-01' <br>
+  length(dta)",
+             type = "learnr_radio",
+             answer("10", message = "The `length()` function counts the number of elements, not the number of characters."),
+             answer("3", message = "The `length()` function is not related to the length of the date components."),
+             answer("1", correct = TRUE, message = "Correct! The `length()` function returns 1 because `dta` is a single element."),
+             answer("10 bytes", message = "The `length()` function doesn't measure bytes but the number of elements.")
+    ),
+  question("15. What is true given the following data frame named dfdemo and line of code?
+  
+    subjid  sex  age  trtarm <br>
+    1       F    33   A10 <br>
+    2       M    41   A50 <br>
+    3       F    29   P <br>
+  
+  vsub1 <- subset(dfdemo, sex == 'M', c('subjid','sex'))",
+             type = "learnr_radio",
+             answer("vsub1 has 2 columns", correct = TRUE, message = "Correct, vsub1 is not a vector and has only 1 row."),
+             answer("vsub1 has 2 rows", message = "Check again, only one row satisfies the condition sex == 'M'."),
+             answer("vsub1 is a vector", message = "vsub1 is still a data frame because it has more than one column."),
+             answer("All the above", message = "vsub1 has 2 columns, 1 row (not 2), and is still a data frame.")
+    ),
+  question("16. What is the resulting value for the element named ETWO in the vector after running the code below?
+  
+    v1 <- c(EONE=1, ETWO=3, ETHREE=3) <br>
+    v1[2] <- 2",
+             type = "learnr_radio",
+             answer("2", correct = TRUE, message = "Correct! The value at the ETWO position has been updated to 2."),
+             answer("1", message = "The value of ETWO was changed to 2, not 1."),
+             answer("3", message = "ETWO was originally 3, but the assignment changed it to 2."),
+             answer("ETWO", message = "ETWO is the name of the element, not the value.")
+    ),
+  question("17. If you run the code below, what is the size in bytes of the `datea` variable? <br>
+           datea <- as.Date('2020-02-02')",
+    answer("1", correct = FALSE, message = "The size of a Date object is larger than 1 byte."),
+    answer("56 B", correct = TRUE, message = "The size of a Date object is larger than 56 byte."),
+    answer("280 B", correct = FALSE, message = "Correct! In R, a Date object typically occupies 280 bytes of memory."),
+    answer("10 B", correct = FALSE, message = "The size of a Date object is larger than 10 bytes.")
+  ),
+  question("18. What is valid syntax for extracting the `age` element from the list `subj_info` defined below? <br>
+           subj_info <- list(subjid = '1010', name = 'Sam', age = 23)",
+    answer("subj_info['age']", correct = FALSE, message = "There are other correct options."),
+    answer('subj_info["age"]', correct = FALSE, message = "There are other correct options."),
+    answer("subj_info$age", correct = FALSE, message = "There are other correct options."),
+    answer("All the above", correct = TRUE, message = "Correct! All these syntaxes are valid for extracting elements from the list.")
+  ),
+  question("19. R Studio projects are a good way to organize R scripts?",
+           type = "learnr_radio",
+           answer("True", correct = TRUE, message = "R studio project will create a directory to house all of your scripts related to that project"),
+           answer("False", correct = FALSE, message = "R studio project will create a directory to house all of your scripts related to that project")),
+  question("20. What is the length of `v` from the code below? <br>
+          v <- c(1:100) <br>
+           length(v)
+           )",
+    answer("1", correct = FALSE, message = "Incorrect, the length of the vector is larger than 1."),
+    answer("100", correct = TRUE, message = "Correct! The vector `v` contains 100 elements, so its length is 100."),
+    answer("2", correct = FALSE, message = "Incorrect, the length is not 2."),
+    answer("101", correct = FALSE, message = "Incorrect, the vector contains elements from 1 to 100, making its length 100.")
   ),
   
-  question(
-    "What is the value of the variable unknown_counts after running the code below?
-
-data <- c('F', 'M', 'M', 'U') <br>
-data_factor <- factor(data, levels = c('M', 'F', 'U')) <br>
-d_table <- table(data_factor) <br> <br>
-
-unknown_counts <- d_table['U']",
-type = "learnr_radio",
-answer("U", message = "The table contains counts, not the character 'U'."),
-answer("1", correct = TRUE, message = "Correct! The factor 'U' occurs once in the original data."),
-answer("NA", message = "There is no missing value (NA) in this case."),
-answer("0", message = "The value 'U' does exist in the data, so the count is not zero.")
-  ),
-
-question(
-  "How many elements does the following vector contain?
-
-trt_arm <- rep(c('A', 'BB', 'CC'), c(1, 2, 1))",
-type = "learnr_radio",
-answer("121", message = "Check the 'rep' function again; this number seems too high."),
-answer("4", correct = TRUE, message = "Correct! The vector contains 'A', 'BB', 'BB', and 'CC', totaling 4 elements."),
-answer("6", message = "The total count is smaller than this; review the 'rep' function call."),
-answer("3", message = "The 'rep' function is creating more than 3 elements.")
-),
-
-question(
-  "The %/% operator returns the quotient and the %% operator returns the remainder.",
-  type = "learnr_radio",
-  answer("True", message = "It's actually the other way around! Check again."),
-  answer("False", correct = TRUE, message = "Correct! The %/% operator returns the integer quotient, and the %% operator returns the remainder.")
-),
-
-question(
-  "What does the class function print to the console for the code below?
-
-dta <- \"2020-01-01\"
-
-class(dta)",
-type = "learnr_radio",
-answer("\"character\"", correct = TRUE, message = "Correct! Without conversion, the date remains a character string."),
-answer("\"date\"", message = "To be considered a date, it must be explicitly converted using as.Date()."),
-answer("\"Happy New Year\"", message = "This is not a valid data type in R."),
-answer("\"holiday\"", message = "This is not a valid class for date values in R.")
-),
-
-question(
-  "The & operator means the same thing in SAS and R.",
-  type = "learnr_radio",
-  answer("True", correct = TRUE, message = "Correct! The & operator performs a logical AND operation in both languages."),
-  answer("False", message = "The & operator works as a logical AND in both SAS and R.")
-),
-
-question(
-  "What is the resulting value for the variable q2 below?
-
-q2 <- median(c(1, 3, 3000))",
-type = "learnr_radio",
-answer("3000", message = "Remember, the median is the middle value in a sorted list."),
-answer("1", message = "The median is not necessarily the first value; consider all values."),
-answer("3", correct = TRUE, message = "Correct! The median of (1, 3, 3000) is 3."),
-answer("3.5", message = "The median is the middle value, not the average.")
-),
-
-question(
-  "A data frame has to contain at least two vectors.",
-  type = "learnr_radio",
-  answer("True", message = "Actually, a data frame can consist of a single vector (as a single-column data frame)."),
-  answer("False", correct = TRUE, message = "Correct! A data frame can consist of just one vector.")
-),
-question(
-  "How many elements will the vector vnumlt3 have?
-
-vnums <- c(1,2,3,4,5)
-vnumlt3 <- vnums[vnums < 3]",
-type = "learnr_radio",
-answer("3", message = "Remember, the condition vnums < 3 will select only elements less than 3."),
-answer("2", correct = TRUE, message = "Correct! Only 1 and 2 are less than 3."),
-answer("4", message = "The condition vnums < 3 will not include elements that are equal to or greater than 3."),
-answer("0", message = "There are elements in vnums that satisfy the condition vnums < 3.")
-),
-question(
-  "How many elements will the vector vnumlt3 have?
-
-vnums <- c(1,2,3,4,5) <br>
-vnumlt3 <- vnums[vnums < 3]",
-type = "learnr_radio",
-answer("3", message = "The condition vnums < 3 selects elements less than 3 only, so there aren't three elements."),
-answer("2", correct = TRUE, message = "Correct! The elements 1 and 2 meet the condition vnums < 3."),
-answer("4", message = "Only elements strictly less than 3 are selected, not all four."),
-answer("0", message = "There are indeed elements that satisfy the condition vnums < 3.")
-),
-quiz(
-  question("What does the print function print to the console for the code below?
-
-tf <- 3 == 4 <br>
-print(tf)",
-           type = "learnr_radio",
-           answer("3", message = "The expression `3 == 4` is a logical comparison, not a numeric value."),
-           answer("4", message = "The comparison is checking if 3 is equal to 4, not returning the number 4."),
-           answer("TRUE", message = "The comparison `3 == 4` is false, as 3 is not equal to 4."),
-           answer("FALSE", correct = TRUE, message = "Correct! The expression `3 == 4` evaluates to FALSE.")
+  question("21. What is the value of `t3` after running the code below?
+    <br>
+    treat_code <- c('A20','P','A100','A100','A20','P','P','A100','P','A20') <br>
+    treat_name <- c(A20='Active (20 mg)', A100='Active (100 mg)', P='Placebo') <br>
+    Treatments <- treat_name[treat_code] <br>
+    t3 <- Treatments[2]
+    ",
+    answer("3", correct = FALSE, message = "Incorrect. The value of t3 is not numeric."),
+    answer("Active (20 mg)", correct = FALSE, message = "Incorrect. Check the index for the second element."),
+    answer("Active (100 mg)", correct = FALSE, message = "Incorrect. This is not the second element in `Treatments`."),
+    answer("Placebo", correct = TRUE, message = "Correct! `t3` is assigned the second element from `Treatments`, which is 'Placebo'.")
   )
-),
-  question("What does the length function print to the console for the code below?
-
-dta <- \"2020-01-01\" <br>
-length(dta)",
-           type = "learnr_radio",
-           answer("10", message = "The `length()` function counts the number of elements, not the number of characters."),
-           answer("3", message = "The `length()` function is not related to the length of the date components."),
-           answer("1", correct = TRUE, message = "Correct! The `length()` function returns 1 because `dta` is a single element."),
-           answer("10 bytes", message = "The `length()` function doesn't measure bytes but the number of elements.")
-  ),
-question("What is true given the following data frame named dfdemo and line of code?
-
-subjid  sex  age  trtarm <br>
-1       F    33   A10 <br>
-2       M    41   A50 <br>
-3       F    29   P <br>
-
-vsub1 <- subset(dfdemo, sex == 'M', c('subjid','sex'))",
-           type = "learnr_radio",
-           answer("vsub1 has 2 columns", correct = TRUE, message = "Correct, vsub1 is not a vector and has only 1 row."),
-           answer("vsub1 has 2 rows", message = "Check again, only one row satisfies the condition sex == 'M'."),
-           answer("vsub1 is a vector", message = "vsub1 is still a data frame because it has more than one column."),
-           answer("All the above", message = "vsub1 has 2 columns, 1 row (not 2), and is still a data frame.")
-  ),
-question("What is the resulting value for the element named ETWO in the vector after running the code below?
-
-v1 <- c(EONE=1, ETWO=3, ETHREE=3) <br>
-v1[2] <- 2",
-           type = "learnr_radio",
-           answer("2", correct = TRUE, message = "Correct! The value at the ETWO position has been updated to 2."),
-           answer("1", message = "The value of ETWO was changed to 2, not 1."),
-           answer("3", message = "ETWO was originally 3, but the assignment changed it to 2."),
-           answer("ETWO", message = "ETWO is the name of the element, not the value.")
-  )
-
 )
 
 

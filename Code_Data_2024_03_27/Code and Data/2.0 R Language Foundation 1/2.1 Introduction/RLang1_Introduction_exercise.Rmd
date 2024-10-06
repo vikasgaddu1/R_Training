@@ -32,7 +32,7 @@ Become familiar with the RStudio Interface and compare/contrast with SAS® Enter
 
 5.  Your working directory will be the directory where your new project is stored.
 
-6.  Note the working directory for the Console tab by submitting the command getwd().
+6.  Note you can get the working directory for the Console tab by submitting the command getwd().
 
 7.  Note the working directory for the Terminal tab.
 
@@ -42,8 +42,10 @@ Become familiar with the RStudio Interface and compare/contrast with SAS® Enter
 
 10. Type in the following lines of code:
 
-```         
-    # Define variable a then print a to the console.     a <- 1     a
+``` r
+    # Define variable a then print a to the console.     
+a <- 1     
+a
 ```
 
 11. Highlight those lines and click on the Run button.

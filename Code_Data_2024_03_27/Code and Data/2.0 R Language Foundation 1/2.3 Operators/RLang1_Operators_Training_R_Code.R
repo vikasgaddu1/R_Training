@@ -39,11 +39,20 @@ e <- !a        # Not
 
 
 ## Miscellaneous Operators ##
-f <- 1:5       # Series
-print(a & f)
+# Non-Zero is TRUE and 0 is FALSE
+# 1 & 1 = 1
+# 1 & 0 = 0
+# 0 & 0 = 0
+# 0 & 1 = 0
+f1 <- 0:5       # Series
+class(f)
+# f (FALSE, TRUE, TRUE.....)
+# a (TRUE)
+print(a & f1)
 
-f <- 7 %in% 1:5  # In
-print(f)
+f2 <- 7 %in% 1:5  # In
+class(f2)
+print(f2)
 
 
 # Setup
@@ -66,14 +75,17 @@ x <- c(TRUE, FALSE, TRUE, FALSE)
 y <- c(TRUE, TRUE, FALSE, FALSE)
 
 ## Vector Operations - Logical ##
+
+## && requires that left and right side to have vectors of length 1. 
+# It is used in IF and filter functions
 g <- x & y
 print(g)
 
 g <- x | y
 print(g)
 
-g <- x && y
+g <- x[2] && y[2]
 print(g)
 
-g <- x || y
+g <- x[1] || y[1]
 print(g)

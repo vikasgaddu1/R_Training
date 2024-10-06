@@ -34,7 +34,7 @@ Become familiar with factors and lists. We will continue to work with vector dec
 
 # **Exercise**
 
-1.  Create a list named `userprofile` for a fictious person. Include elements for `first_name`, `last_name`, `date_of_birth`, `gender`, `pet_names` (one dog and one cat using a named vector), `street_address`, `city`, `state`, `zipcode`.
+1.  Create a list named `userprofile` for a fictitious person. Include elements for `first_name`, `last_name`, `date_of_birth`, `gender`, `pet_names` (one dog and one cat using a named vector), `street_address`, `city`, `state`, `zipcode`.
 
 2.  Use the `userprofile` list to answer the following questions about this fictitious person using your knowledge of the R language. i.e. “What is your last name?” would be `last_name <- userprofile["last_name"]`.
 
