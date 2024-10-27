@@ -1,0 +1,69 @@
+# **Objective**
+
+Become comfortable with conditions and loops by coding `if - then - else` logic, case when statements, and looping over variable names in a data frame.
+
+# **Exercise**
+
+1.  Launch Learning Lab or Local environment.
+
+2.  Open RStudio and start a new script and set your working directory to the course level directory using the Session \> Set Working Directory \> Choose Directory menu item.
+
+3.  Create a variable called `study_blind_status` and assign the value `Blinded.`
+
+4.  Use conditional logic to perform specific actions based on whether the variable `study_blind_status` is equal to ‘`Blinded`’, ‘`Unblinded`’, or some other value based on the pseudo-code below:
+
+    -   if `study_blind_status` is equal to ‘`Blinded`’ perform the following actions:
+
+        -   `message` is set to `"Blind NOT broken. Results can be shared internally."`
+
+        -   `trt_vector` is set to `c('TRT A', 'TRT B')`
+
+    -   else if `study_blind_status` is equal to ‘`Unblinded`’ perform the following:
+
+        -   `message` is set to `"Blind is broken. Share results with extreme caution!"`
+
+        -   `trt_vector` is set to `c('Active 100mg','Placebo')`
+
+    -   else
+
+        -   `message` is set to `"Blind is broken.Share results with extreme caution!"`
+
+        -   `trt_vector` is set to `c('N/A 1','N/A 2')`
+
+5.  Test the conditions using values that will test all three branches of your conditional logic.
+
+6.  Change the conditional logic so the case sensitivity of the values for `study_blind_status` does not matter using the [`tolower()`](https://rdrr.io/r/base/chartr.html) function.
+
+7.  Test with case insensitive values for `study_blind_status`.
+
+8.  Save your R script and name it `Conditions_Loops.R`.
+
+# **Objective**
+
+Become comfortable with conditions and loops by coding `if - then - else` logic, case when statements, and looping over variable names in a data frame.
+
+# **Exercise**
+
+1.  Launch Learning Lab or Local environment.
+
+2.  Open RStudio and the script `Conditions_Loops.R`. Set your working directory to the course level directory using the Session \> Set Working Directory \> Choose Directory menu item.
+
+3.  Read the `invdata.rds` file that we created in a previous exercise into a data frame called `invdata`. The rds file should be in the course level or data directory.
+
+4.  Read the `invdata_metadata.rds` file into a data frame called `invdata_metadata`. Note, download the data frame by click on the link and save it in your course level directory.
+
+5.  Using a for loop, loop over the variable names in the `invdata` data frame and assign the labels and descriptions to the variables in the `invdata` data frame using the [`attr()`](https://rdrr.io/r/base/attr.html) function and the labels from `invdata_metadata` similar to the operation performed in the video.
+
+6.  View the data frame `invdata` to ensure the label and description attributes were added.
+
+7.  Using the [`unique()`](https://rdrr.io/r/base/unique.html) function, create a vector of unique sites from the `invdata` data frame. Name the vector `distinct_sites`.
+
+8.  Using the vectorized `ifelse` change the value for the site `"KAL"` to `"AZO"`.
+
+9.  Using the [`library()`](https://rdrr.io/r/base/library.html) function, load the `dplyr` package.
+
+10. Using the `case_when`, add a variable to the `invdata` data frame called site_city where `"AZO"` is equal to `"Kalamazoo"`, `"ORD"` is equal to `"Chicago"`, and `"SFO"` is equal to `"San Fransisco"`.
+
+11. Save the updated `invdata` data frame to an rds file named `invdata_new.rds`.
+
+12. Save your R script.

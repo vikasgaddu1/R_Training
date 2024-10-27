@@ -26,11 +26,12 @@ labflags_decodes <- c(H = 'High',
                       N = "Normal",
                       F = "Fatal")
 
-
+labflags_decodes
 # Exercise Step 6
 # Create a decoded vector named labflags_decoded using the labflags and labflags_decodes
 # vectors.
 labflags_decoded <- labflags_decodes[labflags]
+
 
 
 # Exercise Step 7
@@ -98,7 +99,8 @@ userprofile <- list(
 # Exercise Step 2
 # Use the userprofile list to answer the following questions about this fictious person using your knowledge of the R language.
 # i.e.  "What is your last name?" would be last_name <- userprofile["last_name"]
-last_name <- userprofile["last_name"]
+last_name <- userprofile[["last_name"]]
+class(last_name)
 print(last_name)
 
 # Exercise Step 2.a

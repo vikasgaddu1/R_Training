@@ -67,7 +67,7 @@ print(patient_temp_f_check, digits = 20)
 # Exercise Step 1
 ##	Create a vector called temp_vector_c with the values 0 to 100.
 temp_vector_c <- c(0:100)
-
+length(temp_vector_c)
 # Exercise Step 2
 ## Create a vector called temp_vector_f using the formula (9/5)*patient_vector_c + 32.
 temp_vector_f <- (9 / 5) * temp_vector_c + 32
@@ -86,9 +86,14 @@ group_max <- 120
 ## Create a vector, called group, of values from the group_min
 ## to the group_max.
 group <- c(group_min:group_max)
-
+group < 98
 # Exercise Step 6
 ## Suppose we have a threshold of 98. Use the sum() function to
 ## determine the number of values in group that are less than
 ## that threshold.
 sum(group < 98)
+table(group < 98)
+janitor::tabyl(group < 98)
+
+# NAMESPACES 
+library(tidyverse)

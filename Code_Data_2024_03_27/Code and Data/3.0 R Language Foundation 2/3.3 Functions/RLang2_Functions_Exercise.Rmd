@@ -1,0 +1,67 @@
+# **Objective**
+
+Become comfortable with functions. We will build up some functions to address temperature conversions. We will also build a vectorized function to create a flag variable based on an existing variable in a data frame.
+
+# **Exercise**
+
+1.  Launch Learning Lab (or Local environment).
+
+2.  Start a new script, and set your working directory to the course level directory using the Session \> Set Working Directory menu item.
+
+3.  Create a function to convert Fahrenheit to Celsius using the formula `C = (F-32) * (5/9)`. Name your function `fahrenheit2celsius` and make sure to return the result.
+
+4.  Call your function with a couple of values such as 32 and 212. If you use 32 and 212, it should return 0 and 100, respectively.
+
+5.  Review the function definition in the environment tab list view.
+
+6.  Now let’s modify our function and add a second parameter named `whichway`, which can take the values `F2C` or `C2F` and name your function `tempconversion`. This will allow your function to convert either way. For the `C2F` conversion, use the equation `F = C*(9/5) + 32`. If the `whichway` parameter value is not `"F2C"` or `"C2F"` execute the following `stop("Invalid whichway parameter value")`.
+
+7.  Test your updated function with the following calls:
+
+    -   `tempconversion(32,'F2C')`
+
+    -   `tempconversion(0,'C2F')`
+
+    -   `tempconversion(37,'c2f')`
+
+8.  Notice the third call has a case issue. Using the [`toupper()`](https://rdrr.io/r/base/chartr.html) function, make your function more robust to case sensitivity issues and test again.
+
+9.  Read in the `raw_vitals.rds` data set from the course level directory into a data frame called `raw_vitals`.
+
+10. Use your `tempconversion` function on the data frame `raw_vitals` to add a calculated variable called `TEMPF` from the Celsius temperatures in the variable `TEMP`.
+
+11. Imagine that over 90% of your raw patient temperature data comes in Celsius. Change the `whichway` parameter of your `tempconversion` function to a named parameter with `C2F` as the default. Now test your function without specifying the `whichway` parameter to see if your default value works.
+
+12. Save your R script and name it `Functions.R`.
+
+# **Objective**
+
+Become comfortable with functions. We will build up some functions to address temperature conversions. We will also build a vectorized function to create a flag variable based on an existing variable in a data frame.
+
+# **Exercise**
+
+1.  Launch Learning Lab or Local environment.
+
+2.  Open the script, `Functions.R`, and set your working directory to the course level directory using the Session \> Set Working Directory menu item.
+
+3.  There are two ways to execute functions on a vector. We will try both. Create a vector of sample Fahrenheit temperatures ranging from 93 to 105. Name it `tempf_vector`.
+
+4.  Create a function containing conditional logic with `if - then - else` syntax that creates a rule like the following: Less than 95 is “Low” Between 95 and 100 inclusive is “Normal” Greater than 100 is “Fever”. Don’t forget to return a value for unknown cases. Name the function `flag_tempF`.
+
+5.  In the previous lesson we saw how to vectorize a function. Create a vectorized version of `flag_tempf()` and name it `flag_tempF_V()`.
+
+6.  Use the `flag_tempF_V()` function on the `tempf_vector` you created to create a new vector named `tempf_flag_vector`. Examine the results.
+
+7.  Use sapply to apply the non-vectorized function `flag_tempF()` on `tempf_vector` and create a vector `tempf_flag_sapply`. Compare the results and the approach.
+
+8.  Let’s use that flag_tempF function on the Celsius temperatures in our `raw_vitals` data frame. Load that data frame in.
+
+9.  There are two problems with those temperatures. The first is that they are in Celsius and our thresholds are in Fahrenheit. Modify the function to accept a flag, `scale`, which could be `C` or `F`. Then, if `scale` is `C`, convert the vector to Fahrenheit using `tempconversion`. Name this new version `flag_temp`.
+
+10. Use sapply to run `flag_temp` on the variable `TEMP` from `raw_vitals`. You can pass in the value for the `scale` parameter after the name of the function you are applying. E.g. sapply(X,FUN,) What happens?
+
+11. The second problem is that some of the values are missing, i.e. `NA`. Our conditionals do not handle those and error out. Modify the function again (last time!) to check whether a value of `tempf` is missing (`NA`) or not. If it is missing, return `NA`. If not, execute the function as intended.
+
+12. Use sapplyto run this version of the function on the variable `TEMP` from `raw_vitals`. Does it work? Congratulations!
+
+13. Save your R script.

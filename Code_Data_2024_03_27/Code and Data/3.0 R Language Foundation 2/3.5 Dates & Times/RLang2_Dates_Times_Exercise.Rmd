@@ -1,0 +1,33 @@
+# **Objective**
+
+Become comfortable with date and time variables, functions, and formats.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open **RStudio** and start a new script and set your working directory to the course level directory using the **Session \> Set Working Directory** menu item.
+
+3.  Create a variable that has the value of the day of the week that you were born.
+
+4.  Create a vector that returns the first day of each month of 2019.
+
+5.  Create a function called `find_fri13` that finds and returns a vector containing all Friday the 13ths for the four digit year you pass in.
+
+6.  Create a function called `age_formula1` that calculates and returns an integer age using the formula `(<current_date> - dob) / 365.25`. Use one parameter with the default value of `"1970-01-01"`. Test your function with a few values. *Note, the current date is today’s date.*
+
+7.  Load the `data/dm.rds` data frame from the working (course) directory. Name the data frame `dm`.
+
+8.  Create a data frame from `dm` named `dmss` keeping all records but only the variables `SUBJID`, `BRTHDTC`, `RFSTDTC`, & `AGE`.
+
+9.  Using the function you created, `age_formula1`, add the variable, `agecalc_today` to the `dmss` data frame. Use the variable `BRTHDTC` as the date of birth.
+
+10. Create a function named `age_formula2` based on the same formula used in the function `age_formula1` that adds the functionality of passing in a date of choice other than the current date. Name the parameter for the date of choice `refdate`. The parameter `refdate` should have the default set to [`Sys.Date()`](https://rdrr.io/r/base/Sys.time.html). *Hint, you may have to test the class of refdate and conditionally perform the calculation.*
+
+11. Use your new function to add the variable `agecalc_study` by using `BRTHDTC` as the date of birth and `RFSTDTC` as the `refdate`. Also test your new function to add `agecalc_today` to your data frame overwriting the one you previously added with your first function.
+
+12. Add descriptive label attributes to your calculated variables on the data frame `dmss`.
+
+13. Create a function called `work_life_balance` which returns a message stating `"Keep working!"` or `"Stop working!"` based on whether it is currently before 5pm or after 5pm. This function needs no parameters.
+
+14. Save your R script and name it *Dates_Times.R*.

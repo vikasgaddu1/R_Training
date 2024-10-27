@@ -137,7 +137,7 @@ The most commonly used apply functions are `lapply` and `sapply`. There are many
 This lesson covers many functions related to string operations.
 
 |                                                           |                                                  |
-|---------------------------------------|---------------------------------|
+|-----------------------------------------------------------|--------------------------------------------------|
 |                                                           | String Functions                                 |
 | Function                                                  | Description                                      |
 | [`print()`](https://rdrr.io/r/base/print.html)            | Print text to the console                        |
@@ -239,7 +239,7 @@ format(as.Date("2020-01-01"), format = "%d/%m/%Y")
 Some other helpful functions are listed here.
 
 |                                                            |                                      |
-|--------------------------------------------|----------------------------|
+|------------------------------------------------------------|--------------------------------------|
 |                                                            | Date Functions                       |
 | Function                                                   | Description                          |
 | [`weekdays()`](https://rdrr.io/r/base/weekday.POSIXt.html) | Return the weekday of the given date |
@@ -297,7 +297,7 @@ Again, to adjust the input or output format of a date time value, consult Table 
 There are a handful of types of missing values in R.
 
 |               |        |             |                                                     |
-|---------------|---------------|---------------|---------------------------|
+|---------------|--------|-------------|-----------------------------------------------------|
 |               |        |             | Missing Values                                      |
 | Description   | Value  | Class       | Check                                               |
 | Not Available | `NA`   | `Logical`   | [`is.na()`](https://rdrr.io/r/base/NA.html)         |
@@ -317,7 +317,7 @@ Some notes on missing values:
 ## **3.7 Formatting Data**
 
 |                                                    |                                                                                                                                 |
-|------------------|------------------------------------------------------|
+|----------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
 |                                                    | Rounding and Formatting Functions                                                                                               |
 | Function                                           | Description                                                                                                                     |
 | [`round()`](https://rdrr.io/r/base/Round.html)     | Round numeric value to nearest integer\*                                                                                        |

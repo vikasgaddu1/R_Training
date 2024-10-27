@@ -1,0 +1,182 @@
+# Quick Regular Expressions (Regex) Tutorial in R
+
+Regular expressions (regex) are powerful tools for pattern matching and text manipulation. In R, they are extensively used for searching, extracting, and replacing text. This tutorial provides a concise guide to using regex in R.
+
+## 1. Basic Syntax
+
+### Literal Characters
+
+-   **Literal characters** match themselves.
+
+```{r}
+aedecod <- c("Neck Pain", "Stomach Pain", "Heacache")
+grep("pain", aedecod, ignore.case = TRUE)  # Matches "pain" in all words
+
+```
+
+### Metacharacters
+
+-   **Metacharacters** have special meanings
+
+```{r}
+# . ^ $ * + ? { } [ ] \ | ( )
+files <- c("file.txt", "data.csv")
+grep("\\.", files)  # Matches strings containing a dot
+grep(r"(.)",files)
+```
+
+## 2. Special Characters
+
+### Dot `.`
+
+-   Matches **any single character** except a newline
+
+    ```{r}
+    grep("c.t", c("cat", "cut", "coat"))  # Matches "cat" and "cut"
+
+    ```
+
+### Anchors `^` and `$`
+
+-   `^` matches the **start** of a string.
+
+-   `$` matches the **end** of a string
+
+    ```{r}
+    grep("^cat", c("cat", "concatenate"))  # Matches "cat" at the beginning
+    grep("cat$", c("scat", "concat"))      # Matches "concat" ending with "cat"
+
+    ```
+
+## 3. Character Classes
+
+### Square Brackets `[ ]`
+
+-   Match any **one character** inside the brackets
+
+    ```{r}
+    grep("b[aeiou]t", c("bat", "bet", "bit", "but"))  # Matches all listed words
+
+    ```
+
+### Negation `[^ ]`
+
+-   `[^ ]` matches any character **not** inside the brackets
+
+```{r}
+grep("b[^a]t", c("bat", "bet", "bit"))  # Matches "bet" and "bit"
+
+```
+
+### Predefined Classes
+
+-   `\\d` : Digit `[0-9]`
+
+-   `\\D` : Non-digit `[^0-9]`
+
+-   `\\w` : Word character `[a-zA-Z0-9_]`
+
+-   `\\W` : Non-word character `[^a-zA-Z0-9_]`
+
+-   `\\s` : Whitespace `[ \t\n\r\f\v]`
+
+-   `\\S` : Non-whitespace `[^ \t\n\r\f\v]`
+
+**Note:** In R, backslashes need to be escaped, so `\d` becomes `\\d`.
+
+```{r}
+grep("\\d+", c("item1", "item2", "item"))  # Matches "item1" and "item2"
+
+```
+
+## 4. Quantifiers
+
+### Symbols
+
+-   `*` : **0 or more** occurrences
+
+-   `+` : **1 or more** occurrences
+
+-   `?` : **0 or 1** occurrence
+
+-   `{n}` : **Exactly n** occurrences
+
+-   `{n,}` : **n or more** occurrences
+
+-   `{n,m}` : **Between n and m** occurrences
+
+```{r}
+grep("go+", c("go", "goo", "good"))  # Matches "go" and "goo"
+grep("colou?r", c("color", "colour"))  # Matches both spellings
+
+
+```
+
+## 5. Grouping and Alternation
+
+### Parentheses `( )`
+
+-   **Group** parts of a pattern
+
+    ```{r}
+    # Install and load stringr package if not already installed
+    # install.packages("stringr")
+    library(stringr)
+
+    # Example data
+    texts <- c('Cycle 11, Day 1', 'Cycle 12, Day 2')
+
+    # Regular expression to match and capture cycle and day numbers
+    pattern <- "Cycle (\\d+), Day (\\d+)"
+
+
+    # Extract matches (including capture groups)
+    matches <- str_match(texts, pattern)
+
+    # View the result
+    matches
+
+
+    cycle <- matches[,2]
+    cycle
+
+    days <- matches[,3]
+    days
+    ```
+
+### Pipe `|`
+
+-   **Alternation**, matches either the left or right expression
+
+    ```{r}
+    grep("cat|dog", c("cat", "dog", "bird"))  # Matches "cat" and "dog"
+    grepl("cat|dog", c("cat", "dog", "bird"))
+    ```
+
+## 6. Lookaround (Advanced)
+
+-   **Lookahead** `(?=...)`
+
+-   **Negative Lookahead** `(?!...)`
+
+-   **Lookbehind** `(?<=...)`
+
+-   **Negative Lookbehind** `(?<!...)`
+
+> **`Note:`**`Lookaround assertions may not be fully supported in all R regex functions.`
+
+## 7. Common R Functions Using Regex
+
+| Function     | Use                                                |
+|--------------|----------------------------------------------------|
+| `grep()`     | Searches for matches and returns the **indices**   |
+| `grepl()`    | Returns a **logical vector** indicating matches.   |
+| `sub()`      | replaces the **first** match.                      |
+| `gsub()`     | replaces **all** matches                           |
+| `regexpr()`  | Returns the **position** and **length** of matches |
+| `strsplit()` | Splits strings based on a regex pattern            |
+
+```{r}
+regexpr("cat|dog", c("cat", "dog", "bird"))
+gregexpr("cat|dog", c("cat", "dog", "bird"))
+```

@@ -69,8 +69,8 @@ quiz(
     question(
       "6. The %/% operator returns the quotient and the %% operator returns the remainder.",
       type = "learnr_radio",
-      answer("True", message = "It's actually the other way around! Check again."),
-      answer("False", correct = TRUE, message = "Correct! The %/% operator returns the integer quotient, and the %% operator returns the remainder.")
+      answer("False", message = "It's actually the other way around! Check again."),
+      answer("True", correct = TRUE, message = "Correct! The %/% operator returns the integer quotient, and the %% operator returns the remainder.")
     ),
     
     question(
@@ -110,17 +110,7 @@ quiz(
       answer("True", message = "Actually, a data frame can consist of a single vector (as a single-column data frame)."),
       answer("False", correct = TRUE, message = "Correct! A data frame can consist of just one vector.")
     ),
-    question(
-      "11. How many elements will the vector vnumlt3 have?
-    
-    vnums <- c(1,2,3,4,5)
-    vnumlt3 <- vnums[vnums < 3]",
-    type = "learnr_radio",
-    answer("3", message = "Remember, the condition vnums < 3 will select only elements less than 3."),
-    answer("2", correct = TRUE, message = "Correct! Only 1 and 2 are less than 3."),
-    answer("4", message = "The condition vnums < 3 will not include elements that are equal to or greater than 3."),
-    answer("0", message = "There are elements in vnums that satisfy the condition vnums < 3.")
-    ),
+
     question(
       "12. How many elements will the vector vnumlt3 have?
     
@@ -180,8 +170,8 @@ quiz(
   question("17. If you run the code below, what is the size in bytes of the `datea` variable? <br>
            datea <- as.Date('2020-02-02')",
     answer("1", correct = FALSE, message = "The size of a Date object is larger than 1 byte."),
-    answer("56 B", correct = TRUE, message = "The size of a Date object is larger than 56 byte."),
-    answer("280 B", correct = FALSE, message = "Correct! In R, a Date object typically occupies 280 bytes of memory."),
+    answer("56 B", correct = FALSE, message = "The size of a Date object is larger than 56 byte."),
+    answer("280 B", correct = TRUE, message = "Correct! In R, a Date object typically occupies 280 bytes of memory."),
     answer("10 B", correct = FALSE, message = "The size of a Date object is larger than 10 bytes.")
   ),
   question("18. What is valid syntax for extracting the `age` element from the list `subj_info` defined below? <br>

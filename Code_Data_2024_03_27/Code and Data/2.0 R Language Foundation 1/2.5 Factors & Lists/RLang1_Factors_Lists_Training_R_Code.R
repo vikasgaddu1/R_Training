@@ -10,8 +10,12 @@ arm_decode <- c(A = "Placebo", B = "Active (50 mg)")
 arm_decode[arm]
 
 # Simple frequencies with table()
+# Return of table function is named integer vector
 arm_freq <- table(arm)
 print(arm_freq)
+class(arm_freq)
+typeof(arm_freq)
+
 a_pop <- arm_freq["A"]
 a_pop
 b_pop <- arm_freq["B"]
@@ -77,8 +81,8 @@ lst2 <- list(
 )
 print(lst2)
 
-lst2[4]
-lst2["var4"]        # Subset
+lst2[[4]]
+lst2[["var4"]]        # Subset
 lst2["var2"] <- 2   # Assign
 lst2["var2"]
 

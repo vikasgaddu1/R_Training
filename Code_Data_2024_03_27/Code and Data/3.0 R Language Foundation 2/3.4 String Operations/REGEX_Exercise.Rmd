@@ -1,0 +1,12 @@
+-   Create a `dataframe` with dataset, variable and value by splitting below annotations
+
+```{r}
+annotations <- tribble(
+  ~annot,
+  "DM.RACE",
+  "SV.SVSTDTC",
+  "CM.CMCAT = 'Concomitant Medication'",
+  "PRINDCO in SUPPPR",
+  "BRSPR in SUPPCM when IDVAR = CMSEQ"
+)
+```

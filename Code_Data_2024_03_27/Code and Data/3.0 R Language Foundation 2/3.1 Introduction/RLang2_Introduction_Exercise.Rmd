@@ -1,0 +1,39 @@
+# **Objectives**
+
+Create a data frame from some vectors and factors and then practice reading and saving R data frames and sourcing R scripts.
+
+# **Exercise**
+
+1.  Launch Learning Lab or Local environment.
+
+2.  Open RStudio and begin a new script.
+
+3.  Insert a section description and label it ‘Create vectors, factors, and data frame’.
+
+4.  Create a vector that contains investigator numbers from 1001 to 1005. Name it `invid`.
+
+5.  Create a factor named `sex` with values `'M', 'F', 'M', 'M', 'F'` and levels `'M', 'F', 'NR'`.
+
+6.  Create a vector named `yearsexp` with the values `23, 12, 10, 3, 2`.
+
+7.  Create a vector named `site` with the values `'KAL', 'KAL', 'SFO', 'ORD','ORD'`.
+
+8.  Create a data frame named `invdata` using the [`data.frame()`](https://rdrr.io/r/base/data.frame.html) function to combine the 4 vectors above.
+
+9.  Check the value of your working directory using the [`getwd()`](https://rdrr.io/r/base/getwd.html) function and make sure it is set to the appropriate location for the ‘R Language Foundation 2’ course. We will be using this across the lessons within this course. Usually we suggest the working directory to be set to the course level directory. You can do that with the [`setwd()`](https://rdrr.io/r/base/getwd.html) function or from the `session` program menu at the top of RStudio/Posit Studio.
+
+10. Use the [`saveRDS()`](https://rdrr.io/r/base/readRDS.html) function to save the `invdata` data frame to disk in your working directory. Name the file `invdata.rds`. Remember that case sensitivity matters and to check the working directory location to ensure `invdata.rds` is saved where you are expecting it to be.
+
+11. Use the [`readRDS()`](https://rdrr.io/r/base/readRDS.html) function to read in `invdata.rds` and create a data frame named `invdata_fromdisk`.
+
+12. Use the [`saveRDS()`](https://rdrr.io/r/base/readRDS.html) function to save the `sex` factor. Name it `sex_factor.rds`.
+
+13. Create a comment ‘Source Function’.
+
+14. Open and examine the `decodes.R` from the lesson level directory for this Introduction lesson.
+
+15. Using the [`source()`](https://rdrr.io/r/base/source.html) function, load the `decodes` script. (Like `%include` in SAS). Note, you can use a path relative to your R working directory.
+
+16. Examine your Environment panel to ensure the `sex_decode` and `site_decode` are defined after sourcing the `decodes` file.
+
+17. Save your R script and name it `Rlang2_Introductions.R`.

@@ -26,10 +26,12 @@ length(ae_raw)
 # Exercise Step 8
 ## Declare a character variable named ae_start_dt and set the value to "2020-02-28".
 ae_start_dt <- "2020-02-28"
+class(ae_start_dt)
 
 # Exercise Step 9
 ## Declare a date variable named date_visit and set the value to "2020-03-05".
 date_visit <- as.Date("2020-03-05")
+class(date_visit)
 
 # Exericse Step 10
 ## Declare a numeric variable named int_var1 and set the value to 1000L using a left directional operator.
@@ -119,6 +121,7 @@ class(vect_nums)
 combine_vects_ok1 <- c(int_var1, vect_nums)
 print(combine_vects_ok1)
 class(combine_vects_ok1)
+
 check <- function(val1, val2)
   {
   if (class(val1) != class(val2))
@@ -128,7 +131,7 @@ check <- function(val1, val2)
   }
   return (c(val1, val2))
 }
-result <- check(int_var1, int_var1)
+result <- check(int_var1, vect_nums)
 result
 combine_vects_ok2 <- c(num_var1, vect_dates)
 vect_dates

@@ -3,7 +3,7 @@
 
 
 library(randomNames)
-
+setwd("/cloud/project/Code_Data_2024_03_27/Code and Data/3.0 R Language Foundation 2/3.1 Introduction")
 # How to Save an object ---------------------------------------------------
 
 # Setup
@@ -25,7 +25,7 @@ saveRDS(df, "df.rds")
 df2 <- readRDS("df.rds")
 df2
 
-
+path <- getwd()
 # Save any R object!
 
 
@@ -35,7 +35,7 @@ df2
 # 1. Create script file
 
 # 2. Source script
-source("3.1 Introduction/formats.R")   # %include
+source("decodes.R")   # %include
 
 # 3. Use script content
 arm_decoded <- arm_decode[df$arm]
@@ -51,3 +51,5 @@ formats_path <- "c:\Projects\R Training\formats.R"       # Error
 formats_path <- "c:\\Projects\\R Training\\formats.R"    # No error
 
 formats_path <- "c:/Projects/R Training/formats.R"       # No error
+
+path<- file.path('c:','Projects','R Training','formats.R')

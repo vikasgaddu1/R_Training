@@ -146,7 +146,7 @@ age <- c(41, 53, 43, 39, 47, 52, 21, 38, 62, 26)
 We use the single bracket notation `[]` to subset vectors in R. For example, this code will return the 2nd element in the `age` vector.
 
 ```{r}
-age[2] 
+age[99] 
 ## [1] 53
 ```
 
@@ -170,6 +170,7 @@ age_named <- c(s1 = 41, s2 = 53, s3 = 43, s4 = 39, s5  = 47, S6 = 52, S7 = 21, S
 When appropriate, we can subset a vector using a name rather than an index. The result of these two commands is identical.
 
 ```{r}
+
 age_named[2] 
 age_named["s2"]
 ```
@@ -179,9 +180,12 @@ age_named["s2"]
 Referring to vector elements by name allows us to decode vectors using another mapping vector. In this case, we are converting the vector from `M` and `F` using the matching named vector to replace those values with `Male` and `Female`.
 
 ```{r}
-# Create a Vector sex <- c("M", "F", "F", "M")  
-# Create a Mapping Vector sex_decode <- c(M = "Male", F = "Female")  
-# Apply the value mapping to existing vector sex_decode[sex]
+# Create a Vector 
+sex <- c("M", "F", "F", "M")  
+# Create a Mapping Vector 
+sex_decode <- c(M = "Male", F = "Female")  
+# Apply the value mapping to existing vector 
+sex_decode[sex]
 ##        M        F        F        M  
 ##   "Male" "Female" "Female"   "Male"
 ```
@@ -189,6 +193,8 @@ Referring to vector elements by name allows us to decode vectors using another m
 ## **2.5 Factors and Lists**
 
 In this lesson we introduce the data type `factors` and the data structure `lists`.
+
+In R, **factors** are a special type of data structure used to represent **categorical data**. Categorical data refers to variables that have a fixed and limited set of values, often representing groups or categories. These categories can be either **unordered** (nominal) or **ordered** (ordinal).
 
 #### **Simple Frequencies**
 
@@ -203,7 +209,7 @@ arm_decode[arm]
 We can use the [`table()`](https://rdrr.io/r/base/table.html) function to get counts for each value in the vector.
 
 ```{r}
-table(arm) 
+table(arm_decode[arm]) 
 ## arm 
 ## A B  
 ## 6 4  table(arm_decode[arm]) 
@@ -224,6 +230,32 @@ table(arm_f)
 ## 6 4 0 0 0
 ```
 
+#### Ordered Factors
+
+In AE data, you may have ordinal categorical variables, like severity:
+
+```{r}
+trt01an <- factor(c("Placebo", "Drug A", "Placebo", "Drug B", "Drug A"), levels = c("Placebo", "Drug A", "Drug B", "Drug C"))
+trt01an
+aesev <- factor(c("None", "Mild", "Severe", "None", "Mild"), 
+                        levels = c("None", "Mild", "Moderate", "Severe"), 
+                        ordered = TRUE)
+levels(aesev)
+
+data <- data.frame(trt01an, aesev)
+
+table(data$trt01an, data$aesev)
+
+
+```
+
+Using factor in graph
+
+```{r}
+trt01an <- factor(c("Placebo", "Drug A", "Drug A", "Placebo", "Drug B", "Drug B", "Placebo", "Drug A", "Drug B", "Placebo"), levels = c("Placebo", "Drug A", "Drug B", "Drug C"))
+barplot(table(trt01an))
+```
+
 #### **Lists**
 
 Vectors are used to store values of a single type. Lists can be used to store many vectors of varying types, using the [`list()`](https://rdrr.io/r/base/list.html) function.
@@ -232,6 +264,7 @@ Vectors are used to store values of a single type. Lists can be used to store ma
 
 ```{r}
 a_list <- list("a", 1, TRUE, as.Date("2020-01-01"))
+a_list
 ```
 
 **Named List of Vectors**
@@ -251,19 +284,37 @@ b_list
 ## [1] "2020-01-01" "2021-01-01"
 ```
 
-**Subsetting a List**
+#### **Sub-setting a List**
 
-We can subset a list by using two brackets `[[ ]]`, containing either the index of the vector we want to subset, or the name of the vector.
+**Key Differences:**
+
+| Operation             | `[` (Single Bracket)                  | `[[` (Double Bracket)                                               |
+|-----------------|--------------------|------------------------------------|
+| **Returns**           | Sub-list (still a list)               | Actual object (contents of the list element)                        |
+| **Multiple elements** | Can return multiple elements (a list) | Can only return a single element                                    |
+| **Type returned**     | List                                  | The type of the object in the list (e.g., numeric, character, etc.) |
+| **Indexing by name**  | Yes                                   | Yes                                                                 |
+| **Example**           | `my_list[1:2]`                        | `my_list[[1]]`                                                      |
 
 ```{r}
-b_list[[1]] 
-b_list[["letters"]]
-```
+# Create a list
+my_list <- list(a = 1:3, b = c("X", "Y", "Z"), c = 42L)
 
-In addition to using the double brackets, we can use the `$` to subset a vector followed by the *unquoted* name of the vector we want to subset.
+names(my_list)
+# Extract a sub-list using single bracket ([])
+sub_list <- my_list[1]  # Returns a list containing the element `a`
+sub_list
+class(sub_list)
+print(sub_list)
 
-```{r}
-b_list$letters ## [1] "a" "b" "c"
+# Extract the actual contents of `a` using double bracket ([[)
+element_a <- my_list[[1]]
+print(element_a)
+class(element_a)
+
+# Instead of [[ ]] we can use $ (dollar sign) to fetch actual content
+element_a_dollar <- my_list$a
+class(element_a_dollar)
 ```
 
 ## **2.6 Data Frames**
@@ -314,6 +365,8 @@ R does not have native support for variable labels like SAS does. However, there
 ```{r}
 # Modify the label attribute with the assignment operator 
 attr(df$names, "label") <- "Subject Name"
+
+view(df)
 ```
 
 You can then view the labels using the `view()` function.
@@ -323,7 +376,7 @@ You can then view the labels using the `view()` function.
 
 # Option 1: Display the first few rows with head()
 head(df)
-
+tail(df)
 # Option 2: Print the entire data frame (useful for small data frames)
 print(df)
 
@@ -361,8 +414,8 @@ df[2, c("names", "sex")]
 We can also use the [`subset()`](https://rdrr.io/r/base/subset.html) function to subset a dataframe based on a logical condition.
 
 ```{r}
-subset(df, sex == "F", select = c("names", "sex")) 
-subset(df, age <=  40, select = c("names", "sex"))
+subset(df, select = c("names", "sex")) 
+subset(df, age <=  40)
 ```
 
 ## **2.7 Capstone**

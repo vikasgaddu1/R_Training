@@ -33,8 +33,9 @@ print(tcr_times_lenout)
 trt_code <- c('A5', 'P')
 blinded_code <- c('X', 'Y')
 trt_label <- c('Active 5mg', 'Placebo')
+age <- c(34,56)
+trt_table <- data.frame(trt_code, blinded_code, trt_label,age)
 
-trt_table <- data.frame(trt_code, blinded_code, trt_label)
 
 # Exercise Step 5
 print(trt_table)

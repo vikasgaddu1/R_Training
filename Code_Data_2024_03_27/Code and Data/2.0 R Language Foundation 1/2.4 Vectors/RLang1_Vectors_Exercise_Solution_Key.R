@@ -24,6 +24,10 @@ quantile(resting_pulse)
 # resting pulses greater than 80
 outliers <- resting_pulse[resting_pulse < 60 | resting_pulse > 80]
 
+# | is element wise or operator
+
+
+outliers
 # Exercise Step 6
 # Declare a vector named exceptfirst containing all elements from the
 # vector resting_pulse except the first element.
@@ -93,12 +97,12 @@ group_name <- c(A = '100mg',
 # Using the decode technique, declare a vector named groups as groups <- group_name[group_code]
 # and examine the values of the vector groups.
 groups <- group_name[group_code]
-
+groups
 # Exercise Step 10
 # Fix the case issue by using the toupper function in the vector definition of
 # groups the toupper function is used in the same way as the upcase function in SAS.
 groups <- group_name[toupper(group_code)]
-
+ groups
 # Exercise Step 11
 # We should also update the group_code vector to be all upper case.
 # Use the toupper() function to change the group_code vector to all upper case.
