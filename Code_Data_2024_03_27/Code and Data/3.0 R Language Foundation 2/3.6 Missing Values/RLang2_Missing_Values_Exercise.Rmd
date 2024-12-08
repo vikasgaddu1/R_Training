@@ -1,0 +1,49 @@
+# **Objectives**
+
+Become comfortable with handling Missing Values in R.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open **RStudio** and start a new script.
+
+3.  Read in the `data/raw_vitals.rds` data frame from the course level directory. Assign the name `raw_vs` to the resulting data frame. *Note, download the data frame by click on the link and save it in your course level directory.*
+
+4.  Using the function [`anyNA()`](https://rdrr.io/r/base/NA.html), test to see if there are any missing values in any of the variables in the `raw_vs` data frame. Run this line of code using the keyboard shortcut `Ctrl+Enter` / `Cmd+Return`
+
+5.  Using the [`is.na()`](https://rdrr.io/r/base/NA.html) function, find out how many total missing values in the data frame `raw_vs`.
+
+6.  Using the [`is.na()`](https://rdrr.io/r/base/NA.html) function, find out how many total non-missing values in the data frame `raw_vs`.
+
+7.  Using the [`ncol()`](https://rdrr.io/r/base/nrow.html) and [`nrow()`](https://rdrr.io/r/base/nrow.html) functions, multiply the number of variables in the `raw_vs` data frame by the number of rows and see if it matches the sum from the previous two steps.
+
+8.  Using the [`is.na()`](https://rdrr.io/r/base/NA.html) function, find out how many total missing values in the `raw_vs` data frame variable `WEIGHT`. Try using the function referring to the variable using the `$` notation and also with the `[[ ]]` notation.
+
+9.  Using the [`is.na()`](https://rdrr.io/r/base/NA.html) function, find out how many total non-missing values in the `raw_vs` data frame variable `WEIGHT`. Try using the function referring to the variable using the `$` notation and also with the `[[ ]]` notation.
+
+10. Save your R script and name it *MissingValues.R*.
+
+# **Objectives**
+
+Become comfortable with handling Missing Values in R.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open **RStudio** and your script, *MissingValues.R*.
+
+3.  Run the script and review the results.
+
+4.  Using a `for` loop, [`names()`](https://rdrr.io/r/base/names.html), [`is.na()`](https://rdrr.io/r/base/NA.html), and [`paste()`](https://rdrr.io/r/base/paste.html) function, print a line to the console for each variable in the `raw_vs` data frame using the following format example.
+
+```         
+"There are <# of missings> missing and <# of non-missings> non-missing values for the variable <variable name>"
+```
+
+5.  Create a new data frame called `missing_weights` that consists of records that have a missing weight at the screen visit. *Note, there should be two records.*
+
+6.  For any records in `raw_vs` that have a missing weight at screen, replace that weight value with the average weight at screen for all other patients.
+
+7.  Save your R script and name it *MissingValues.R*.

@@ -16,7 +16,6 @@ fdm2019
 # C4)	Create a function called find_fri13 that finds and returns a vector containing all Friday the 13ths
 # for the four digit year you pass in.
 find_fri13 <- function(yyyy) {
-
   mon13 <- seq(as.Date(paste(yyyy, "01", "13", sep = "-")),
                as.Date(paste(yyyy, "12", "13", sep = "-")), by = "month")
 

@@ -6,9 +6,9 @@
 
 # Simple function
 triple <- function(x) {
-  ret <- x * 3
+  result <- x * 3
   
-  return(ret)
+  return(result)
 }
 
 triple(2)
@@ -23,22 +23,29 @@ triple <- function(x, y) {
 
 triple(2, 3)
 
+mean <- function(x,y,z) {
+  result <- sum(x,y,z)/3
+  return(result)
+}
+
 # Default parameter value
-triple <- function(x = 2) {
-  ret <- x * 3
+xyparam <- function(x = 2, y ) {
+  ret <- x * y * 3
   
   return(ret)
 }
 
-triple()
+xyparam( , 4)
 
 
 # Parameter checks
-triple <- function(x) {
-  if (x < 0) {
-    stop("Input value must greater than zero.")
+triple <- function(x = NA) {
+
+  if (is.na(x)) {
+    stop("X is a required parameter")
+  }else if (x < 0) {
+    warning("Input value must greater than zero.")
   }
-  
   ret <- x * 3
   
   return(ret)
@@ -62,8 +69,9 @@ triple(2)     # Error
 
 
 # Read sample data frame
-df <- readRDS("df.rds")
-
+df <- readRDS(file.path("_data","df.rds"))
+df <- readRDS(file.path("_data","df.rds"))
+path <- file.path("_data","df.rds")
 
 # Default range output
 rng <- range(df$age)
@@ -142,8 +150,25 @@ char_check <- function(x) {
   return(ret)
 }
 
+multiple_return <- function(x,y){
+  x <- x * 2
+  y <- y * 2
+  return(list(x,y))
+}
+multiple_return(2,3)
+
+inputxy <- data.frame(input1 = c(1,2,3),
+                      input2 = c(4,5,6))
+
+mapply(multiple_return, inputxy$input1, inputxy$input2)
+
+char_check(df$name)
+char_check(df$age)
+char_check(df$subjid)
+
 # Apply function to data frame columns
 char_cols <- sapply(df, FUN = char_check)
+
 
 # Subset
 df[char_cols]
@@ -156,10 +181,21 @@ df[sapply(
     class(x) == "character"
   }
 )]
-df[sapply(
+
+df[lapply(
   df,
   FUN = function(x) {
     class(x) == "character"
   }
 )]
 
+chartype <- lapply(
+  df,
+  FUN = function(x) {
+    class(x) == "character"
+  }
+)
+
+chartype
+class(chartype)
+df[c(TRUE,FALSE)]

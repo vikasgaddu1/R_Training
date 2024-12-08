@@ -12,7 +12,7 @@ cat(file_path)
 
 # Concatenating Paths
 file_path <-
-  file.path(file_path, "string_operations.R", fsep = "\\")
+  file.path("c:","Projects","R Training", "string_operations.R")
 file_path
 
 # Quotes in strings
@@ -24,6 +24,7 @@ cat(nm)
 
 # Newline, tab, and unicode escape codes
 st <- "Treatment 1 \n(N=56)"
+print(st)
 cat(st)
 st <- "System Organ Class\n\t High Level Term"
 cat(st)
@@ -43,7 +44,7 @@ tolower("Prod")
 
 # String extraction (substr)
 trt <- "Treatment A"
-substring(trt, 1, 5)
+substring(trt, 2, 5)
 substring(trt, 5)
 substring(trt, nchar(trt))
 
@@ -92,12 +93,12 @@ split_codes1
 
 ## Generate unique subject id ##
 usubjid_fmt <- function(study, site, subjid) {
-  ret <- paste0(toupper(study), "-", toupper(site), "-", subjid)
+  ret <- paste(toupper(study), toupper(site), subjid, sep = "-")
   
   return(ret)
 }
 
-subjid <- 100:109
+subjid <- 100:102
 sites <-  c("001", "002", "003")
 
 # Test usubjid function
@@ -117,7 +118,13 @@ cnt_pct <- function(cnt, denom) {
                 nsmall = 1)
   
   # Combine counts and percents
-  ret <- paste0(cnt, " ", "(", fmt, "%)")
+  # ret <- ifelse(cnt == 0, "0",paste0(cnt, " ", "(", fmt, "%)") )
+  ret <- case_when(
+    cnt == 0 ~ "0",
+    pct == 100 ~ paste0(cnt, " ", "(100%)"),
+    .default = paste0(cnt, " ", "(", fmt, "%)")
+    
+  ) 
   
   return(ret)
 }
@@ -138,7 +145,7 @@ toupper(sites)
 substring(sites, 1, 2)
 nchar(sites)
 as.character(subjid)
-file.path("c:/Study-ABC", sites)
+file.path("c:","Study-ABC", sites)
 
 # 1) Loops are inside all the functions
 # 2) Rarely need explicit loops
@@ -161,6 +168,7 @@ subj_temps <- Vectorize(function(subj, temp, uom) {
     tmpf <- (temp * 9 / 5) + 32
     tmpc <- temp
   }
+  print(paste("Farenheit:", tmpf))
   
   ret <- paste0(
     subj,

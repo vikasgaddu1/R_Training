@@ -9,7 +9,7 @@ Regular expressions (regex) are powerful tools for pattern matching and text man
 -   **Literal characters** match themselves.
 
 ```{r}
-aedecod <- c("Neck Pain", "Stomach Pain", "Heacache")
+aedecod <- c("Neck PAIN", "Stomach Pain", "Heacache")
 grep("pain", aedecod, ignore.case = TRUE)  # Matches "pain" in all words
 
 ```
@@ -20,9 +20,9 @@ grep("pain", aedecod, ignore.case = TRUE)  # Matches "pain" in all words
 
 ```{r}
 # . ^ $ * + ? { } [ ] \ | ( )
-files <- c("file.txt", "data.csv")
+files <- c("file.txt", "datacsv")
 grep("\\.", files)  # Matches strings containing a dot
-grep(r"(.)",files)
+grep(r"(\.)",files)
 ```
 
 ## 2. Special Characters
@@ -55,7 +55,7 @@ grep(r"(.)",files)
 -   Match any **one character** inside the brackets
 
     ```{r}
-    grep("b[aeiou]t", c("bat", "bet", "bit", "but"))  # Matches all listed words
+    grep("b[aeiou]t", c("bat", "bet", "bit", "but","brn"))  # Matches all listed words
 
     ```
 
@@ -63,8 +63,10 @@ grep(r"(.)",files)
 
 -   `[^ ]` matches any character **not** inside the brackets
 
+("b[\^a]t"
+
 ```{r}
-grep("b[^a]t", c("bat", "bet", "bit"))  # Matches "bet" and "bit"
+grep, c("bat", "bet", "bit"))  # Matches "bet" and "bit"
 
 ```
 
@@ -177,6 +179,6 @@ grep("colou?r", c("color", "colour"))  # Matches both spellings
 | `strsplit()` | Splits strings based on a regex pattern            |
 
 ```{r}
-regexpr("cat|dog", c("cat", "dog", "bird"))
+
 gregexpr("cat|dog", c("cat", "dog", "bird"))
 ```

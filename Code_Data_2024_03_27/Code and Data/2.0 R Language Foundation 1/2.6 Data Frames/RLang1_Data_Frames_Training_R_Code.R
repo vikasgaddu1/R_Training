@@ -29,7 +29,6 @@ names(df)
 attributes(df)
 str(df)
 typeof(df)
-
 View(df)
 
 # Data Frame Attributes ---------------------------------------------------
@@ -52,7 +51,7 @@ attr(df$age,  "description") <- "The age of the subject."
 
 View(df)
 
-attributes(df$subjid)
+attributes(df)
 str(df)
 
 

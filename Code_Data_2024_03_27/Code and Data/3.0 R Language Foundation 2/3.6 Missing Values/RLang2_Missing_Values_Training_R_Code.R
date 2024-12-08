@@ -9,6 +9,8 @@ Inf            # Infinity (+/-)
 NULL           # NULL
 ""             # Empty String
 
+c <- c(".")
+
 # Examples
 t <- c(1)
 t[2]           # NA
@@ -33,11 +35,18 @@ NULL > 0       # logical(0)
 "" > 0         # FALSE
 
 # Vectors
-a <- c(1, NA, 2, 3)
-a > 0
+data <- c(1,2,NA,3,NA)
+sum(is.na(data))
 
-a <- c("1", NA, "2", "3")
-a > "0"
+df <- data.frame(
+  A = c(1,2,3),
+  B = c(4,NA,6)
+)
+df
+colSums(is.na(df))
+
+library(naniar)
+vis_miss(df)
 
 b <- c(1, NaN, 2, 3)
 b > 0
@@ -46,6 +55,7 @@ c <- c(1, Inf, 2, 3)
 c > 0
 
 d <- c(1, NULL, 2, 3)
+length(d)
 d > 0
 
 e <- c(1, 2, 3, 4)

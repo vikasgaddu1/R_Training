@@ -182,7 +182,7 @@ cat("Use `\\n` to create a new line\nlike this")
 ```
 
 ```{r}
-cat("We can include unicode characters like this mu symbol \u03BC") 
+cat("We can include unicode characters like this mu symbol \u00B5") 
 ## We can include unicode characters like this mu symbol μ
 ```
 
@@ -195,13 +195,15 @@ cat("We can include unicode characters like this mu symbol \u03BC")
 Use the [`as.Date()`](https://rdrr.io/r/base/as.Date.html) function to convert a string in date format to an actual value of date type.
 
 ```{r}
-as.Date("2020-01-01")
+dt <- as.Date("2020-01-01")
+class(dt)
 ```
 
 Dates in R are simply the number of days since the origin date of `1970-01-01`.
 
 ```{r}
-as.numeric(as.Date("2020-01-01")) ## [1] 18262
+dtn <- as.numeric(as.Date("2020-01-01")) ## [1] 18262
+typeof(dtn)
 ```
 
 **Format a Date**
@@ -266,7 +268,7 @@ But to get the difference of two dates, we use the [`difftime()`](https://rdrr.i
 # Difference Between Two Dates 
 my_timedifference <- difftime(as.Date("2022-01-01"), as.Date("2020-01-01"))  
 
-my_timedifference 
+class(my_timedifference )
 ## Time difference of 731 days  
 
 as.numeric(my_timedifference) 

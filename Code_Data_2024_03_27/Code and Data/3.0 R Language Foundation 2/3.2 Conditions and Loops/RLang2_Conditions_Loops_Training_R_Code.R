@@ -9,7 +9,7 @@ df
 
 # Setup
 status <- "DEV"
-#status <- "PROD"
+status <- "PROD"
 
 
 # If Condition
@@ -17,7 +17,7 @@ if (status == "DEV") {
   # Sample data
   data <- df[sample(nrow(df), 5),]
   
-} else if (status == "PROD") {
+} else if (status == "PROD" || status == "PREPROD") {
   # Use full data
   data <- df
   
@@ -67,6 +67,7 @@ data
 v1 <- 10:12
 v2 <- c("a", "b", "c")
 
+print(v1)
 # Numeric Vector
 for (elem in v1) {
   print(elem)

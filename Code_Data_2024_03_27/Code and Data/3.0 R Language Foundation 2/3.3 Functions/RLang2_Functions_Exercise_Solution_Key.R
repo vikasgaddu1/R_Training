@@ -83,6 +83,7 @@ tempconversion <- function(temp, whichway = 'C2F') {
   return(result)
 }
 
+tempconversion(98,whichway = 'F2C')
 
 # Vectorized functions ----------------------------------------------------
 
@@ -113,6 +114,7 @@ flag_tempF <- function(tempf) {
   return(ret)
 
 }
+flag_tempF(tempf_vector)
 
 # Exercise Step 5
 # Create a vectorized version of `flag_tempf()` and name it `flag_tempF_V()`.
@@ -142,6 +144,7 @@ tempf_flag_vector
 # and create a vector `tempf_flag_sapply`. Compare the results and the approach.
 tempf_flag_sapply <- sapply(tempf_vector,flag_tempF)
 tempf_flag_sapply
+typeof(tempf_flag_sapply)
 
 # Exercise Step 8
 raw_vitals <- readRDS('./_data/raw_vitals.rds')
@@ -152,7 +155,7 @@ raw_vitals <- readRDS('./_data/raw_vitals.rds')
 # If `scale` is `C`, convert the vector to Fahrenheit.
 # Name this new version `flag_temp`.
 flag_temp <- function(tempf,scale='F') {
-  if (scale=='C') {
+  if (scale == 'C') {
     tempf <- tempconversion(tempf)
   }
   if (tempf < 95) {
@@ -182,22 +185,27 @@ sapply(raw_vitals$TEMP,flag_temp,'C')
 # Modify the function again (last time!) to check whether a value of tempf
 # is missing (`NA`) or not. If it is missing, return `NA`.
 # If not, execute the function as intended.
+temp_cat <- function(tempf){
+  if (tempf < 95) {
+    ret <- "Low"
+  } else if (tempf >= 95 & tempf < 100) {
+    ret <- "Normal"
+  } else if (tempf >= 100) {
+    ret <- "Fever"
+  } else {
+    ret <- "Unknown"
+  }
+  return(ret)
+}
+
 flag_temp <- function(tempf,scale='F') {
   if (is.na(tempf)) {
     ret <- NA
     } else {
-    if (scale=='C') {
+    if (scale == 'C') {
       tempf <- tempconversion(tempf)
     }
-    if (tempf < 95) {
-      ret <- "Low"
-    } else if (tempf >= 95 & tempf < 100) {
-      ret <- "Normal"
-    } else if (tempf >= 100) {
-      ret <- "Fever"
-    } else {
-      ret <- "Unknown"
-    }
+    ret <- temp_cat(tempf)
   }
   return(ret)
 

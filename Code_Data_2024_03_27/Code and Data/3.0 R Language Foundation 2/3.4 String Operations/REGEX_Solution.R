@@ -12,6 +12,33 @@ annotation <- tribble(
   "BRSPR in SUPPCM when IDVAR = CMSEQ"
 )
 
+library(tibble)
+library(dplyr)
+library(stringr)
+
+# Create the tribble
+annotation <- tribble(
+  ~annot,
+  "DM.RACE",
+  "SV.SVSTDTC",
+  "CM.CMCAT = 'Concomitant Medication'",
+  "PRINDCO in SUPPPR",
+  "BRSPR in SUPPCM when IDVAR = CMSEQ"
+)
+
+# Extract domain and variable using regex pattern
+annotation$domain <- coalesce(str_match(annotation$annot, "((\\w+)\\.(\\w+))")[,3],
+                              str_match(annotation$annot, "((\\w+)\\s+in\\s+(\\w+))")[,4])
+
+annotation$variable <- coalesce(str_match(annotation$annot, "((\\w+)\\.(\\w+))")[,4],
+                              str_match(annotation$annot, "((\\w+)\\s+in\\s+(\\w+))")[,3])
+
+annotation$value <- str_replace_all(str_match(annotation$annot, "(\\w+)\\.(\\w+)\\s*=\\s*(.+)")[,4],
+                                "\'|\"","")
+
+annotation$condition <- str_match(annotation$annot, "(\\w+)\\s+in\\s+(\\w+)\\s+when\\s+(.+)")[,4]
+
+
 # Function to identify the annotation type and split accordingly
 split_annotation <- function(annot) {
   

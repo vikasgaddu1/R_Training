@@ -10,6 +10,8 @@
 # Exercises for Conditions ---------
 # Exercise Step 3
 # create a variable called study_blind_status and assign the value Blinded.
+setwd("/cloud/project/Code_Data_2024_03_27/Code and Data/3.0 R Language Foundation 2")
+
 study_blind_status <- "Blinded"
 
 # Exercise Step 4
@@ -37,6 +39,7 @@ study_blind_status <- "something else"
 # Exercise Step 6
 # change the conditional logic so the case sensitivity of the values for
 # study_blind_status does not matter using the tolower()function.
+study_blind_status <- tolower(study_blind_status)
 if (tolower(study_blind_status) == 'blinded') {
   message = "Blind NOT broken. Results can be shared internally."
   trt_vector <- c('TRT A', 'TRT B')
@@ -80,6 +83,8 @@ invdata <- readRDS('_data/invdata.rds')
 # labels and descriptions, and update the label and description attributes on invdata.
 invdata_metadata <- readRDS('_data/invdata_metadata.rds')
 
+class(invdata['invid'])
+
 
 # Exercise Step 5
 for (varnm in names(invdata)) {
@@ -89,9 +94,13 @@ for (varnm in names(invdata)) {
     invdata_metadata$vardes[invdata_metadata$varname == varnm]
 }
 
+str(invdata)
 # Exercise Step 7
 # using the unique() function, create a vector of unique sites from the invdata data frame.
 distinct_sites <- unique(invdata$site)
+library(janitor)
+tabyl(invdata$site)
+summary(invdata$yearsexp)
 
 # Exercise Step 8
 # using the vectorized ifelse change the value for the site "KAL" to "AZO".

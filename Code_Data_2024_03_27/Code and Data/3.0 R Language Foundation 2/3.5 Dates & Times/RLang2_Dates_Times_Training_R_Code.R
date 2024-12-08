@@ -41,7 +41,7 @@ format(dt1, "%d/%m/%Y")
 format(dt1, "%d.%m.%Y")
 format(dt1, "%d")
 format(dt1, "%m")
-format(dt1, "%A")
+format(dt1, "%a")
 
 # Date part functions
 weekdays(dt1)
@@ -97,7 +97,8 @@ max(dtv1)
 # Time Introduction -------------------------------------------------------
 
 # Get current time
-tm1 <- Sys.time()
+as.POSIXlt(Sys.time(), "America/New_York") 
+tm1 <- Sys.time() - 5 * 60 * 60
 tm1
 as.numeric(tm1)
 class(tm1)
@@ -106,6 +107,7 @@ class(tm1)
 # (Portable Operating System Interface)
 tm2 <- as.POSIXct("2020-06-14 12:13:47 EDT")
 tm2
+months(tm2)
 class(tm2)
 
 # Format times
@@ -123,7 +125,9 @@ as.numeric(diff2, units = "hours")
 tm3 <- as.POSIXlt("2020-06-14 12:13:47 EDT")
 tm3
 class(tm3)
+typeof(tm3)
 tm3$mon
 tm3$mday
 tm3$min
 tm3$zone
+month(tm3)

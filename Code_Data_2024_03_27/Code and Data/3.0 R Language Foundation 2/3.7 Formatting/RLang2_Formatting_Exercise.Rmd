@@ -1,0 +1,69 @@
+# **Objectives**
+
+Become comfortable formatting values and variables.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open **RStudio** and start a new script using the keyboard shortcut.
+
+3.  We are going to construct a narrative string, which will be built using data from the `invdata_new.rds` file in your course level directory. Use the following steps. *Note, we created this data frame in a previous exercise.*
+
+    a.  Read in the `invdata_new.rds` file into a data frame.
+
+    b.  Calculate summary statistics for the number of rows, mean `yearsexp`, minimum `yearsexp`, and maximum `yearsexp`.
+
+    c.  Construct the narrative string using a `paste` method using only the [`paste()`](https://rdrr.io/r/base/paste.html) function.
+
+    -   The narrative string should look like the following:
+
+        *Investigators across `<number of rows>` sites had an average `<mean years experience>` years of experience ranging from `<minimum years experience>` to `<maximum years experience>` years.*
+
+    d.  Add the arguement `sep = "~/~"` to the resulting [`paste()`](https://rdrr.io/r/base/paste.html) function from exercise 3.c and view the results.
+
+4.  Save your R script and name it *Formattings.R*.
+
+# **Objectives**
+
+Become comfortable formatting values and variables.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open the script *Formattings.R*.
+
+3.  In the last exercise we constructed a narrative string using the paste() function. The narrative string was built using data from the `invdata_new.rds` file in your course level directory. Run your script to recreate this narrative string.
+
+    a.  Now, construct the narrative string using only the [`sprintf()`](https://rdrr.io/r/base/sprintf.html) function. In this narrative, format the mean years experience forcing one decimal place.
+
+4.  Save your R script, *Formattings.R*.
+
+# **Objectives**
+
+Become comfortable formatting values and variables.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open **RStudio** and open the script, *Formattings.R*.
+
+3.  Using data from the `_data/raw_vitals.rds` frame stored in the course level directory, create a data frame that looks like the following when printed to the console. `Day1` refers to when the `VISIT` variable is equal to `day1`. Site values are contained in the first two characters of the `SUBJECT` variable.
+
+    -   Note, Mean Arterial Pressure is equal to 2/3 multiplied by Diastolic Blood Pressure added to 1/3 multiplied by Systolic Blood Pressure.
+
+| Measure                | Statistic | Day1_Site01    | Day1_Site09    |
+|------------------------|-----------|----------------|----------------|
+| Systolic/Diastolic     | N         | 8              | 12             |
+|                        | Missing#  | 2              | 0              |
+|                        | Mean      | (121.8 / 78.0) | (120.7 / 77.2) |
+|                        |           |                |                |
+| Mean Arterial Pressure | N         | 8              | 12             |
+|                        | Missing#  | 2              | 0              |
+|                        | Mean      | 92.58          | 91.67          |
+|                        | Minimum   | 78.7           | 84.0           |
+|                        | Maximum   | 111.3          | 100.0          |
+
+4.  Save your R script and name it *Formattings.R*.
