@@ -18,7 +18,7 @@ usethis::use_git_config(user.name = "Your Name", user.email = "YourName@Email.co
 
 
 # Create a GitHub Personal Access Token (PAT) for authentication
-create_github_token()
+usethis::create_github_token() 
 
 # Open the .Renviron file to store the PAT securely
 usethis::edit_r_environ()
