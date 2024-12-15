@@ -1,0 +1,21 @@
+# **Objectives**
+
+Learn about the Tidyverse philosophy and sub-packages. We will also be getting some experience using a pipe operator.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open **RStudio** and begin a new script.
+
+3.  Make sure the working directory is set to the course level directory for this course.
+
+4.  Load the `tidyverse` packages using the [`library()`](https://rdrr.io/r/base/library.html) function.
+
+5.  Create a data frame called `adae` from the `adae.rds` data file in the course data directory. *Note: If the data frame is not already in your course level direcotry, download data frame by click on the link and save it in your course level directory, it should have 150 records*
+
+6.  Using the `pipe` operator to reduce the number of arguments to the [`subset()`](https://rdrr.io/r/base/subset.html) function, Output a subset of `adae` where `AETERM` is equal to `'HEADACHE'` to the console. *Hint: by pipe operator we mean `%>%`*
+
+7.  Using the `pipe` operator to reduce the number of arguments to the [`subset()`](https://rdrr.io/r/base/subset.html) function, output a subset of `adae` where `AETERM` is equal to `'HEADACHE'` to a data frame named `adae_headaches`. *Hint: by pipe operator we mean `%>%.`*
+
+8.  Save your R script to your lesson level directory and name it *Tidyverse_Introduction.R*.

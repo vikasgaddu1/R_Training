@@ -16,10 +16,13 @@
 #  e.	Second construct the narrative string using only the sprintf() function. In this narrative, format
 #      the mean years experience forcing one decimal place.
 
+setwd("/cloud/project/Code_Data_2024_03_27/Code and Data/3.0 R Language Foundation 2")
+
 # Exercise Step 3.a
 invdata <- readRDS('_data/invdata_new.rds')
 invdata
 
+length(unique(invdata$site))
 # Exercise Step 3.b
 site_stats <- c(
   nrows = nrow(invdata),
@@ -34,7 +37,7 @@ inv_narrative <- paste(
   "Investigators across",
   site_stats['nrows'],
   "sites had an average",
-  site_stats['meanye'],
+  format(site_stats['meanye'],nsmall=1),
   "years of experience ranging from",
   site_stats['minye'],
   "to",
@@ -142,6 +145,7 @@ Day1_Site01 <-
 
 Day1_Site01 <- format(Day1_Site01, width = 25, justify = 'right')
 
+
 Day1_Site09 <-
   c(
     sum(!is.na(vs_09$SYSBP)),
@@ -167,3 +171,4 @@ vs_results <-
   data.frame(Measure, Statistic, Day1_Site01, Day1_Site09)
 
 vs_results
+

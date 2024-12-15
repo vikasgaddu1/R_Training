@@ -289,7 +289,7 @@ Note that along with what we’ve covered here, we can also use the typical R su
 Unfortunately, the function we use this time isn’t as memorable as [`as.Date()`](https://rdrr.io/r/base/as.Date.html). We have to use [`as.POSIXct()`](https://rdrr.io/r/base/as.POSIXlt.html) to define date and time values, unless using another package like `lubridate`. Notice this time that we are using the `YYYY-MM-DD HH:MM:SS` string format with the timezone included.
 
 ```{r}
-as.POSIXct("2020-01-01 12:45:00 EST")
+as.POSIXct("2020-01-01 14:45:00 EST")
 ```
 
 Again, to adjust the input or output format of a date time value, consult Table \@ref(tab:datetime-formats) above.

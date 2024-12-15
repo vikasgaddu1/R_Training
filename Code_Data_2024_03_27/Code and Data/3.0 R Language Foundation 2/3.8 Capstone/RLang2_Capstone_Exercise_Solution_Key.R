@@ -2,13 +2,13 @@
 # © 2021 Anova Groups All rights reserved
 
 # Title: Solution Key
-
-source("formats.R")
+setwd("/cloud/project/Code_Data_2024_03_27/Code and Data/3.0 R Language Foundation 2")
+source("3.8 Capstone/formats.R")
 
 # Create sample data ------------------------------------------------------
 
 # Exercise Step 4.c
-df <- readRDS('dm.rds')
+df <- readRDS('_data/dm.rds')
 
 # Exercise Step 4.d
 df <-
@@ -16,17 +16,36 @@ df <-
 
 # Exercise Step 4.e
 # ARM format copy this to formats.R in course level directory.
-# arm_fmt  <- function(x) {
-#  ifelse(x == 'ARM A', "Placebo", "Active")
-# }
+arm_fmt  <- function(x) {
+ ifelse(x == 'ARM A', "Placebo", "Active")
+}
 
 # Exercise Step 4.f
 df$ReportARM <- arm_fmt(df$ARM)
 
 # Add age category
+age_cat <- Vectorize(function(x) {
+  if (x < 18) {
+    ret <- "< 18"
+  } else if (x >= 18 & x < 24) {
+    ret <- "18 to 23"
+  } else if (x >= 24 & x < 45) {
+    ret <- "24 to 44"
+  } else if (x >= 45 & x < 60) {
+    ret <- "45 to 59"
+  } else if (x >= 60) {
+    ret <- ">= 60"
+  } else {
+    ret <- "Unknown"
+  }
+  
+  return(ret)
+})
+
+
 df$agec <- factor(age_cat(df$AGE),
-                  levels = c("< 18", "18 - 23",
-                             "24 - 44", "45 - 59", ">= 60"))
+                  levels = c("< 18", "18 to 23",
+                             "24 to 44", "45 to 59", ">= 60"))
 df
 str(df)
 

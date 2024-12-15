@@ -127,7 +127,7 @@ Some additional helpful functions introduced in the `tibble` package are:
 The data import functions in the tidyverse will always store the output as a tibble.
 
 | File Format     | Function                                                                                                                                   | Package   |
-|:----------|:--------------------------------------------------|:----------|
+|:----------------|:-------------------------------------------------------------------------------------------------------------------------------------------|:----------|
 | Flat Text Files | `read_*()` / `write_*()`                                                                                                                   | `readr`   |
 | R Objects       | [`read_rds()`](https://readr.tidyverse.org/reference/read_rds.html) / [`write_rds()`](https://readr.tidyverse.org/reference/read_rds.html) | `readr`   |
 | Excel Workbooks | `read_excel()`                                                                                                                             | `readxl`  |
@@ -212,7 +212,7 @@ diamonds %>%
 Here is a listing of some common tidyverse functions that can be used inside of a mutate.
 
 | Function                                                                | Package   | Purpose                                                |
-|:-------------|:-------------|:-------------------------------------------|
+|:------------------------------------------------------------------------|:----------|:-------------------------------------------------------|
 | [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html)         | `dplyr`   | Create new variables in a data frame                   |
 | [`transmute()`](https://dplyr.tidyverse.org/reference/transmute.html)   | `dplyr`   | Create new variables, drops all others                 |
 | [`case_when()`](https://dplyr.tidyverse.org/reference/case_when.html)   | `dplyr`   | Create variables based on conditional values           |
@@ -318,7 +318,7 @@ diamonds %>%
 #### **Functions used in `summarize()`**
 
 | Function                                                                | Package | Description                                                                      |
-|:-----------|:-----------|:-----------------------------------------------|
+|:------------------------------------------------------------------------|:--------|:---------------------------------------------------------------------------------|
 | [`n()`](https://dplyr.tidyverse.org/reference/context.html)             | `dplyr` | Return the number of rows                                                        |
 | [`n_distinct()`](https://dplyr.tidyverse.org/reference/n_distinct.html) | `dplyr` | Return the number of distinct values for specified variable                      |
 | [`first()`](https://dplyr.tidyverse.org/reference/nth.html)             | `dplyr` | Return the first value in the data                                               |
@@ -437,7 +437,7 @@ To see why [`group_by()`](https://dplyr.tidyverse.org/reference/group_by.html) w
 There are many joining functions in the tidyverse.
 
 | Function                                                                  | Description                                                                                           |
-|:-------------|:---------------------------------------------------------|
+|:--------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------|
 | [`left_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html)  | Join two data frames, keeping variables from the right hand side that has matching values in the left |
 | [`right_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html) | Join two data frames, keeping variables from the left hand side that has matching values in the right |
 | [`full_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html)  | Join two data frames, keeping all variables from both data frames                                     |
@@ -448,7 +448,7 @@ There are many joining functions in the tidyverse.
 If we are interested in doing simple operations, like binding data frames together based on row or column index, then we can use the following functions:
 
 | Function                                                              | Description                                                    |
-|:---------------|:-------------------------------------------------------|
+|:----------------------------------------------------------------------|:---------------------------------------------------------------|
 | [`bind_rows()`](https://dplyr.tidyverse.org/reference/bind_rows.html) | Combine data frames by adding more rows, based on column names |
 | [`bind_cols()`](https://dplyr.tidyverse.org/reference/bind_cols.html) | Combine data frames by adding more columns, based on row index |
 | [`add_row()`](https://tibble.tidyverse.org/reference/add_row.html)    | Add a new row to an existing data frame                        |

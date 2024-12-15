@@ -2,7 +2,7 @@
 # © 2021 Anova Groups All rights reserved
 
 # Title: Solution Key
-
+setwd("/cloud/project/Code_Data_2024_03_27/Code and Data/3.0 R Language Foundation 2")
 # Exercise Step 3
 raw_vs <- readRDS("_data/raw_vitals.rds")
 
@@ -32,8 +32,25 @@ d_weight_nmiss <- sum(!is.na(raw_vs$WEIGHT))
 db_weight_miss <- sum(is.na(raw_vs[['WEIGHT']]))
 db_weight_nmiss <- sum(!is.na(raw_vs[['WEIGHT']]))
 
-# Missing Values in Action Excercises
+# Missing Values in Action Excercises 
+str_c("There are", sum(is.na(raw_vs[['WEIGHT']])), "missing and", 
+  sum(!is.na(raw_vs$WEIGHT)),  "non-missing values for", "WEIGHT out of", length(raw_vs[['WEIGHT']]),  sep = " ")
 
+desc_df <- function(df){
+   for (nm in names(raw_vs)) {
+    nm <- paste(
+      "There are",
+      sum(is.na(raw_vs[[nm]])),
+      "missing and",
+      sum(!is.na(raw_vs[[nm]])),
+      "non-missing values for the variable",
+      paste0(nm,".")
+    )
+    
+    print(nm)
+   }
+}
+desc_df(raw_vs)
 # Exercise Step 4
 # Using a for loop, names function, and paste functions, print a line to the console for each variable in the raw_vs
 # data frame using the following format example.

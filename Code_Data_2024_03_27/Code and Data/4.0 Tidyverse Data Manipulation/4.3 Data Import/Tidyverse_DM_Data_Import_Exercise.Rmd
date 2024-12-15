@@ -1,0 +1,102 @@
+# **Objectives**
+
+Become familiar with the Tidyverse data import functions by reading and writing several files.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open the script *Data_Import.R*.
+
+3.  Run the script to set your working directory to the course level directory, and load the tidyverse package using the [`library()`](https://rdrr.io/r/base/library.html) function. Or do this manually.
+
+4.  Load the haven package.
+
+5.  Read in the `dm.sas7bdat` SAS Data Set from the course level directory using the `read_sas()` function only keeping the variables `USUBJID, SUBJID, BRTHDTC, AGE, SEX, RACE, & ARM`. Save the data set as a data frame called `dm_sasds`.
+
+6.  Load the `labelled` package.
+
+7.  Using the `var_label()` function, change the **variable label** on `dm_sasds$BRTHDTC` to “Date of Birth” and `dm_sasds$ARM` to “Treatment Group”.
+
+8.  Using the [`unlist()`](https://rdrr.io/r/base/unlist.html) function together with the `var_label()` function, save the variable labels for `dm_sasds` to a named character vector called `dm_vl`.
+
+9.  Save the `dm_sasds` data frame to an rds file named `dm_r.rds` using the `write_rds()` function.
+
+10. Save and close your R script.
+
+# **Objectives**
+
+Become familiar with the Tidyverse data import functions by reading and writing several files.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open the script named *Data_Import.R*.
+
+3.  Run the script to set your working directory to the course level directory, and load the tidyverse package using the [`library()`](https://rdrr.io/r/base/library.html) function. Or do this manually.
+
+4.  Load the `writexl` package using [`library(writexl)`](https://docs.ropensci.org/writexl/).
+
+5.  Run the part of the script that creates the `dm_allvars` and the `dm_somevars` data frames.
+
+6.  Create a list of the two data frames and examine it.
+
+7.  Using the `write_xlsx()` function, export the list of data frames to a Microsoft Excel `xlsx` file.
+
+8.  Read in the first sheet from `study abc data dictionary.xlsx` with `read_excel()` and name it `abc_data_dict`. Make the variable names cleaner.
+
+9.  Write the `abc_data_dict` out as an excel file. compare the names before and now
+
+10. Save and close your R script.
+
+# **Objectives**
+
+Become familiar with the Tidyverse data import functions by reading and writing several files.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open a new script in **RStudio** and name it *Data_Import.R*.
+
+3.  Set your working directory to the course level directory.
+
+4.  Load the tidyverse package using the [`library()`](https://rdrr.io/r/base/library.html) function.
+
+5.  Use the `spec_csv()` function to examine the data attributes of `dm.csv`. \*Note: If you do not already have a \_data directory under your Course directory, download the data files by clicking on the link in the resource area of this page and saving it in your course level directory.\*
+
+6.  Use the [`readr::read_csv()`](https://readr.tidyverse.org/reference/read_delim.html) function with only the `file =` parameter to read in the file `dm.csv` and save it as the data frame `dm_allvars`.
+
+7.  Examine the console message to understand the assigned column attributes.
+
+8.  Use the `glimpse()` function on your new data frame and examine the console output.
+
+9.  Create a second data frame named `dm_somevars`.
+
+    a.  Set the col_names parameter such that it reads in the first row of the csv as the column names.
+
+    b.  Use the following for the col_types parameter:
+
+``` r
+coldefs <- cols(   
+USUBJID = col_character(),   
+SUBJID  = col_integer(),   
+BRTHDTC = col_date(format = ""),   
+AGE     = col_integer(),   
+SEX     = col_factor(levels= c("M", "F", include_na=TRUE)),   
+RACE    = col_character(),   
+ARM     = col_character())
+```
+
+```{r}
+
+```
+
+10. Subset keeping only the variables in the coldefs definition.
+
+11. Use the `write_csv()` function to save your `dm_somevars` data frame as `dm_subset.csv` in the course directory.
+
+12. Navigate to your newly created csv file and examine the file.
+
+13. Save and close your R script.

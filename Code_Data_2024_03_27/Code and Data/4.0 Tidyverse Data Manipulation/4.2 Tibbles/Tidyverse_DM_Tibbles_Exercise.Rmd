@@ -1,0 +1,70 @@
+# **Objectives**
+
+Establish an understanding of Tidyverse Tibbles and compare to data frames. We will also be creating a `tibble` using a `tribble()` function.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open **RStudio** and the *Tidyverse_Tibbles.R* script.
+
+3.  Make sure the working directory is set to the course level directory for this course.
+
+4.  Load the `tidyverse` packages using the [`library()`](https://rdrr.io/r/base/library.html) function.
+
+5.  Run the part of the script that reads in the data frame called `adae.rds` from the course level data directory and creates a dataframe.
+
+6.  To ensure we have a tibble to compare to the data frame, use the function `as_tibble()` to create a tibble called `adae_tibble`.
+
+7.  Examine `adae_tibble` using the [`class()`](https://rdrr.io/r/base/class.html) function and examine the results.
+
+8.  Examine the Environment tab grid view and notice the type of `adae_tibble` and `adae_df`.
+
+9.  Print the results of `adae_tibble` to the console and examine the results. How does this compare to printing the data frame?
+
+10. Create a tibble data frame called `invdata` using the `tribble()` function and the data in the cards statement below. It should be equivalent to following:
+
+``` sas
+data invdata;   
+infile cards truncover;   
+input invid invname $ site $ yearsexp;   
+cards;   
+1001 Phil AZO 12   
+1002 Oz ORD 19 
+;
+run;
+```
+
+13. Examine `invdata` using the [`class()`](https://rdrr.io/r/base/class.html) function and the [`print()`](https://rdrr.io/r/base/print.html) function and examine the results.
+
+14. Save your R script to your lesson level directory.
+
+# **Objectives**
+
+Establish an understanding of Tidyverse Tibbles and compare to data frames. We will also be creating a `tibble` using a `tribble()` function.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open **RStudio** and begin a new script.
+
+3.  Make sure the working directory is set to the course level directory for this course.
+
+4.  Load the `tidyverse` packages using the [`library()`](https://rdrr.io/r/base/library.html) function.
+
+5.  Read in data frame called `adae.rds`, from the course level data directory. *Note: it should have 150 records.*
+
+6.  Use the [`as.data.frame()`](https://rdrr.io/r/base/as.data.frame.html) function to create a data frame called `adae_df`.
+
+7.  Examine the Environment tab grid view and notice the type of `adae_df`.
+
+8.  Examine adae_df using the class() function and examine the results.
+
+9.  Subset the dataframe so that it’s just the *TRTP* variable. Examine the class of that subset. You can do this in two steps or one.
+
+10. Create a two-dimensional subset of the dataframe, e.g. *TRTP* and rows 50 to 100, and examine the class. What is different?
+
+11. Print the results of `adae_df` to the console and examine the results. How useful is this printout?
+
+12. Save your R script to your lesson level directory and name it *Tidyverse_Tibbles.R*.
