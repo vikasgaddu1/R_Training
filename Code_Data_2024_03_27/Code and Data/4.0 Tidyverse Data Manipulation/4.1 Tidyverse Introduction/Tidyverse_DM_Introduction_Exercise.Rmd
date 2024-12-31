@@ -4,7 +4,7 @@ Learn about the Tidyverse philosophy and sub-packages. We will also be getting s
 
 # **Exercise**
 
-1.  Launch **Learning Lab** or Local environment.
+1.  Launch **Learning Lab** or Local environment. Something.
 
 2.  Open **RStudio** and begin a new script.
 
