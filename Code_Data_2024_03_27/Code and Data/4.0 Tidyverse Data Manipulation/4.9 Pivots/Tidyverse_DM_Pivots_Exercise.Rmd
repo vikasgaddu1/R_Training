@@ -1,0 +1,103 @@
+# **Objectives**
+
+Understand performing pivots on a data frame.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open **RStudio** and start a new script.
+
+3.  Type in or copy and paste the code below into your R script to define the data frames `labdata1` and `labdata2`
+
+``` r
+library(tidyverse)  labdata1 <- tribble(    ~LabCode, ~Baseline, ~Week1    
+                                            ,"Assay1", 45, 50    
+                                            ,"Assay2", 10, 12 )  
+labdata2 <- tribble(    ~LabCode, ~Visit, ~LabValue    ,
+                        "Assay1", "Baseline", 45    ,
+                        "Assay1", "Week1", 50    ,
+                        "Assay2", "Baseline", 10    ,
+                        "Assay2", "Week1", 12 )
+```
+
+4.  Using the `pivot()` function that you learned about in the video, transform `labdata1` into a data frame that is equivalent to `labdata2`. Name the data frame `labdata1_v`.
+
+5.  Run the following commands and inspect the results in the console to check your work.
+
+```         
+labdata2 == labdata1_v identical(labdata2, labdata1_v)
+```
+
+6.  If you did not get all `TRUE` values in the console for each step, revisit your work.
+
+7.  Type in or copy and paste the code below into your R script to define the data frame `labdata3`.
+
+```         
+labdata3 <- tribble(    ~Visit, ~Assay1, ~Assay2    ,"Baseline", 45, 10    ,"Week1", 50, 12 )
+```
+
+8.  Using the `pivot()` function that you learned about in the video, transform `labdata3` into a data frame that is equivalent to `labdata2` from the earlier steps. Name the data frame `labdata3_v`.
+
+9.  Run the following commands and inspect the results in the console to check your work.
+
+```         
+labdata2 == labdata3_v identical(labdata2, labdata3_v)
+```
+
+10. If you did not get all “TRUE” values in the console for each step, revisit your work. You may have to `pipe` together more functions to make them identical. *Note: variable and sort order matters.*
+
+11. Save your R script and name it *Tidyverse_Pivots.R*.
+
+# **Objectives**
+
+Understand performing pivots on a data frame.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open the script, *Tidyverse_Pivots.R*.
+
+3.  Run the code that creates the data frames `labdata1` and `labdata2`.
+
+4.  Using the `pivot()` function that you learned about in the video, transform `labdata2` into a data frame that is equivalent to `labdata1`. Name the data frame `labdata2_h`
+
+5.  Run the following commands and inspect the results in the console to check your work.
+
+```         
+labdata1 == labdata2_h identical(labdata1, labdata2_h)
+```
+
+6.  If you did not get all “TRUE” values in the console for each step, revisit your work.
+
+7.  Read in the SAS Data Set [*`bbc_adam_adlb.sas7bdat`*](https://learn.accel2r.com/files/51612f0f-f79f-49ee-a216-5e5d52841b03/Private/Courses/_data/bbc_adam_adlb.sas7bdat) from the course level directory. Only keep the variables `SUBJID`, `SITEID`, `TRTA`, `AVISITN`, `PARCAT1`, `AVALC`, `PARAM`, `PARAMCD`.
+
+8.  Create a prep data set only keeping records based on the following criteria.
+
+    -   `PARAMCD` is equal to “K” and the `AVISITN` is not missing.
+
+9.  Now use functions we have learned and do the following.
+
+    a.  Group by `SITEID` and `TRTA`.
+
+    b.  Alter `TRTA` replacing the space with an underscore. i.e. `ARM A` becomes `ARM_A`.
+
+    c.  Calculate the mean using the `summarize()` function.
+
+    d.  Pivot wider creating a tibble that looks like the console output below.
+
+```         
+# A tibble: 7 × 5 # Groups:   SITEID [7]   
+SITEID ARM_A ARM_B ARM_C ARM_D   
+<chr>  <dbl> <dbl> <dbl> <dbl> 
+1 10      3.98  3.86  3.74  4.06 2 11      
+4.12  4.08  4.21  4.37 3 12      
+4.3   3.78  3.67  3.73 4 13      
+3.91  4.09  4.17  4.17 5 14      
+3.92  3.97  4.14  4.02 6 15      
+4     3.92  3.83  3.58 7 16      
+4.21  4.7   3.86  4.23
+```
+
+10. Save your R script.

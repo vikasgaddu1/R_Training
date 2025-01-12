@@ -1,0 +1,115 @@
+# **Objectives**
+
+Use Tidyverse functions to perform join operations on a data frames.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open **RStudio** and start a new script.
+
+3.  Run the following code to define demographic data for three different studies. Note the differences in the data structures.
+
+``` r
+library(tidyverse)  
+demo_a <- tribble(    ~study, ~inv, ~patient, ~sex,    
+"StudyA", 2000, 1, "M")  
+demo_b <- tribble(     ~study, ~inv, ~patient, ~sex,     
+"StudyB", 2000, 1, "F")  
+demo_c <- tribble(    ~study, ~inv, ~patient, ~sex,    
+"StudyC", 2000, 1, 2)
+```
+
+4.  Combine the rows for `demo_a` and `demo_b`. Any problems?
+
+5.  Now combine the rows for all three data frames. Does that work?
+
+6.  Write code that would allow you to combine the rows for all three data frames. Can you do it in one piped statement?
+
+7.  What are your conclusions regarding combining rows with variables of conflicting types?
+
+8.  Save your R script and name it *Introduction_to_Joins.R*.
+
+# **Objectives**
+
+Use Tidyverse functions to perform join operations on a data frames.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open **RStudio** and start a new script.
+
+3.  Run the following code to define a `demo` and `otherdata` data set. Notice the variable `other` exists in both the `demo` and `otherdata` data set. Examine the resulting data after the join in the console.
+
+``` r
+demo <- tribble(    ~patient, ~sex, ~other,
+                    1, "M", "other value",
+                    2, "F", "other value" )  
+otherdata <- tribble(   ~ patient, ~ visit,~ other,   
+                        1, "S", "Normal" ,   
+                        1, "B", "Normal" ,    
+                        1, "1", "Abnormal",    
+                        2, "S", "Abnormal",    
+                        2, "B", "Normal",    
+                        2, "1", "Normal" )
+```
+
+4.  Join these two data sets by `patient`. What are your conclusions about “many to many” joins? i.e. Repeats of by values in more than one data set during a join.
+
+5.  Run the following code to define a `demo` and `otherdata` data set. Notice the variable `other` exists in both the `demo` and `otherdata` data set.
+
+``` r
+demo <- tribble(    ~patient, ~sex, ~other    ,
+                    1, "M", "other value"    ,
+                    2, "F", "other value" )  
+otherdata <- tribble(   ~ patient, ~ visit,~ other,   
+                        1, "S", "Normal" ,   
+                        1, "B", "Normal" ,    
+                        1, "1", "Abnormal",    
+                        2, "S", "Abnormal",    
+                        2, "B", "Normal",    
+                        2, "1", "Normal" )
+```
+
+6.  Join these two data sets by `patient`. Examine the resulting data after the join in the console. How does R handle the same “non-by” variable existing in both data sets during a join?
+
+7.  Clear your environment's data by using the broom icon.
+
+8.  Using the `read_sas()` function from the `haven` package, read in the following data sets from the `_data` directory in your course level directory and save into data frames [*`dm_abc`*](https://learn.accel2r.com/files/51612f0f-f79f-49ee-a216-5e5d52841b03/Private/Courses/d97d86df-2d62-4aeb-8de4-0ded3f0c3cee/dm_abc.sas7bdat), [*`dm_bbc`*](https://learn.accel2r.com/files/51612f0f-f79f-49ee-a216-5e5d52841b03/Private/Courses/d97d86df-2d62-4aeb-8de4-0ded3f0c3cee/dm_bbc.sas7bdat), [*`ae_abc`*](https://learn.accel2r.com/files/51612f0f-f79f-49ee-a216-5e5d52841b03/Private/Courses/d97d86df-2d62-4aeb-8de4-0ded3f0c3cee/ae_abc.sas7bdat), and [*`ae_bbc`*](https://learn.accel2r.com/files/51612f0f-f79f-49ee-a216-5e5d52841b03/Private/Courses/d97d86df-2d62-4aeb-8de4-0ded3f0c3cee/ae_bbc.sas7bdat) respectfully.
+
+    a.  `dm_abc.sas7bdat` (use the `col_select` parameter and only keep the variables: `STUDYID`, `SITEID`, `SUBJID`, `ARM`, `SEX`, `RACE`, `AGE`).
+
+    b.  `dm_bbc.sas7bdat` (use the `col_select` parameter and only keep the variables: `STUDYID`, `SITEID`, `SUBJID`, `ARM`, `SEX`, `RACE`, `AGE`).
+
+    c.  `ae_abc.sas7bdat` (use the `col_select` parameter and only keep the variables: `STUDYID`, `USUBJID`, `AEBODSYS`, `AETERM`, `AESTDY`).
+
+    d.  `ae_bbc.sas7bdat` (use the `col_select` parameter and only keep the variables: `STUDYID`, `USUBJID`, `AEBODSYS`, `AETERM`, `AESTDY`).
+
+9.  Using the `USUBJID` variable in each of the `ae_abc` and `ae_bbc` data frames, create variables `SITEID` and `SUBJID` that are consistent with those variables in the `dm_abc` and `dm_bbc` data frames.
+
+10. Combine `dm_abc` and `ae_abc` by `STUDYID`, `SITEID`, and `SUBJID` only keeping records if the by variable values occur in both data frames.
+
+11. Combine `dm_abc` and `ae_abc` by `STUDYID`, `SITEID`, and `SUBJID` only keeping records if the by variable values occur in the `dm` data frame.
+
+12. Combine `dm_abc` and `ae_abc` by `STUDYID`, `SITEID`, and `SUBJID` keeping records regardless of which data frame the by variable values occur in. Repeat this for `dm_bbc` and `ae_bbc`.
+
+13. Create a list of `SUBJID` values that are in `dm_abc` but not in `ae_abc`.
+
+14. Create a data frame named `dm_ae_both_studies` combining the `dm_ae_abc`, `dm_ae_bbc`.
+
+15. Clean up the `AEBODSYS` and `AETERM` variables by replacing the `NA` values with “No Adverse Events”.
+
+16. Create a list of `SUBJID` values that did experience an adverse event and a list that did not experience any adverse events.
+
+17. Using `group_by(STUDYID, ARM, AEBODSYS, SEX)`, `summarize()`, and other ,`dplyr` functions we have learned about, create the following listing. This listing will contain the by variable groups as defined in the previous sentence that have more than 4 subjects. And include the summary statistics shown in the listing. Please exclude `AEBODSYS` values equal to `"No Adverse Events"`.
+
+``` r
+# A tibble: 2 × 8 # Groups:   
+STUDYID, ARM, AEBODSYS [2]   STUDYID ARM   AEBODSYS           SEX   count_subj_w_ae min_age ave_age max_age   
+<chr>   <chr> <chr>              <chr>           <int>   <dbl>   <dbl>   <dbl> 
+  1 ABC     ARM A Infections and in… M                   6      34    55.9      71 
+2 ABC     ARM A Investigations     M                   5      31    52.3      63
+```
+
+18 Save your R script and name it *Tidyverse_Joins.R*.

@@ -1,0 +1,64 @@
+# **Objectives**
+
+Use Tidyverse functions to create variables in a tibble.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open script from the previous lesson, *Tidyverse_Creating_Variables.R*.
+
+3.  Review the code to recreate the data frame called `vs_analysis` from `vs.sas7bdat` and the previous requirements/steps. Add the following steps to the code.
+
+    a.  Create a variable called `LastMAP` which is equal to `NA` at screen but equal to the `lag(MAP)` for other records.
+
+    b.  Create a variable named `Diff_fromLastMAP` which is calculated by `MAP` – `LastMAP`.
+
+    c.  Once the new version of your data frame is built, update your code to add descriptive labels to your newly calculated variables.
+
+4.  Save your resulting `vs_analysis` data frame to the course level directory as `vs_analysis.rds`.
+
+5.  Earlier we constructed a data frame called `BMI_Analysis` using the data from `vs.sas7bdat` from the course level directory. We filtered the records, selected certain variables and created the `BMI` variable. We had missing values for `BMI` previously. We will improve the calculations by coding the following steps.
+
+    a.  Replace `NA` values of `HEIGHT` and `WEIGHT` with the mean of the other subjects values for those variables respectively.
+
+    b.  Create a variable called `BMI` that uses the formula `WEIGHT / HEIGHT2`.\
+        `WEIGHT` is already in `kg` but `HEIGHT` needs to be converted from `CM` to `M` in the calculation.
+
+    c.  Create a variable called `ntile_BMI` calculated using the `ntile` function with `n=5`.
+
+    d.  Sort the data frame by BMI.
+
+    e.  Once your data frame is built, add descriptive labels to your newly calculated variables using the `var_label` function from the `labelled` package.
+
+6.  Save your resulting `BMI_analysis` data frame to the course level directory as `BMI_analysis.rds`.
+
+7.  Save your R script.
+
+# **Objectives**
+
+Use Tidyverse functions to create variables in a tibble.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open script from the previous lesson, *Tidyverse_Creating_Variables.R*.
+
+3.  Update the code that built our first data frame, `vs_analysis` from `vs.sas7bdat`, to include the following requirements/steps.
+
+    a.  Move `VisitSeq` to be after the VISIT variable.
+
+    b.  Move `MAP` to be after the DIABP variable.
+
+    c.  Move `TempF` to be after the TEMP variable.
+
+4.  Run your code and verify the correctness of the data frame.
+
+5.  Save your resulting `vs_analysis` data frame to the course level directory as `vs_analysis.rds`.
+
+6.  Earlier we created a data frame called `BMI_Analysis` using the data from `vs.sas7bdat` from the course level directory. Modify the code so that the new variables `BMI` and `ntile_BMI` are created and all other variables are dropped.
+
+7.  Inspect the data frame. Which variables were kept? Why were there “extra” variables besides the two new ones we created?
+
+8.  Save your R script.
