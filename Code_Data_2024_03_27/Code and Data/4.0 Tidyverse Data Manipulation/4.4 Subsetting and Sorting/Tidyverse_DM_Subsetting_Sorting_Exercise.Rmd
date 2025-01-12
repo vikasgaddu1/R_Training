@@ -1,0 +1,73 @@
+# **Objectives**
+
+Become familiar with the Tidyverse subsetting and sorting functions by manipulating some sample data.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open the script *Tidyverse_Subset_Sort.R*.
+
+3.  Read in the `adae.rds` file from the \_data directory for this course. The data frame should be named `adae`. Then create the `adae_ss` data frame. *But this time take off the slice_sample() so we do not sample the data frame.*
+
+4.  Filter the `adae_ss` data frame to show only records with a date of first exposure to treatment in November, 2006 and reported term for the adverse event equal to be *RASH*. Name the result rash_ss_record.
+
+5.  Assign the Subject ID for the patient to the variable `rash_subj`. Subset the result so that it is not a tibble. Why do we do that? Think about the next step.
+
+6.  With the Subject ID, subset the `adae` data frame to determine what ARM the *RASH* subject is in.
+
+7.  Save and close your R script.
+
+# **Objectives**
+
+Become familiar with the Tidyverse subsetting and sorting functions by manipulating some sample data.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open the script *Tidyverse_Subset_Sort.R*.
+
+3.  Run the code that sets your working directory to the course level directory and creates the data frame named `adae`.
+
+4.  Earlier we created a data frame named `adae_ss` with just the variables `SUBJID`, `AETERM`, and any variable containing the letters `DT`, which was a 70% random sample of the data frame `adae`. Redo that step but now using the select() function and the contains() function. Except do not sample the data this time.
+
+5.  We also used results from filtering adae_ss to determine the Subject ID for the patient who had the *RASH* in November 2006. The process was a little clunky. Use the `select()` function with another function, for example `slice()`, to clean it up. What class is the result?
+
+6.  In a similar way, improve the code to find the ARM that that subject is in. Note that the logical statement in the filter cannot use a tibble. How can you convert `rash_subj` to a class that will work?
+
+7.  Save and close your R script.
+
+# **Objectives**
+
+Become familiar with the Tidyverse subsetting and sorting functions by manipulating some sample data.
+
+# **Exercise**
+
+1.  Launch **Learning Lab** or Local environment.
+
+2.  Open the script *Tidyverse_Subset_Sort.R*.
+
+3.  Run the code that sets your working directory to the course level directory and reads in the `adae.rds` file. The data frame should be named `adae`.
+
+4.  Let’s go back to the task of determining the Subject ID from the data frame adae_ss for the patient who had the RASH in November 2006. Earlier our result was a tibble and we had to use the as.vector() function. Now that we know the `pull()` function, how can you make that code simpler?
+
+5.  We then used the `rash`\_subj`variable to determine the Treatment Protocol of that patient. Can we modify the earlier code as easily? What can you do to get back a single unique value? Hint: Remember that the`pull()`function does not return a`tibble\`.
+
+6.  With the `adae_ss` data frame create variables `days_duration = TRTEDT - TRTSDT` and `ae_duration = AEENDTC - AESTDTC`.
+
+7.  Pipe the following operations together on the data frame `adae_ss`:
+
+    a.  Relocate the duration variables you just calculated to be right after the variables used in the calculations.
+
+    b.  Filter the data to include only records with `adverse` events that last more than 10 days.
+
+    c.  Sort the data by `SUBJID` and descending `ae_duration`.
+
+8.  Create a new data frame from `adae` called `ae_list` containing distinct values for the variables `AEBODSYS`, `AEHLGT`, `AEHLT`, `AETERM`.
+
+    a.  Relocate and sort by the variables in the order they are listed above.
+
+    b.  Write the resulting data frame out to an `xlsx` file in the course directory.
+
+9.  Save and close your R script.

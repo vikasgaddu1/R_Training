@@ -128,7 +128,7 @@ excel_sheets <-
 writexl::write_xlsx(excel_sheets,
                     "_data/data_dictionary_2.xlsx")
 
-
+file <- read_excel(readxl_example("clippy.xls"))
 # Vignettes
 vignette("cell-and-column-types")
 vignette("sheet-geometry")

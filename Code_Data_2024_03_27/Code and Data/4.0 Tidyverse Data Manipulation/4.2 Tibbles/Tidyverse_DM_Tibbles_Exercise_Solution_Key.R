@@ -6,10 +6,10 @@
 
 
 # Data frames -------------------------------------------------------------
-
+install.packages('tidyverse')
 # Exercise Step 4
 library(tidyverse)
-
+setwd("/cloud/project/Code_Data_2024_03_27/Code and Data/4.0 Tidyverse Data Manipulation")
 # Exercise Step 5
 # read in the adae.rds data file in the course directory
 adae <- readRDS('_data/adae.rds')
@@ -17,6 +17,7 @@ adae <- readRDS('_data/adae.rds')
 # Exercise Step 6
 # Use the as.data.frame() function to create a data frame called adae_df
 adae_df <- as.data.frame(adae)
+# adae_df <- as_data_frame(adae) deprecated
 
 # Exercise Step 8
 # Examine adae_df using the class() function and examine the results.
@@ -51,6 +52,10 @@ class(adae_tibble)
 # Print the results of adae_tibble to the console and examine the results.
 # How does this compare to printing the data frame?
 print(adae_tibble)
+
+class(adae_tibble["TRTP"])
+
+class(adae_tibble[50:100,"TRTP"])
 
 # Exercise Step 10
 # create a tibble data frame called invdata using the tribble function

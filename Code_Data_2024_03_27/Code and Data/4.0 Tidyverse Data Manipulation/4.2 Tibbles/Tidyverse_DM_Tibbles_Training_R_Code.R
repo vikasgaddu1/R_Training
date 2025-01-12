@@ -25,6 +25,7 @@ arm    <- sample(c("A", "B", "C"), size = 1000, replace = TRUE)
 
 # Factor Conversion: Default Before R version 4.0, June 2020
 data_df <- data.frame(subjid, name, sex, age, arm, stringsAsFactors = TRUE)
+data_tbl <- tibble(subjid, name, sex, age, arm)
 str(data_df)
 
 
@@ -37,7 +38,7 @@ class(data_df["name"])
 class(data_df[1:10,  "name"])
 
 class(data_df[["name"]])
-
+class(data_df$name)
 
 # Motivation for the Tibble -----------------------------------------------
 
