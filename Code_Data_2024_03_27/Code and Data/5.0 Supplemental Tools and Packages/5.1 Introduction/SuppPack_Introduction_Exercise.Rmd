@@ -1,0 +1,122 @@
+**Exercise Part 1**
+
+-   Check if the `logr` package is installed. If it is not installed, install it using `install.packages("logr")`. Then load the package using `library(logr)`.
+
+-   Use the `log_open()` function to open a log file. Use the file path `"5.1 Introduction/log/intro_ex_3"` and set `show_notes = TRUE` so that log messages are displayed.
+
+-   Use the function `sep()` to insert a log separator with the text `"Step 3"`.
+
+<!-- -->
+
+-   Then, use the function `put()` to log the message `"This is step 3.c"`.
+
+-   This step is designed to demonstrate error handling. Uncomment the provided code to run a test that checks if `3` is not equal to `4`. Running this code will intentionally trigger an error.
+
+    ```{r}
+    # Uncomment the code below for step 3.f and run it to see the error in action:
+    # if (3 != 4) {
+    #   stop("3 is not equal to 4!")
+    # }
+    ```
+
+-   Finally, close the log file using the `log_close()` function. This will end the logging session.
+
+**Exercise Part 2**
+
+#### **Exercise Step 4: Setting the Working Directory**
+
+**Question:**\
+Ensure that your working directory is set to the **course 5 level directory**. How would you do this using R?
+
+-   **Hint:** Use the `setwd()` function or the session program menu.
+
+#### **Exercise Step 4.b: Load Required Packages**
+
+**Question:**\
+Which packages are needed to create a log file, and how would you load them in R?
+
+-   **Hint:** Load the `logr` and `tidylog` packages.
+
+#### **Exercise Step 4.c: Configure Logging Options**
+
+**Question:**\
+How can you configure the `tidylog` package to display logging messages using the `log_print` function?
+
+#### **Exercise Step 5.b: Adjust Logging Behavior (Optional)**
+
+**Question:**\
+The following options control the behavior of logging in R. Uncomment and modify the following options to disable logging and notes. What does each option do?
+
+``` r
+r
+# options("tidylog.display" = list(log_print),  
+#         "logr.on" = FALSE, "logr.notes" = FALSE) 
+```
+
+#### **Exercise Step 4.d: Open a Log File**
+
+**Question:**\
+How can you open a log file in R using `logr`? Write the code to open a log file named `"5.1 Introduction/log/intro_ex_4.log"`.
+
+#### **Exercise Step 4.d: Read in External Formats and Data**
+
+**Question 1:**\
+How would you source an external file called `formats.R` from the `"5.1 Introduction"` directory?
+
+**Question 2:**\
+Using the `haven` package, read the dataset `dm.sas7bdat` from the `_data/` directory. Filter out participants whose `"ARM"` value is `"SCREEN FAILURE"`. How would you do this in R?
+
+#### **Exercise Step 4.d: Create Named Lists for Factor Mapping**
+
+**Question 1:**\
+Create a named list for `sex_decode`, where:
+
+-   `"M"` corresponds to `"Male"`
+
+-   `"F"` corresponds to `"Female"`
+
+**Question 2:**\
+Create a named list for `race_decode`, mapping race categories to their full names:
+
+-   `"WHITE"` → `"White"`
+
+-   `"BLACK OR AFRICAN AMERICAN"` → `"Black or African American"`
+
+-   `"ASIAN"` → `"Asian"`
+
+-   `"NATIVE AMERICAN"` → `"Native American"`
+
+-   `"UNKNOWN"` → `"Unknown"`
+
+#### **Exercise Step 4.d: Create Summary Tables**
+
+**Question 1: Create an Age Summary Table**\
+Using the dataset `data_demo`, summarize the variable `AGE` by `ARM`. Include the following statistics:
+
+-   Count (`N`)
+
+-   Mean and Standard Deviation (`Mean ± SD`)
+
+-   Median
+
+-   First and Third Quartiles (`Q1 - Q3`)
+
+-   Range
+
+Format the table using `pivot_longer()` and `pivot_wider()` functions.
+
+**Question 2: Create a Sex Summary Table**\
+Using `data_demo`, create a summary table for `SEX` grouped by `ARM`. Convert `SEX` values to human-readable labels using `sex_decode`. Format the table with `pivot_longer()` and `pivot_wider()`, ensuring missing values are replaced with `0`.
+
+**Question 3: Create a Race Summary Table**\
+Using `data_demo`, create a summary table for `RACE` grouped by `ARM`. Convert `RACE` values to human-readable labels using `race_decode`. Ensure the table is formatted similarly to the `SEX` summary.
+
+#### **Exercise Step 4.d: Stack Summary Tables**
+
+**Question:**\
+Combine the three summary tables (`age`, `sex`, and `race`) into a single dataset called `demo`. How would you do this in R?
+
+#### **Exercise Step 4.e: Close the Log File**
+
+**Question:**\
+How do you properly close the log file using `logr` after all operations are complete?

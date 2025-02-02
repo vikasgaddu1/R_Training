@@ -20,12 +20,12 @@ sep("Step 3")
 
 put("This is step 3.c")
 
-# Exercise Step 3.f
-# You will need to uncomment the code below for step 3.f
+# Exercise Step 3.d
+# You will need to uncomment the code below for step 3.d
 # if (3 !=4) {
 #  stop("3 is not equal to 4!")
 # }
 
-# Exercise Step 3.d
+# Exercise Step 3.e
 log_close()
 

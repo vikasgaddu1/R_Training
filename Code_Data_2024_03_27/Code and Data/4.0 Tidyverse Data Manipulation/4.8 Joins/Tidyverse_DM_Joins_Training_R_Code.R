@@ -63,7 +63,7 @@ data_demo %>%
   add_row(patient = 3, visit = 0)
 
 data_demo %>%
-  add_column(status = c(1, 0))
+  add_column(status = c(1,0))
 
 
 # Merging and Appending Data ----------------------------------------------
@@ -77,21 +77,23 @@ bind_rows(data_demo_pat_1, data_demo_pat_2, data_demo_pat_1, data_demo_pat_2)
 
 
 # Binding Columns - Must have equivalent number of rows
-data_demo_subset_1 <- select(data_demo, 1:2) %>% print()
-data_demo_subset_2 <- select(data_demo, 3:4) %>% print()
-data_demo_subset_3 <- select(data_demo, 5:6) %>% print()
-data_demo_subset_4 <- select(data_demo, 7:9) %>% print()
-
+data_demo_subset_1 <- data_demo %>% select(1:2) %>% print()
+data_demo_subset_2 <- data_demo %>% select(3:4) %>% print()
+data_demo_subset_3 <- data_demo %>% select(5:6) %>% print()
+data_demo_subset_4 <- data_demo %>% select(7:9) %>% print()
+data_demo_subset_5 <- tibble(temp= c(1)) # Be careful you may not want this behavior.
 data_demo_subset_1 %>%
   bind_cols(data_demo_subset_2,
             data_demo_subset_3,
-            data_demo_subset_4)
+            data_demo_subset_4,
+            data_demo_subset_5)
 
 
 # Joining Data ------------------------------------------------------------
 
 # --- Mutating Joins: Adding Columns from Right Side Data to Left Side Data
-left_join( data_ae, data_vistrt, by = c("PATID" = "patient", "VISTN" = "visit"))
+data_ae %>% 
+  left_join(data_vistrt, join_by(PATID == patient, VISTN == visit))
 right_join(data_ae, data_vistrt, by = c("PATID" = "patient", "VISTN" = "visit"))
 inner_join(data_ae, data_vistrt, by = c("PATID" = "patient", "VISTN" = "visit"))
 full_join( data_ae, data_vistrt, by = c("PATID" = "patient", "VISTN" = "visit"))
@@ -100,7 +102,8 @@ full_join( data_ae, data_vistrt, by = c("PATID" = "patient", "VISTN" = "visit"))
 # --- Filter Joins:
 # Semi Join: Remove rows from Left Side Data if no matching values in Right Side Data
 # Anti Join: Determine which values in Left Side Data are not found in Right Side Data
-
+data_ae <- data_ae %>% 
+    add_row(PATID = 3, VISTN = 1)
 semi_join(data_ae, data_vistrt, by = c("PATID" = "patient", "VISTN" = "visit"))
 anti_join(data_ae, data_vistrt, by = c("PATID" = "patient", "VISTN" = "visit"))
 

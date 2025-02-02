@@ -51,6 +51,7 @@ sprintf("$%.2f", a)      # Currency
 
 # Interpolation
 sprintf("Site: %s", sites)
+paste("Site:", sites)
 
 # More interpolation
 counts <- c(2, 126, 154)

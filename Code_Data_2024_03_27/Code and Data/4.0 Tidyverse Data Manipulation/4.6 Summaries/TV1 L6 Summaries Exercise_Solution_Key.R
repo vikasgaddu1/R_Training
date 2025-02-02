@@ -37,6 +37,7 @@ vs_analysis %>%
     NAs = sum(is.na(Diff_fromLastMAP))
   )
 
+sum(!is.na(vs_analysis$Diff_fromLastMAP))
 
 # Exercise Step 6
 # We will now summarize the MAP variable in the vs_analysis data frame. Use the summarize()
@@ -84,7 +85,7 @@ vsa_01_051
 # 9 90%               88          98.3       107.
 deciles <-
   vs_analysis %>%
-  summarise(
+  reframe(
     Decile = c("10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%"),
     Pulse_Deciles = quantile(
       PULSE,
@@ -150,7 +151,7 @@ fn_list <- list("min"    = min,
 vs_analysis %>%
   summarize(across(.cols  = TempF,
                    .fns   = fn_list,
-                   .names = "Temp_F_{fn}"))
+                   .names = "{col}_{fn}"))
 
 # Exercise Step 6c
 fn_list <- list("min"    = function(x) min(x, na.rm = TRUE),
@@ -161,4 +162,4 @@ fn_list <- list("min"    = function(x) min(x, na.rm = TRUE),
 vs_analysis %>%
   summarize(across(.cols = TempF,
                    .fns  = fn_list,
-                   .names= "Temp_F_{fn}"))
+                   .names= "{col}_{fn}"))

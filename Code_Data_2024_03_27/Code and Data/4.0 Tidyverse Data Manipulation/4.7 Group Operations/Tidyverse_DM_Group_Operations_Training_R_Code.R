@@ -78,6 +78,7 @@ data_vitals <- tribble(
 
 data_grouped <-
   data_vitals %>%
+  arrange(timing) %>% 
   group_by(timing)
 
 data_grouped

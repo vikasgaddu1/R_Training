@@ -323,7 +323,7 @@ diamonds %>%
 | [`n_distinct()`](https://dplyr.tidyverse.org/reference/n_distinct.html) | `dplyr` | Return the number of distinct values for specified variable                      |
 | [`first()`](https://dplyr.tidyverse.org/reference/nth.html)             | `dplyr` | Return the first value in the data                                               |
 | [`last()`](https://dplyr.tidyverse.org/reference/nth.html)              | `dplyr` | Return the last value in the data                                                |
-| [`n()`](https://dplyr.tidyverse.org/reference/context.html)             | `dplyr` | Return the specified Nth value in the data                                       |
+| `nth()`                                                                 | `dplyr` | Return the specified Nth value in the data                                       |
 | `any(is.na())`                                                          | `base`  | Return logical value if any missing values are present in the specified variable |
 | `sum(is.na())`                                                          | `base`  | Return the number of missing values for the specified variable                   |
 
@@ -407,7 +407,8 @@ diamonds %>%
   rowwise() %>%    
   mutate(     
     sum_vars  =  sum(c(x, y, z)),     
-    mean_vars = mean(c(x, y, z)))
+    mean_vars = mean(c(x, y, z))) %>% 
+  select(x,y,z, sum_vars, mean_vars)
 ```
 
 We can also use [`across()`](https://dplyr.tidyverse.org/reference/across.html) when treating each row as its own group. We use [`c_across()`](https://dplyr.tidyverse.org/reference/c_across.html) when listing out the variables to include.
@@ -419,7 +420,8 @@ diamonds %>%
   rowwise() %>%   mutate(     
     sum_vars  = sum(c_across(x:z)),     
     mean_vars = mean(c_across(where(is.numeric)))    
-    )
+    ) %>% 
+  select(x,y,z, sum_vars, mean_vars)
 ```
 
 #### **Learning More**
@@ -480,7 +482,7 @@ Then, we use [`pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_long
 ```{r}
 diamonds_long <-    
   diamonds_short %>%    
-  pivot_longer(     cols = x:z,     names_to  = 'variable',      values_to = 'value') %>%    print() 
+  pivot_longer(     cols = x:z,     names_to  = 'varname',      values_to = 'varval') %>%    print() 
 ```
 
 And to get back to a wide format, we use [`pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.html), indicating that we want to maintain `rowid` and `cut` in this case by including them in the `id_cols` argument.
@@ -490,8 +492,8 @@ diamonds_wide <-
   diamonds_long %>%    
   pivot_wider(     
     id_cols = c(rowid, cut),     
-    names_from  = variable,     
-    values_from = value) %>%    
+    names_from  = varname,     
+    values_from = varval) %>%    
   print()
 ```
 

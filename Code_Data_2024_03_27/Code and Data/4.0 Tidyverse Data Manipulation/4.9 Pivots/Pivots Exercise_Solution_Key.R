@@ -13,7 +13,8 @@ labdata1 <- tribble(
   ~LabCode,        ~Baseline, ~Week1
   ,"Assay1",         45,         50
   ,"Assay2",         10,         12
-)
+) %>% 
+  print()
 
 labdata2 <- tribble(
   ~LabCode,     ~Visit,       ~LabValue
@@ -21,7 +22,8 @@ labdata2 <- tribble(
   ,"Assay1",    "Week1",        50
   ,"Assay2",    "Baseline",     10
   ,"Assay2",    "Week1",        12
-  )
+  ) %>% 
+  print()
 
 # Exercise Step 4
 # Using the `pivot()` function that you learned about in the video, transform
@@ -33,7 +35,8 @@ labdata1_v <-
     cols       = c(Baseline, Week1),
     names_to   = "Visit",
     values_to  = "LabValue"
-  )
+  ) %>% 
+  print()
 
 # Exercise Step 5
 # Inspect the results in the console to check your work. If you did not get
@@ -60,7 +63,8 @@ labdata3_v <-
     values_to  = "LabValue"
   ) %>%
   select(LabCode, Visit, LabValue) %>%
-  arrange(LabCode, Visit)
+  arrange(LabCode, Visit) %>% 
+  print()
 
 # Exercise Step 9
 # Inspect the results in the console to check your work. If you did not get
@@ -82,7 +86,8 @@ labdata2_h <-
     id_cols = c(LabCode),
     names_from = Visit,
     values_from = LabValue
-  )
+  ) %>% 
+  print()
 
 # Exercise Step 5
 # Inspect the results in the console to check your work. If you did not get
@@ -98,14 +103,15 @@ library(haven)
 lab_bbc <- read_sas(
   '_data/bbc_adam_adlb.sas7bdat',
   col_select = c(SUBJID, SITEID, TRTA, AVISITN, PARCAT1, AVALC, PARAM, PARAMCD)
-)
+) %>% 
+  print()
 
 # Exercise Step 8
 # Create a prep data set only keeping records based on the following criteria.
 #  `PARAMCD` is equal to "K" and the `AVISITN` is not missing.
 lab_bbc_prep_K <-
   lab_bbc %>%
-  filter(is.na(AVISITN) == "FALSE" & PARAMCD == "K")
+  filter(!is.na(AVISITN) & PARAMCD == "K")
 
 # Exercise Step 9
 # Now use functions we have learned and do the following.
@@ -116,7 +122,7 @@ lab_bbc_prep_K <-
 #  d. Pivot wider creating a tibble that looks like the console output below.
 lab_bbc_K_analysis <-
   lab_bbc_prep_K %>%
-  mutate(TRTA = sub(" ", "_", TRTA)) %>%
+  mutate(TRTA = sub(" ", "_", TRTA))  %>%
   group_by(SITEID, TRTA) %>%
   summarize(MeanValue = mean(as.numeric(AVALC))) %>%
   pivot_wider(
@@ -124,7 +130,8 @@ lab_bbc_K_analysis <-
     names_from = TRTA,
     values_from = MeanValue,
     names_repair = "universal"
-  )
+  )%>% 
+  print()
 
 lab_bbc_K_analysis
 

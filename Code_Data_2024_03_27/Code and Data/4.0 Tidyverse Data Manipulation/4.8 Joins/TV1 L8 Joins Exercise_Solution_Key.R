@@ -54,7 +54,8 @@ demo <- tribble(
   ,1, "M"
   ,2, "F"
   ,1, "M"
-)
+) %>% 
+  print()
 
 otherdata <- tribble(
   ~patient, ~visit, ~other
@@ -64,13 +65,15 @@ otherdata <- tribble(
   ,2, "1", "Normal"
   ,1, "1", "Abnormal"
   ,2, "S", "Abnormal"
-)
+) %>% 
+  print()
 
 # Exercise Step 4
 # Join these two data sets by patient. What are your conclusions about
 # “many to many” joins? i.e. Repeats of by values in more than one
 # data set during a join.
-inner_join(demo, otherdata, by = "patient")
+inner_join(demo, otherdata, join_by(patient), relationship = "many-to-many")
+inner_join(demo, otherdata, by = c("patient"), relationship = "many-to-many")
 
 # Exercise Step 5
 # Run the following code to define a demo and otherdata data set.
@@ -79,7 +82,8 @@ demo <- tribble(
   ~patient, ~sex, ~other
   ,1, "M", "other value"
   ,2, "F", "other value"
-)
+) %>% 
+  print()
 
 otherdata <- tribble(
   ~patient, ~visit, ~other
@@ -114,14 +118,18 @@ inner_join(demo, otherdata, by = "patient")
 library(haven)
 
 dm_abc <- read_sas('_data/dm_abc.sas7bdat',
-                   col_select = c(STUDYID, SITEID, SUBJID, ARM, SEX, RACE, AGE))
+                   col_select = c(STUDYID, SITEID, SUBJID, ARM, SEX, RACE, AGE)) %>% 
+  print()
 dm_bbc <- read_sas('_data/dm_bbc.sas7bdat',
-                   col_select = c(STUDYID, SITEID, SUBJID, ARM, SEX, RACE, AGE))
+                   col_select = c(STUDYID, SITEID, SUBJID, ARM, SEX, RACE, AGE)) %>% 
+  print()
 
 ae_abc <- read_sas('_data/ae_abc.sas7bdat',
-                   col_select = c(STUDYID, USUBJID, AEBODSYS, AETERM, AESTDY))
+                   col_select = c(STUDYID, USUBJID, AEBODSYS, AETERM, AESTDY)) %>% 
+  print()
 ae_bbc <- read_sas('_data/ae_bbc.sas7bdat',
-                   col_select = c(STUDYID, USUBJID, AEBODSYS, AETERM, AESTDY))
+                   col_select = c(STUDYID, USUBJID, AEBODSYS, AETERM, AESTDY)) %>% 
+  print()
 
 # Exercise Step 9
 # Using the USUBJID variable in each of the ae_abc and ae_bbc data frames,
@@ -129,46 +137,54 @@ ae_bbc <- read_sas('_data/ae_bbc.sas7bdat',
 # in the dm_abc and dm_bbc data frames.
 ae_abc <-
   ae_abc %>%
-  mutate(SITEID = substring(USUBJID,5,6),
-         SUBJID = substring(USUBJID,8,11))
+  mutate(SITEID = str_sub(USUBJID,5,6),
+         SUBJID = substring(USUBJID,8)) %>% 
+  print()
 
 ae_bbc <-
   ae_bbc %>%
   mutate(SITEID = substring(USUBJID,5,6),
-         SUBJID = substring(USUBJID,8,11))
+         SUBJID = substring(USUBJID,8,11)) %>%
+  print()
 
 
 # Exercise Step 10
 # Combine dm_abc and ae_abc by STUDYID, SITEID, and SUBJID only keeping
 # records if the by variable values occur in both data frames.
-dm_ae_abc_ij <-
-  inner_join(dm_abc, ae_abc,
-             by = c("STUDYID" = "STUDYID", "SITEID" = "SITEID", "SUBJID" = "SUBJID"))
+dm_ae_abc_ij <- dm_abc %>% 
+  inner_join(ae_abc,
+             join_by(STUDYID, SITEID, SUBJID)) %>%  
+  print()
 
 # Exercise Step 11
 # Combine dm_abc and ae_abc by STUDYID, SITEID, and SUBJID only keeping records
 # if the by variable values occur in the dm data frame.
 dm_ae_abc_lj <-
   left_join(dm_abc, ae_abc,
-            by = c("STUDYID" = "STUDYID", "SITEID" = "SITEID", "SUBJID" = "SUBJID"))
+            by = c("STUDYID" = "STUDYID", "SITEID" = "SITEID", "SUBJID" = "SUBJID")) %>% 
+  print()
 
 # Exercise Step 12
 # Combine dm_abc and ae_abc by STUDYID, SITEID, and SUBJID keeping records regardless
 # of which data frame the by variable values occur in.
 dm_ae_abc <-
   full_join(dm_abc, ae_abc,
-            by = c("STUDYID" = "STUDYID", "SITEID" = "SITEID", "SUBJID" = "SUBJID"))
+            by = c("STUDYID" = "STUDYID", "SITEID" = "SITEID", "SUBJID" = "SUBJID")) %>% 
+  print()
 
 dm_ae_bbc <-
   full_join(dm_bbc, ae_bbc,
-            by = c("STUDYID" = "STUDYID", "SITEID" = "SITEID", "SUBJID" = "SUBJID"))
+            by = c("STUDYID" = "STUDYID", "SITEID" = "SITEID", "SUBJID" = "SUBJID")) %>% 
+  filter(is.na(AETERM )) %>% 
+  print()
 
 
 # Exercise Step 13
 # Create a list of SUBJID values that are in dm_abc but not in ae_abc.
 dm_ae_abc_aj <-
-  anti_join(dm_abc, ae_abc,
-            by = c("STUDYID" = "STUDYID", "SITEID" = "SITEID", "SUBJID" = "SUBJID"))
+  anti_join(dm_bbc, ae_bbc,
+            by = c("STUDYID" = "STUDYID", "SITEID" = "SITEID", "SUBJID" = "SUBJID")) %>% 
+  print()
 
 
 # Exercise Step 14
@@ -191,25 +207,28 @@ dm_ae_both_studies <-
 had_adverse_events <-
   dm_ae_both_studies %>%
   filter(AETERM != "No Adverse Events") %>%
-  distinct(STUDYID, SUBJID)
+  distinct(STUDYID, SUBJID) %>% 
+  print()
 
 had_no_adverse_events <-
   anti_join(dm_ae_both_studies, had_adverse_events, by = c("STUDYID", "SUBJID")) %>%
-  distinct(STUDYID, SUBJID)
+  distinct(STUDYID, SUBJID) %>%
+  print()
 
 # Exercise Step 17
 # Using group_by(STUDYID, ARM, AEBODSYS, SEX), summarize(), and other ,dplyr
 # functions we have learned about, create the following listing.
 dm_ae_stats <-
   dm_ae_both_studies %>%
-  select(STUDYID, ARM, AEBODSYS, SUBJID, AGE, SEX) %>%
+  select(STUDYID, ARM, AEBODSYS, SUBJID, AGE, SEX)  %>%
   group_by(STUDYID, ARM, AEBODSYS, SEX) %>%
   summarize(count_subj_w_ae = n_distinct(SUBJID),
             min_age = min(AGE, na.rm = TRUE),
             ave_age = mean(AGE, na.rm = TRUE),
             max_age = max(AGE, na.rm = TRUE)) %>%
   filter(count_subj_w_ae > 4 & AEBODSYS != "No Adverse Events") %>%
-  arrange(STUDYID, SEX, desc(count_subj_w_ae))
+  arrange(STUDYID, SEX, desc(count_subj_w_ae))%>% 
+  print() 
 
 dm_ae_stats
 

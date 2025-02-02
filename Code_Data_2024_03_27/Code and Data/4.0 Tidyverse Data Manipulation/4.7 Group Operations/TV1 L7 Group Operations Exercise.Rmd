@@ -38,8 +38,17 @@ adae_headache <-    adae_headache %>%    group_by(TRTA)  class(adae_headache)
 
 9.  Now run the following code and examine the output sent to the console.
 
-```         
-adae_headache1st <-   adae_headache %>%   group_by(TRTA) %>%   slice_head(n = 1)  adae_headache1st  adae_headache1st <-   adae_headache %>%   group_by(TRTA) %>%   arrange(TRTA, SUBJID, AESTDY) %>%   slice_head(n = 1)  adae_headache1st  class(adae_headache1st)
+``` r
+adae_headache1st <-   adae_headache %>%   
+group_by(TRTA) %>%   
+slice_head(n = 1)  
+adae_headache1st  
+adae_headache1st <-   adae_headache %>%   
+group_by(TRTA) %>%   
+arrange(TRTA, SUBJID, AESTDY) %>%   
+slice_head(n = 1)  
+adae_headache1st  
+class(adae_headache1st)
 ```
 
 10. Given the results of the previous step, notice how you can use the `arrange()` function along with the `group_by()` function to get the appropriate first record based on sorted data. Does this feel like a first dot operation in SAS? Experiment simulating a last dot operation by using `slice_tail()`.

@@ -128,7 +128,9 @@ data_labs %>%
   mutate(previous_value = lag(bili),
          next_value     = lead(bili))
 
-
+df <- data.frame(num = 1:100)
+df %>% 
+  mutate(ntile = ntile(num, n = 5))
 # Value Ranks
 data_labs %>%
   mutate(rank_alb  = dense_rank(alb),
@@ -144,8 +146,8 @@ data_labs %>%
 
 # String Functions
 data_labs %>%
-  mutate(string_1 = paste("Patient:", patient),
-         string_2 = str_c("Visit: ", visit))
+  mutate(string_1 = paste0("Patient:", patient),
+         string_2 = str_c("Visit:", visit))
 
 
 # Control Variable Location -----------------------------------------------
@@ -179,6 +181,10 @@ data_labs %>%
 
 
 # Finer Control: Tilde (~) and Dot (.)
+data_labs %>%
+  mutate(across(.cols = where(is.numeric),
+                .fns = mean))
+
 data_labs %>%
   mutate(across(.cols = where(is.numeric),
                 .fns = ~ . - mean(., na.rm = TRUE)))

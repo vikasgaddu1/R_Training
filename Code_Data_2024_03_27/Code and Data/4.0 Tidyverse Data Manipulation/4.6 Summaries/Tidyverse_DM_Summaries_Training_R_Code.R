@@ -5,7 +5,7 @@
 # Title: Data Summaries
 
 # Packages & Functions on Display:
-# - {dplyr 1.0.0}: summarize, across, n, n_distinct, first, last, nth, any
+# - {dplyr 1.1.4}: summarize, across, n, n_distinct, first, last, nth, any
 
 
 # Setup -------------------------------------------------------------------
@@ -97,17 +97,17 @@ data_labs %>%
             sum_missing   = sum(is.na(bili)))
 
 
-# Most functions that return multiple values per vector will also work
+# Most functions that return multiple values per vector will also work if you
 range(1:10)
 quantile(1:10)
 
 data_labs %>%
-  summarise(range_label = c("min", "max"),
+  reframe(range_label = c("min", "max"),
             range_value = range(alb))
 
 
 data_labs %>%
-  summarise(quantile_label = c("20%", "50%", "80%"),
+  reframe(quantile_label = c("20%", "50%", "80%"),
             quantile_value = quantile(alb, probs = c(0.20, 0.50, 0.80)))
 
 

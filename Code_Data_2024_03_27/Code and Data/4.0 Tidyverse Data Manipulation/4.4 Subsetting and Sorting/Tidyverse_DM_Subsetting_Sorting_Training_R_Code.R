@@ -87,14 +87,17 @@ data_vitals %>% slice(30:40)
 data_vitals %>% slice(-(10:40))
 
 data_vitals %>% slice_head(n = 2)
-data_vitals %>% slice_tail(n = 2)
+data_vitals %>% slice_tail(n = 5)
 
 data_vitals %>% slice_sample(n = 5)
 data_vitals %>% slice_sample(prop = 0.10)
 
-data_vitals %>% slice_max(order_by = pulse, n = 5, with_ties = TRUE)
+sort(unique(data_vitals$pulse))
+
+data_vitals %>% slice_max(order_by = pulse, n = 2, with_ties = FALSE)
 data_vitals %>% slice_min(order_by = pulse, n = 5, with_ties = FALSE)
 
+# Most of the time we use without parameters to get max and min for a group.
 
 # Documentation
 help(slice, package = "dplyr")
@@ -106,7 +109,7 @@ data_vitals %>% filter(timing == "PRE")
 data_vitals %>% filter(!patient %in% c(1, 3, 5))
 data_vitals %>% filter(datevisit < "2020-01-10")
 
-
+# if has two characters so it uses && for element-wise comparison
 # Combine Conditions
 data_vitals %>% filter(timing == "PRE" & (pulse < 100 | pulse > 150))
 data_vitals %>% filter(timing == "PRE", pulse < 100)
@@ -134,7 +137,7 @@ help(distinct, package = "dplyr")
 # Select Variables --------------------------------------------------------
 
 # Select by Index or Name
-data_vitals %>% select(1:2, timing)
+data_vitals %>% select(5:last_col())
 data_vitals %>% select(pulse:bps, 1)
 data_vitals %>% select(!(pulse:bps))
 
@@ -188,9 +191,11 @@ help(pull, package = "dplyr")
 # Rename by Column Index or Name
 data_vitals %>% rename(VSTN = visit, PATID = 1)
 
+name <- c("vikas")
+toupper(name)
 # Apply Function to All Names
-data_vitals %>% rename_with(toupper)
-data_vitals %>% rename_with(.fn = tolower, .cols = pulse:bps)
+uppercase_vars <- data_vitals %>% rename_with(toupper)
+uppercase_vars %>% rename_with(.fn = tolower, .cols = PULSE:BPS)
 
 
 # Documentation
@@ -200,7 +205,7 @@ help(toupper, package = "base")
 
 # Relocate Variables ------------------------------------------------------
 
-data_vitals %>% relocate(datevisit, .before = 1)
+data_vitals %>% relocate(c(datevisit,bpd), .before = 1)
 data_vitals %>% relocate(datevisit, .before = visit)
 data_vitals %>% relocate(datevisit, .after = last_col())
 

@@ -27,6 +27,10 @@ adae_headache <-
 
 class(adae_headache)
 
+adae_headache %>% is_grouped_df()
+
+adae_headache %>% group_keys()
+
 # Exercise Step 9
 # without sorting
 adae_headache1st <-
@@ -86,16 +90,29 @@ adae_gb <-
 adae_gb
 
 # Exercise Step 7
+check <- adae_gb %>% 
+  filter(TRTA == "ARM D" & AETERM == "BODY ACHES")
 ae_stats <-
   adae_gb %>%
-  summarize(
+   summarize(
     count_subj_w_ae   = n_distinct(SUBJID),
-    min_time_to_event = min(AESTDY, na.rm = TRUE),
+    min_time_to_event = min(AESTDY, na.rm = TRUE) ,
     ave_time_to_event = mean(AESTDY, na.rm = TRUE),
     max_time_to_event = max(AESTDY, na.rm = TRUE)
   ) %>%
   filter(count_subj_w_ae > 1) %>%
-  arrange(desc(count_subj_w_ae))
+  arrange(-count_subj_w_ae)
+
+ae_stats <-
+  adae_gb %>%
+  summarize(
+    count_subj_w_ae   = n_distinct(SUBJID),
+    min_time_to_event = ifelse(all(is.na(AESTDY)), NA, min(AESTDY, na.rm = TRUE)),
+    ave_time_to_event = ifelse(all(is.na(AESTDY)), NA, mean(AESTDY, na.rm = TRUE)),
+    max_time_to_event = ifelse(all(is.na(AESTDY)), NA, max(AESTDY, na.rm = TRUE))
+  )%>%
+  filter(count_subj_w_ae > 1) %>%
+  arrange(-count_subj_w_ae)
 
 ae_stats
 
@@ -103,15 +120,20 @@ ae_stats
 
 library(tidyverse)
 
+library(haven)
 # Exercise Step 3
 # Read in the SAS data set, **"bbc_adam_adlb.sas7bdat**, from the course level
 # directory into a data frame named `bbc_adam`.
 bbc_adam <- read_sas("_data/bbc_adam_adlb.sas7bdat")
 
+colnames(bbc_adam)
+names(bbc_adam)
+varnames <- c("AGFLGU","ANL01FL") %>% 
+  str_subset("FL$")
 # Exercise Step 4
 # There are variables in the data frame that are flags. They are denoted by `"FL"`.
 # How many flag variables are there?
-bbc_adam %>% colnames() %>% str_subset("FL")
+bbc_adam %>% colnames() %>% str_subset("FL$")
 
 # Exercise Step 5
 # Create a variable `flagchk` that counts the number of flags checked (`Y`)
@@ -121,7 +143,7 @@ flagchk <-
   bbc_adam %>%
   slice_sample(n = 100) %>%
   rowwise() %>%
-  mutate(flag = sum(c_across(contains("FL")) == "Y")) %>%
+  mutate(flag = sum(c_across(ends_with("FL")) == "Y")) %>%
   select(flag)
 
 # Exercise Step 6
