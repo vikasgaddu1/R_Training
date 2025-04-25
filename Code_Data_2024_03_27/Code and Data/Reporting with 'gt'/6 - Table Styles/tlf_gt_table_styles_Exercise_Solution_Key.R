@@ -54,13 +54,13 @@ advs |>
     locations = cells_body()) |>
   tab_style(
     style = cell_borders(
-      weight = 2,
+      weight = px(3),
       sides  = "all",
       color  = "green"),
     locations = cells_title()) |>
   tab_style(
     style = cell_borders(
-      weight = 2,
+      weight = px(3),
       sides  = "all",
       color  = "yellow"),
     locations = cells_footnotes())
@@ -189,6 +189,6 @@ advs |>
   data_color(
     columns = AVAL,
     target_columns = AVAL,
-    palette = "viridis")
+    palette = "magma")
 
 

@@ -168,7 +168,7 @@ dat_qc <-
 
 diff1 <- anti_join(dat_final, dat_qc) %>% put()
 diffdf(dat_final, dat_qc) %>% put()
-
+identical()
 if (nrow(diff1) == 0) {
   put("NOTE: Final data frame and QC are identical.")
 } else {

@@ -17,6 +17,12 @@ library(tidyverse)
 library(gt)
 library(haven)
 
+ADY <- 1
+seconds <- ADY*3600*24 + ADY*60 + ADY
+# convert seconds to date
+
+date(seconds)
+
 advs <-
   read_sas('_data/abc_adam_advs.sas7bdat') |>
   mutate(dt = Sys.time() + ADY*3600*24 + ADY*60 + ADY,

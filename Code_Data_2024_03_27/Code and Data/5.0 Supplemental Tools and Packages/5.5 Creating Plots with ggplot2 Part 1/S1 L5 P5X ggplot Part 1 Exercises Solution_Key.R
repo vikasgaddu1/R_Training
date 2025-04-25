@@ -8,8 +8,10 @@
 # Excercise Step 3
 library(tidyverse)
 library(haven)
-
+# Use the following code to get started with this exercise. Ensure you understand the data pipeline
+# and how it is creating the resulting data. Ensure your working directory is set to the course level.
 # Excercise Step 4.a
+
 adsl <- read_sas("_data/abc_adam_adsl.sas7bdat") %>%
   select(SUBJID, SITEID, ARM, AGEGR1, SEX) %>%
   filter(ARM != "SCREEN FAILURE") %>%
@@ -32,7 +34,6 @@ adsl <- read_sas("_data/abc_adam_adsl.sas7bdat") %>%
     )
   )
 
-# Excercise Step 4.b
 advs <- read_sas("data/abc_adam_advs.sas7bdat") %>%
   select(SUBJID, SITEID, AVISITN, PARAMCD, AVAL) %>%
   filter(PARAMCD == "BMI" | (PARAMCD == "PULSE" & AVISITN == 0)) %>%
@@ -60,8 +61,8 @@ ggplot(plotdata, aes(x = ARM, y = PULSE)) + geom_point()
 ggplot(plotdata, aes(x = BMI, y = PULSE, color = ARM)) + geom_point()
 
 # Excercise Step 6
-# Look in the vignette for ggplot2 and find two other shapes that are 
-# interesting. Redo two of the three plots above with those shapes. Use the 
+# Look in the vignette for ggplot2 and find two other shapes that are
+# interesting. Redo two of the three plots above with those shapes. Use the
 # name for one shape and the number for the other.
 vignette("ggplot2-specs")
 
@@ -93,8 +94,7 @@ ggplot(plotdata, aes(x = BMI, y = PULSE, color = SEX)) + geom_smooth()
 # Excercise Step 5.b
 # Scatterplot of PULSE by AGEGR1, colored by SEX, and using a position jitter width of 0.10
 ggplot(plotdata, aes(x = AGEGR1, y = PULSE, color = SEX)) +
-  geom_point(size = 3,
-             position = position_jitter(width = 0.10))
+  geom_point(size = 3, position = position_jitter(width = 0.10))
 
 # Box, Bar, Histogram -------------------------------------------------------
 
@@ -131,3 +131,5 @@ ggplot(plotdata, aes(x = PULSE, linetype = SITEID)) + geom_density()
 # Excercise Step 6
 #	Use the colors() function to list out all the acceptable color names that can be used in code.
 colors()
+
+

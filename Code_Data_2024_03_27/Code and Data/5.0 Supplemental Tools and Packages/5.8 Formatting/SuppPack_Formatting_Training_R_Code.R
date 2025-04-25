@@ -23,7 +23,7 @@ library(fmtr)
 
 # Load Data
 # dat  <- file.path("./data", "abc_adam_advs.sas7bdat") %>%
-dat <-  read_sas("abc_adam_advs.sas7bdat") %>% 
+dat <-  read_sas("_data/abc_adam_advs.sas7bdat") %>% 
   select(USUBJID, SITEID, TRTA, ADT, AVISIT, AVISITN, PARAM, PARAMCD, AVAL) %>% 
   filter(AVISIT != "Screening") %>% arrange(SITEID, USUBJID, AVISITN, PARAMCD)
 
@@ -102,6 +102,7 @@ View(dat_fmt)
 
 # Formatting List ---------------------------------------------------------
 
+# named vector, value condition, vectorize function, sprintf modifier
 # Create user-define format for respirations
 resp_fmt <- value(condition(is.na(x) | trimws(x) == "", "Missing"),
                   condition(x > 16, "High"),
@@ -163,7 +164,7 @@ summary_pulse <- dat %>% filter(PARAMCD == "PULSE") %>%
   group_by(SITEID, USUBJID) %>% 
   summarize(PARAM = "PULSE",
             n = fmt_n(AVAL),
-            "Mean (SD)" = fmt_mean_sd(AVAL),
+            "Mean (SD)" = fmt_mean_sd(AVAL,"%.1f","%.2f"),
             Median = fmt_median(AVAL),
             "Q1 - Q3" = fmt_quantile_range(AVAL),
             "Min - Max" = fmt_range(AVAL)) %>% 

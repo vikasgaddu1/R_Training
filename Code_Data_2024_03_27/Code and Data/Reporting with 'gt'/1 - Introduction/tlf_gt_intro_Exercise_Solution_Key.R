@@ -18,7 +18,7 @@ library(gt)
 
 addv <-
   rx_addv |>
-  select(USUBJID, TRTA, AGE, SEX, PARAMCD, AVAL) |>
+  select(USUBJID, TRTA, AGE, SEX, PARAMCD, PARAM,AVAL) |>
   filter(PARAMCD == "PDANYM")
 
 # Exercise step 2

@@ -31,7 +31,10 @@ summary(data_plots$price)
 # Getting Started with Plots ----------------------------------------------
 
 # An Empty Canvas
-ggplot(data = data_plots)
+data_plots |> 
+  ggplot()
+
+plt <- ggplot(data = data_plots)
 
 # Add Aesthetics to the Plot
 ggplot(data = data_plots, mapping = aes(x = carat, y = price))
@@ -52,7 +55,7 @@ plot_base + geom_point(size = 5)
 plot_base + geom_point(shape = 1)
 plot_base + geom_point(alpha = 0.25)
 plot_base + geom_point(color = "red")
-plot_base + geom_point(color = "#FF0000")
+plot_base + geom_point(color = "#FF0110")
 
 
 # Any Combination of Aesthetics
@@ -145,18 +148,23 @@ ggplot(data_plots, aes(x = cut, fill = clarity)) +
 data_summary <- data_plots %>% count(cut) %>% print()
 ggplot(data_summary, aes(x = cut, weight = n)) + geom_bar()
 
+data_plots |> 
+  count(cut, clarity) |> 
+  ggplot(aes(x = cut, fill = clarity, weight = n)) +
+  geom_bar(position = position_fill())
 
 # Histogram ---------------------------------------------------------------
 # Aesthetics: X, Alpha, Color, Group, Fill, Linetype
-
-ggplot(data_plots, aes(x = carat)) + geom_histogram()
-ggplot(data_plots, aes(x = carat)) + geom_histogram(bins = 50, color = "white")
+data_plots |> 
+  filter(cut=="Fair") |>
+ggplot(aes(x = carat)) + geom_histogram()
+ggplot(data_plots, aes(x = carat)) + geom_histogram(bins = 500)
 
 
 # Density Plot
 ggplot(data_plots, aes(x = carat)) + geom_density()
-
-ggplot(data_plots, aes(x = carat)) + geom_density(fill = "orange")
+str(data_plots)
+ggplot(data_plots, aes(x = carat)) + geom_density(fill = "orange") 
 ggplot(data_plots, aes(x = carat, linetype = cut)) + geom_density()
 
 
@@ -166,8 +174,19 @@ ggplot(data_plots, aes(x = carat, linetype = cut)) + geom_density()
 # - Find all accepted names of colors
 colors()
 
-sample_palette <- sample(colors(), 6)
-scales::show_col(sample_palette)
+sample_palette <- sample(colors(), 10)
+scales::show_col(c("yellow1", "yellow2", "yellow3", "yellow4", "yellow"))
+
+mymean <- function(...) {
+  #capture current;
+  mean(...)
+}
+tryCatch(
+  mymean(data_plots$prices),
+  error = function(e) print(e),
+  finally = print("Done")
+)
+
 
 
 # Vignettes

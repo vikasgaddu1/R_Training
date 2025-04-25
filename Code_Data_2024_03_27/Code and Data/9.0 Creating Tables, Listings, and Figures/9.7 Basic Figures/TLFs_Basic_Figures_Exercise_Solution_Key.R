@@ -23,7 +23,7 @@ log_path <- log_open("VS_Figures")
 
 
 put("Set data directory")
-data_dir <- "data" %>% put()
+data_dir <- "../_data" %>% put()
 
 put("Read and filter ADSL dataset")
 adsl <- read_sas(file.path(data_dir, "abc_adam_adsl.sas7bdat")) %>% 
@@ -144,6 +144,5 @@ write_report(rpt) %>% put()
 log_close()
 
 options("tidylog.display" = NULL)
-
 
 

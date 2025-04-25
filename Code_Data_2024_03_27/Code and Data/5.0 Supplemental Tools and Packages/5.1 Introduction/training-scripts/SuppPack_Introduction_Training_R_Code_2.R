@@ -2,20 +2,19 @@
 # © 2021 Anova Groups All rights reserved
 
 # Load Packages
+setwd("/cloud/project/Code_Data_2024_03_27/Code and Data/5.0 Supplemental Tools and Packages")
+source("./5.1 Introduction/exercise-scripts/formats.R")
 library(tidyverse)
 library(haven)
 library(logr)
 library(tidylog, warn.conflicts = FALSE)
 
-source("./5.1 Introduction/formats.R")
-
 # Attach loggers
 options("tidylog.display" = list(log_print), 
         "logr.on" = TRUE,
         "logr.notes" = FALSE)
-
 # Open Log
-log_path <- log_open("sp_intro2")
+log_path <- log_open("5.1 Introduction/log/sp_intro2.log", logdir = FALSE)
 
 
 # Prepare Data  ---------------------------------------------------------

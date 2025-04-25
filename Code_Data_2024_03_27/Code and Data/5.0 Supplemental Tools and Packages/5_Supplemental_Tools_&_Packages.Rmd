@@ -25,7 +25,7 @@ This course will begin to fill in some gaps with tools that we feel are missing 
 
 The first additional package in this course will be introduced in this lesson is `logr`. The `logr` package fills the gap of there not being a good logging facility available in R. This package works well with the `tidylog` package to provide log output for each of the tidyverse function operations. The `autolog = TRUE` argument allows `logr` to make use of `tidylog` in the background.
 
-```{r}        
+```{r}
 library(logr)  
 # Begin Log 
 log_open("log_name", autolog = T)  
@@ -47,7 +47,7 @@ We will be using the `stringr` and `scales` packages to explore string operation
 #### **String Operations**
 
 |                                                                                                                                                                                                                                                                                                                                   |                                                                                                                                                      |
-|--------------------------------------|----------------------------------|
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
 |                                                                                                                                                                                                                                                                                                                                   | Tidyverse String Functions                                                                                                                           |
 | Function                                                                                                                                                                                                                                                                                                                          | Description                                                                                                                                          |
 | [`stringr::str_c()`](https://stringr.tidyverse.org/reference/str_c.html)                                                                                                                                                                                                                                                          | Concatenate two strings, specifying `sep` as the separator                                                                                           |
@@ -74,7 +74,7 @@ We will be using the `stringr` and `scales` packages to explore string operation
 #### **String Formats**
 
 |                                                                                     |                                                                                                                   |
-|------------------------|-----------------------------------------------|
+|-------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
 |                                                                                     | Tidyverse String Formats                                                                                          |
 | Function                                                                            | Description                                                                                                       |
 | [`scales::number()`](https://scales.r-lib.org/reference/number.html)                | Round a numeric value and convert to string, aruments control prefixes, suffixes, comma separators, and accuracy  |
@@ -85,7 +85,7 @@ We will be using the `stringr` and `scales` packages to explore string operation
 
 #### **Strings in a Data Pipeline**
 
-```{r}        
+```{r}
 library(scales) 
 library(stringr)  
 library(formatR)
@@ -110,7 +110,7 @@ We will be using `lubridate` from the `tidyverse` to explore date and time opera
 #### **Date Operations**
 
 |                                                                                                                                                                                                                                                                                                                                                                                                                                                             |                                                                                                                         |
-|--------------------------------------|----------------------------------|
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
 |                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Tidyverse Date Functions                                                                                                |
 | Function                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Description                                                                                                             |
 | [`lubridate::now()`](https://lubridate.tidyverse.org/reference/now.html), [`lubridate::today()`](https://lubridate.tidyverse.org/reference/now.html)                                                                                                                                                                                                                                                                                                        | Returns the time now, or the date today                                                                                 |
@@ -132,7 +132,7 @@ Define a date period with [`lubridate::period()`](https://lubridate.tidyverse.or
 
 It’ll be important to remember the distinction between these functions: [`year()`](https://lubridate.tidyverse.org/reference/year.html) will grab the date part of an existing, while [`years()`](https://lubridate.tidyverse.org/reference/period.html) is used for the period operations.
 
-```{r}        
+```{r}
 library(lubridate)  
 # Define a Period 
 period("10y 10m 10d") 
@@ -152,7 +152,7 @@ as_date("2020-01-01") + months(1:12)
 
 A time duration in `lubridate` refers to the number of seconds that have passed since a given datetime. This **does not** adjust for leap years or daylight savings.
 
-```{r}        
+```{r}
 # Define a Period 
 duration("10y 10m 10d") 
 duration(years = 10, months = 10, days = 10)  
@@ -166,7 +166,7 @@ as_datetime("2020-01-01 12:30:00") - dyears(10)
 
 Date intervals are used to work with the time between two points, and are useful for calculating age values.
 
-```{r}        
+```{r}
 my_interval <- interval("2020-01-01", "2020-06-01")  
 # Return seconds between two dates 
 int_length(my_interval)  
@@ -193,7 +193,7 @@ In this lesson we create frequency tables and various utility functions included
 
 The [`janitor::tabyl()`](https://sfirke.github.io/janitor/reference/tabyl.html) function is an alternative to the `base` R [`table()`](https://rdrr.io/r/base/table.html) function. This function can be used in a `tidyverse` pipeline format.
 
-```{r}        
+```{r}
 library(janitor)  
 mtcars %>% 
   tabyl(cyl) 
@@ -205,7 +205,7 @@ mtcars %>%
 
 The `adorn_*()` functions allow us to prepare the janitor tables for display. See [`vignette("tabyls")`](https://sfirke.github.io/janitor/articles/tabyls.html) for more information.
 
-```{r}        
+```{r}
 mtcars %>%    
   tabyl(cyl, am) %>%    
   adorn_totals() %>%    
@@ -213,7 +213,7 @@ mtcars %>%
 ```
 
 |                                                                                                           |                                           |
-|--------------------------------|----------------------------------------|
+|-----------------------------------------------------------------------------------------------------------|-------------------------------------------|
 |                                                                                                           | Janitor Table Functions                   |
 | Function                                                                                                  | Description                               |
 | [`janitor::adorn_totals()`](https://sfirke.github.io/janitor/reference/adorn_totals.html)                 | Add a total column, total row, or both    |
@@ -228,7 +228,7 @@ mtcars %>%
 The `janitor` package contains many helpful utility functions. See [`vignette("janitor")`](https://sfirke.github.io/janitor/articles/janitor.html) for more information.
 
 |                                                                                                 |                                            |
-|-----------------------------|-------------------------------------------|
+|-------------------------------------------------------------------------------------------------|--------------------------------------------|
 |                                                                                                 | Janitor Utility Functions                  |
 | Function                                                                                        | Description                                |
 | [`janitor::get_dupes()`](https://sfirke.github.io/janitor/reference/get_dupes.html)             | Identify rows with duplicated information  |
@@ -246,16 +246,16 @@ Be aware, `ggplot2` is a complex package, so don’t hesitate to use an online s
 
 Remember that `ggplot2` is an old package, and was written before the pipe operator `%>%` was commonly used. So in `ggplot2`, we have to use a `+` to chain operations together.
 
-```{r}        
+```{r}
 library(dplyr)
 library(ggplot2)
 
 # convert diamonds data frame to a tibble
 diamonds_t <- as_tibble(diamonds)
-diamonds_t %>%
-  slice_sample(n = 100) %>%   
+diamonds_t |> 
+  slice_sample(n = 100) |>    
   ggplot(aes(x = carat, y = price)) + 
-  geom_point(size = 5,              
+  geom_point(size = 5,
              shape = 22,
              fill = "red",
              alpha = 0.50)
@@ -264,7 +264,13 @@ diamonds_t %>%
 
 Some notes:
 
-ggsave() will let you save an image to the file directory colors() will list all of the English named colors available for use in ggplot2 scales::show_col() will display a sample of what the color looks like in the Plots panel vignette("ggplot2-specs") will give examples of the available aesthetics for line types, shapes, sizes, text, colors, and fills RStudio Cheat Sheet Download the RStudio cheat sheet for the ggplot2 package here.
+-   ggsave() will let you save an image to the file directory
+
+-   colors() will list all of the English named colors available for use in ggplot2 scales::show_col() will display a sample of what the color looks like in the Plots panel
+
+-   vignette("ggplot2-specs") will give examples of the available aesthetics for line types, shapes, sizes, text, colors, and fills
+
+-   RStudio Cheat Sheet Download the RStudio cheat sheet for the ggplot2 package here.
 
 ## **5.6 Tidyverse Graphics II**
 
@@ -346,7 +352,7 @@ my_data  %>%
 There are many forcats functions that you may find useful.
 
 | Forcats Functions                                   | Function Description                                                                        |
-|----------------------------|--------------------------------------------|
+|-----------------------------------------------------|---------------------------------------------------------------------------------------------|
 | `forcats::fct_inorder()`                            | Reorder factor levels by order of first appearance in data                                  |
 | `forcats::fct_infreq()`                             | Reorder factor levels by frequency count                                                    |
 | `forcats::fct_rev()`                                | Reverse the order of factor levels                                                          |
@@ -375,12 +381,12 @@ From the vignette:
 -   The value() and condition() functions to create a user-defined format. - The fcat() function to create a format catalog.
 -   The flist() function to create a formatting list. See vignette("fmtr", package = "fmtr") to learn more.
 
-## **5.9 Reporting** 
+## **5.9 Reporting**
 
 This lesson covers the reporter package, which is used to create text based reports like TLFs in R. Supported output formats are: .txt, .rtf, .pdf, .html, and .docx.
 
 | Reporter Functions            | Function Description                                                              |
-|-------------------|-----------------------------------------------------|
+|-------------------------------|-----------------------------------------------------------------------------------|
 | `reporter::create_report()`   | Creates a report template that you can add to using additional reporter functions |
 | `reporter::create_table()`    | Creates a table template that you can add to using additional reporter functions  |
 | `reporter::write_report()`    | Saves a report to the file system                                                 |

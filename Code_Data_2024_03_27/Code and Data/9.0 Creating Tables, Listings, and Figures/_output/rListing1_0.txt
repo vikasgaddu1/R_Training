@@ -1,0 +1,97 @@
+Listing 16.1.1: Demographics
+
+—————————————————————————————————————————————————————————————————————
+ USUBJID     SEX             RACE                      ETHNIC        
+—————————————————————————————————————————————————————————————————————
+ABC-01-049    M              WHITE             NOT HISPANIC OR LATINO
+ABC-01-050    M              WHITE             NOT HISPANIC OR LATINO
+ABC-01-051    M              WHITE             NOT HISPANIC OR LATINO
+ABC-01-052    F              WHITE                    UNKNOWN        
+ABC-01-053    F              WHITE             NOT HISPANIC OR LATINO
+ABC-01-054    M              WHITE             NOT HISPANIC OR LATINO
+ABC-01-055    F    BLACK OR AFRICAN AMERICAN          UNKNOWN        
+ABC-01-056    M              WHITE             NOT HISPANIC OR LATINO
+ABC-01-113    M              WHITE                    UNKNOWN        
+ABC-01-114    F              WHITE                    UNKNOWN        
+ABC-02-033    F              WHITE             NOT HISPANIC OR LATINO
+ABC-02-034    F              WHITE             NOT HISPANIC OR LATINO
+ABC-02-035    M              WHITE             NOT HISPANIC OR LATINO
+ABC-02-036    M              WHITE             NOT HISPANIC OR LATINO
+ABC-02-037    M              WHITE               HISPANIC OR LATINO  
+ABC-02-038    M              WHITE             NOT HISPANIC OR LATINO
+ABC-02-039    M              WHITE             NOT HISPANIC OR LATINO
+ABC-02-040    M              WHITE             NOT HISPANIC OR LATINO
+ABC-02-109    M              WHITE             NOT HISPANIC OR LATINO
+ABC-02-110    F              WHITE             NOT HISPANIC OR LATINO
+ABC-02-111    M              WHITE             NOT HISPANIC OR LATINO
+ABC-02-112    F              WHITE             NOT HISPANIC OR LATINO
+ABC-03-001    M              WHITE             NOT HISPANIC OR LATINO
+ABC-03-002    M              WHITE             NOT HISPANIC OR LATINO
+ABC-03-003    M              WHITE             NOT HISPANIC OR LATINO
+ABC-03-004    M              WHITE             NOT HISPANIC OR LATINO
+ABC-03-005    M              WHITE             NOT HISPANIC OR LATINO
+ABC-03-006    M              WHITE             NOT HISPANIC OR LATINO
+ABC-03-007    M              WHITE             NOT HISPANIC OR LATINO
+ABC-03-008    M              WHITE             NOT HISPANIC OR LATINO
+ABC-03-089    F             UNKNOWN              HISPANIC OR LATINO  
+ABC-03-090    M              WHITE             NOT HISPANIC OR LATINO
+ABC-03-091    F              WHITE             NOT HISPANIC OR LATINO
+ABC-04-073    F              WHITE             NOT HISPANIC OR LATINO
+ABC-04-074    F              WHITE             NOT HISPANIC OR LATINO
+ABC-04-075    M              WHITE             NOT HISPANIC OR LATINO
+ABC-04-076    M              WHITE             NOT HISPANIC OR LATINO
+ABC-04-077    F              WHITE             NOT HISPANIC OR LATINO
+ABC-04-078    F              WHITE             NOT HISPANIC OR LATINO
+ABC-04-079    F              WHITE             NOT HISPANIC OR LATINO
+ABC-04-080    M              WHITE             NOT HISPANIC OR LATINO
+ABC-04-125    M              WHITE             NOT HISPANIC OR LATINO
+ABC-04-126    M              WHITE             NOT HISPANIC OR LATINO
+ABC-04-127    M              ASIAN             NOT HISPANIC OR LATINO
+ABC-04-128    M              WHITE             NOT HISPANIC OR LATINO
+ABC-04-129    M              ASIAN             NOT HISPANIC OR LATINO
+ABC-04-130    M              WHITE             NOT HISPANIC OR LATINO
+ABC-04-131    M              WHITE             NOT HISPANIC OR LATINO
+ABC-06-065    M              WHITE             NOT HISPANIC OR LATINO
+ABC-06-066    F              WHITE             NOT HISPANIC OR LATINO
+ABC-06-067    F              WHITE               HISPANIC OR LATINO  
+ABC-06-068    F              WHITE             NOT HISPANIC OR LATINO
+ABC-06-069    F              WHITE             NOT HISPANIC OR LATINO
+ABC-06-070    M              WHITE             NOT HISPANIC OR LATINO
+ABC-06-071    F              WHITE             NOT HISPANIC OR LATINO
+ABC-06-072    M              WHITE             NOT HISPANIC OR LATINO
+ABC-06-161    M              WHITE             NOT HISPANIC OR LATINO
+ABC-06-162    M              WHITE             NOT HISPANIC OR LATINO
+ABC-06-163    M              WHITE             NOT HISPANIC OR LATINO
+ABC-07-009    F              WHITE             NOT HISPANIC OR LATINO
+ABC-07-010    F              WHITE             NOT HISPANIC OR LATINO
+ABC-07-011    M              WHITE             NOT HISPANIC OR LATINO
+ABC-07-012    F              WHITE             NOT HISPANIC OR LATINO
+ABC-07-013    M              WHITE             NOT HISPANIC OR LATINO
+ABC-07-014    M              WHITE             NOT HISPANIC OR LATINO
+ABC-07-015    F              WHITE             NOT HISPANIC OR LATINO
+ABC-07-016    M              WHITE             NOT HISPANIC OR LATINO
+ABC-08-101    F              WHITE             NOT HISPANIC OR LATINO
+ABC-08-102    F              WHITE             NOT HISPANIC OR LATINO
+ABC-08-103    M             UNKNOWN            NOT HISPANIC OR LATINO
+ABC-08-104    M              WHITE             NOT HISPANIC OR LATINO
+ABC-08-105    M              WHITE             NOT HISPANIC OR LATINO
+ABC-08-106    M              WHITE             NOT HISPANIC OR LATINO
+ABC-08-107    M              WHITE             NOT HISPANIC OR LATINO
+ABC-08-108    F              WHITE             NOT HISPANIC OR LATINO
+ABC-09-017    M    BLACK OR AFRICAN AMERICAN     HISPANIC OR LATINO  
+ABC-09-018    F              WHITE             NOT HISPANIC OR LATINO
+ABC-09-019    M              WHITE             NOT HISPANIC OR LATINO
+ABC-09-020    M              WHITE             NOT HISPANIC OR LATINO
+ABC-09-021    F    BLACK OR AFRICAN AMERICAN     HISPANIC OR LATINO  
+ABC-09-022    F    BLACK OR AFRICAN AMERICAN   NOT HISPANIC OR LATINO
+ABC-09-023    M    BLACK OR AFRICAN AMERICAN   NOT HISPANIC OR LATINO
+ABC-09-024    M    BLACK OR AFRICAN AMERICAN   NOT HISPANIC OR LATINO
+ABC-09-137    M              WHITE             NOT HISPANIC OR LATINO
+ABC-09-138    M              WHITE             NOT HISPANIC OR LATINO
+\s\nListing 16.1.1: Demographics
+
+—————————————————————————————————————————————————————————————————————
+ USUBJID     SEX             RACE                      ETHNIC        
+—————————————————————————————————————————————————————————————————————
+ABC-09-139    F              WHITE             NOT HISPANIC OR LATINO
+ABC-09-140    F              WHITE             NOT HISPANIC OR LATINO

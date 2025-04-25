@@ -28,7 +28,7 @@ log_path <- log_open("Table5_0")
 sep("Read in ADSL and ADPSGA data")
 
 put("Data Filepath")
-dir_data <- "./data" %>% put()
+dir_data <- "../_data" %>% put()
 
 
 put("Combine ADSL for studies ABC and BBC")

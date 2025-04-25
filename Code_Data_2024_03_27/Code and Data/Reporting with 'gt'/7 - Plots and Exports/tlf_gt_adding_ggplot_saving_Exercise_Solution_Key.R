@@ -53,10 +53,11 @@ plot_line_trta <- function(my_trta) {
   advs_summ |>
     filter(Treatment == my_trta) |>
     ggplot(aes(x = StudyDay, y = mean)) +
-    geom_line(aes(color = "orange", size = 10)) +
+    geom_line(aes(color = "orange"), size = 1) +
     theme_minimal()
 }
 
+print(advs_summ, n = 15)
 # plot_line_trta(my_trta = "ARM A")
 
 
@@ -89,7 +90,7 @@ advs_summ_wo_plots <-
 
 advs_summ_wo_plots
 
-gtsave(advs_summ_wo_plots, 'advs_summ_wo_plots.rtf')
+gtsave(advs_summ_w_plots, 'advs_summ_wo_plots.rtf')
 
 # Exercise step 3
 # Part c

@@ -44,7 +44,7 @@ addv |>
   gt() |>
   tab_header(title = md("<b>Study GT01: 4001</b><br>Listing of addv Data"),
              subtitle = md("**At Least One Major Protocol Deviation**<br>
-                            For Selected Subjects"))
+                            *For Selected Subjects*"))
 
 # Exercise step 3
 # Part c.

@@ -41,7 +41,8 @@ user <- Sys.getenv("GITHUB_USER")
 # Add a Git remote with authentication details using the PAT and username
 usethis::use_git_remote(
   url = paste0("https://", user, ":", pat, "@github.com/vikasgaddu1/R_Training.git"),
-  name = "origin"
+  name = "origin",
+  overwrite = T
 )
 
 # List the current Git remotes to verify the setup

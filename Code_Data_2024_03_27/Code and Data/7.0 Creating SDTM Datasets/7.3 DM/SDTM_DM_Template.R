@@ -8,11 +8,10 @@ library(readr)
 library(logr)
 library(fmtr)
 library(diffdf)
-library(tidylog, warn.conflicts = FALSE)
+setwd("/cloud/project/Code_Data_2024_03_27/Code and Data/7.0 Creating SDTM Datasets")
+source("./functions/sdtm_utility.R")
 
-options("tidylog.display" = list(log_print))
-
-log_open("DM", show_notes = FALSE)
+log_open("DM",autolog = TRUE, show_notes = FALSE)
 
 
 # Import Data ------------------------------------------------------------
@@ -20,23 +19,41 @@ log_open("DM", show_notes = FALSE)
 sep("Read Needed CRF Data")
 
 
-base_path <- "data/abc/CRF/"
-out_path <- "data/abc/SDTM/"
+base_path <- "_data/abc/CRF/"
+out_path <- "_data/abc/SDTM/"
 
 put("Read DM")
 raw_dm <- 
   read_csv(file.path(base_path, "DM.csv"), 
            col_types = cols(BIRTHDT = col_date(format = "%d%b%Y"))) %>% 
+          mutate(BIRTDTC = to_iso8601(BIRTHDD,BIRTHMON,BIRTHYY)) %>%
   put()
 
+View(raw_dm)
+str(raw_dm)
+glimpse(raw_dm)
 put("Read TV")
 
+raw_tv <- 
+  read_csv(file.path(base_path, "TV.csv"),
+           col_types = cols(SVDT = col_date(format = "%d%b%Y"))) %>% 
+  put()
 
+View(raw_tv)
 put("Read IC")
 
+raw_ic <- 
+  read_csv(file.path(base_path, "IC.csv"),
+           col_types = cols(ICDT = col_date(format = "%d%b%Y"))) %>% 
+  put()
 
 put("Read AESR")
 
+raw_aesr <- 
+  read_csv(file.path(base_path, "AESR.csv"),
+           col_types = cols(AESTDT = col_date(format = "%d%b%Y"),
+                            AEENDT = col_date(format = "%d%b%Y"))) %>% 
+  put()
 
 put("Read RANPOP")
 ranpop <- read_rds(file.path(out_path, "RANPOP.rds")) %>% put()
@@ -51,8 +68,24 @@ dat_dm <- raw_dm %>% select(STUDYID, SUBJECT, VISIT, BIRTHDT,
                             ETHNIC, RACE, SEX) %>% put()
 
 put("Select needed columns from TV.")
+# Convert TV.SVDT where TV.VISIT = 'day1' to ISO 8601 date format
+rfstdtc <- raw_tv |> 
+  filter(VISIT == "day1") |>
+  transmute(STUDYID, 
+            SUBJECT,
+            RFSTDTC = format(SVDT, "%Y-%m-%d")) |> 
+  put()
+
+rfendtc <- raw_tv |> 
+  filter (VISIT == "eoset")|>
+  transmute(STUDYID, 
+            SUBJECT,
+            RFENDTC = format(SVDT, "%Y-%m-%d"),
+            RFPENDTC = format(SVDT, "%Y-%m-%d")) |> 
+  put()
 
 put("Select needed columns from IC")
+dat_ic <- raw_ic %>% select(STUDYID, SUBJECT, ICDT) %>% put()
 
 put("Select needed columns and rows from AESR.")
 dat_aesr <- raw_aesr %>% select(STUDYID, SUBJECT, AESTDT, AEOUT) %>% 
@@ -126,10 +159,11 @@ if (nrow(diff1) == 0) {
 
 
 
+
+
+
+
 # Clean Up ----------------------------------------------------------------
 
 
 log_close()
-options("tidylog.display" = NULL)
-
-

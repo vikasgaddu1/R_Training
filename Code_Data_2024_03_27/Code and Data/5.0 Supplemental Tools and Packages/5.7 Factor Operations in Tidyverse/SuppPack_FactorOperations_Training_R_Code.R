@@ -19,7 +19,7 @@ library(janitor)
 # Import Data -------------------------------------------------------------
 # data_labels <- var_label(data_study)
 
-data_study <- read_sas("ae_studya.sas7bdat")
+data_study <- read_sas("_data/ae_studya.sas7bdat")
 data_study %>% glimpse()
 
 
@@ -40,7 +40,7 @@ ggplot(data_study, aes(y = soc_term)) + geom_bar()
 
 # Either on Import
 data_study_csv <-
-  read_csv(file = "ae_studya.csv",
+  read_csv(file = "_data/ae_studya.csv",
            col_types = cols_only("patient" = col_integer(),
                                  "visit"   = col_integer(),
                                  soc_term  = col_factor(include_na = TRUE))) %>%

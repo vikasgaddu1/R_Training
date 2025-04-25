@@ -120,6 +120,7 @@ data_2 %>% remove_empty(which = "cols")
 data_2 %>% remove_empty(which = c("rows", "cols"))
 
 data_2
+remove_constant(data.frame(A=1, B=1:3))
 data_2 %>% remove_constant()
 data_2 %>% remove_constant(na.rm = TRUE)
 

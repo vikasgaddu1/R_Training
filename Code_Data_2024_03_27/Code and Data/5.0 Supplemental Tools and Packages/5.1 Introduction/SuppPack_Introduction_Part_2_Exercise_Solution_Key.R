@@ -5,17 +5,17 @@ library(haven)
 # Exercise step 4
 # Be sure your working directory is set to the course 5 level directory.
 # use setwd() function or the session program menu.
-
+setwd("/cloud/project/Code_Data_2024_03_27/Code and Data/5.0 Supplemental Tools and Packages")
 # Exercise step 4.b
 library(logr)
 library(tidylog)
 
 # Exercise step 4.c
-options("tidylog.display" = list(log_print))
+# options("tidylog.display" = list(log_print))
 
 # For Exercise step 5.b, uncomment the lines below.
-#options("tidylog.display" = list(log_print), 
-#      "logr.on" = FALSE, "logr.notes" = FALSE)
+options("tidylog.display" = list(log_print),
+     "logr.on" = FALSE, "logr.notes" = FALSE)
 
 
 log_open(file_name = "5.1 Introduction/log/intro_ex_4.log")
@@ -26,7 +26,7 @@ log_open(file_name = "5.1 Introduction/log/intro_ex_4.log")
 # rest of the script where appropriate.
 
 sep("Read in the formats")
-source("5.1 Introduction/formats.R")
+source("5.1 Introduction/exercise-scripts/formats.R")
 
 
 sep("Read in the data")

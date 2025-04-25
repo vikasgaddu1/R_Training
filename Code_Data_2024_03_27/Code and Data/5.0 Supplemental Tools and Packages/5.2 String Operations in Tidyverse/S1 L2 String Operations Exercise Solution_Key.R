@@ -73,7 +73,8 @@ str_glue(
 # Exercise Step 3
 # Create a variable named sentence which is equal to
 # "The quick brown fox jumps over the lazy dog.".
-sentence <- "The quick brown fox jumps over the lazy dog."
+sentence <- 
+"The quick brown fox jumps over the lazy dog."
 
 # Exercise Step 4
 # find beginning and ending position of the string "lazy"
@@ -116,7 +117,7 @@ context
 #    in any of the variables: `AETERM`,`HLGT_TER`, `HLT_TERM`, `PT_TERM`, `SOC_TERM`.
 abc_crf_aesr <-
   read_sas(
-    'abc_crf_aesr.sas7bdat',
+    '_data/abc_crf_aesr.sas7bdat',
     col_select = c(STUDYID, SUBJECT, AETERM, HLGT_TER, HLT_TERM, PT_TERM, SOC_TERM)
   ) %>%
   filter(
@@ -135,7 +136,7 @@ abc_crf_aesr <-
 #    in any of the variables: `AETERM`, `HLGT_TER`, `HLT_TERM`, `PT_TERM`, `SOC_TERM`.
 bbc_crf_aesr <-
   read_sas(
-    'bbc_crf_aesr.sas7bdat',
+    '_data/bbc_crf_aesr.sas7bdat',
     col_select = c(STUDYID, SUBJECT, AETERM, HLGT_TER, HLT_TERM, PT_TERM, SOC_TERM)
   ) %>%
   filter(
@@ -153,7 +154,7 @@ bbc_crf_aesr <-
 #    in the variable `DRUGTERM`.
 #  - Keep only distinct values for `SUBJECT` and `DRUGTERM`.
 abc_crf_cm <-
-  read_sas('abc_crf_cm.sas7bdat',
+  read_sas('_data/abc_crf_cm.sas7bdat',
            col_select = c(STUDYID, SUBJECT, DRUGTERM))  %>%
   filter(str_detect(tolower(DRUGTERM), "lidex")) %>%
   distinct(SUBJECT, DRUGTERM)
@@ -164,10 +165,11 @@ abc_crf_cm <-
 #  - Keep only the records that contain the word `"lidex"` (case insensitive)
 #    in the variable `DRUGTERM`.
 #  - Keep only distinct values for `SUBJECT` and `DRUGTERM`.
+
 bbc_crf_cm <-
-  read_sas('bbc_crf_cm.sas7bdat',
+  read_sas('_data/bbc_crf_cm.sas7bdat',
            col_select = c(STUDYID, SUBJECT, DRUGTERM)) %>%
-  filter(str_detect(tolower(DRUGTERM), "lidex")) %>%
+  filter(str_detect(str_to_lower(DRUGTERM), "lidex")) %>%
   distinct(SUBJECT, DRUGTERM)
 
 
@@ -177,7 +179,8 @@ bbc_crf_cm <-
 # Combine all of these data sets as appropriate.
 # a.   Stack the `aesr` data sets for the two studies
 aesr_skin <-
-  bind_rows(abc_crf_aesr, bbc_crf_aesr)
+  bind_rows(abc_crf_aesr, bbc_crf_aesr) %>%
+  put()
 
 # Exercise Step 3a
 # b.   Stack the `cm` data sets for both studies

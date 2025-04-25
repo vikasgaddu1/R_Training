@@ -33,7 +33,8 @@ summary(data_plots$price)
 
 # Geometry Layers ---------------------------------------------------------
 
-ggplot(data_plots, aes(x = carat, y = price)) +
+data_plots |> 
+  ggplot(aes(x = carat, y = price)) +
   geom_point()
 
 ggplot(data_plots, aes(x = carat, y = price)) +
@@ -44,7 +45,7 @@ ggplot(data_plots, aes(x = carat, y = price)) +
 # Fixed Aesthetics in Either Geometry
 ggplot(data_plots, aes(x = carat, y = price)) +
   geom_point(size = 4) +
-  geom_smooth(color = "red", se = FALSE, size = 2)
+  geom_smooth(color = "red", se = FALSE, linewidth = 2)
 
 
 # Dynamic Aesthetics in Either Geometry
@@ -53,9 +54,9 @@ ggplot(data_plots, aes(x = carat, y = price)) +
   geom_smooth(color = "red", se = FALSE, size = 2)
 
 
-ggplot(data_plots, aes(x = carat, y = price)) +
+ggplot(data_plots, aes(x = carat, y = price, color = cut)) +
   geom_point(size = 1) +
-  geom_smooth(aes(color = cut), se = FALSE, size = 2)
+  geom_smooth(se = FALSE, size = 2)
 
 
 # Order of Geometries
@@ -82,7 +83,7 @@ ggplot(data_plots, aes(x = carat, y = price, group = cut)) +
 # Differentiate by Variable in Many Plot Facets
 ggplot(data_plots, aes(x = carat, y = price)) +
   geom_line(size = 1) +
-  facet_grid(rows = vars(cut), scales = "fixed")
+  facet_grid(rows = vars(cut), scales = "free")
 
 ggplot(data_plots, aes(x = carat, y = price)) +
   geom_line(size = 1) +
@@ -110,6 +111,10 @@ ggplot(data_plots, aes(x = cut, y = price)) +
   geom_boxplot() +
   facet_grid(cols = vars(clarity))
 
+p <- ggplot(mpg, aes(displ, hwy)) + geom_point()
+
+# Use vars() to supply faceting variables:
+p + facet_wrap(vars(class))
 
 # Documentation
 help(facet_grid, package = "ggplot2")

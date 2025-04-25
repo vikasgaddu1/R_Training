@@ -35,7 +35,6 @@ str_dup("#", times = 80)
 # Character Length
 str_length("Treatment 1 is as effective as Treatment 2")
 
-
 # Collapsing and Separating Strings ---------------------------------------
 
 string_vec_1 <- str_c("Treatment", 1:3, sep = " ") %>% print()
@@ -60,6 +59,11 @@ string_treatment <- str_c("Treatment ", 1:3)
 string_status    <- sample(c("is", "is not"), size = 3, replace = TRUE) %>% print()
 
 str_glue("As of {Sys.Date()}, studies show {string_treatment} {string_status} effective")
+# use format to a floating point number
+str_glue("As of {Sys.Date()}, studies show {string_treatment} {string_status} effective with a success rate of {format(1234.5678, nsmall = 2)}")
+format(13.7, nsmall = 2)
+sprintf("As of %s, studies show %s %s effective with a success rate of %.2f",
+        Sys.Date(), string_treatment, string_status, 1234.5678)
 
 
 # Setting String Case  ----------------------------------------------------
@@ -206,7 +210,7 @@ data_strings <-
 data_strings %>%
   filter(!str_detect(status, "is not")) %>%
   pull(report) %>%
-  str_wrap(width = 25, indent = 1, exdent = 7) %>%
+  str_wrap(width = 75, indent = 1, exdent = 7) %>%
   cat()
 
 

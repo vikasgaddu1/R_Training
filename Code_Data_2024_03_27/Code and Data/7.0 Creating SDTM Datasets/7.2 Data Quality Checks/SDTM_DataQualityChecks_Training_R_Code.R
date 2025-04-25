@@ -18,29 +18,31 @@ library(janitor)
 library(haven)
 library(sqldf)
 
+setwd("/cloud/project/Code_Data_2024_03_27/Code and Data/7.0 Creating SDTM Datasets")
+
 dm_a <- 
-  read_sas("demo_studya.sas7bdat") %>%
+  haven::read_sas(file.path("_data", "demo_studya.sas7bdat")) %>%
   filter(patient != 2) %>%
   print()
 summary(dm_a)
   
 vistrt_a <- 
-  read_sas("vistrt_studya.sas7bdat") %>%
+  read_sas("_data/vistrt_studya.sas7bdat") %>%
   print()
 summary(vistrt_a)
 
 ae_a <- 
-  read_sas("ae_studya.sas7bdat") %>%
+  read_sas("_data/ae_studya.sas7bdat") %>%
   print()
 summary(ae_a)
 
 vitals_a <- 
-  read_sas("vitals_studya.sas7bdat") %>%
+  read_sas("_data/vitals_studya.sas7bdat") %>%
   print()
 summary(vitals_a)
 
 ae_dm <-
-  full_join(dm_a, ae_a, by = c("patient" = "patient")) %>%
+  full_join(dm_a, ae_a, join_by(patient == patient)) %>%
   print()
 
 vitals_dm <-
@@ -51,6 +53,9 @@ vitals_dm <-
 # Missing values  ------------------------------------------------------------------------
 
 # Across Data Frame
+dm_a$study[1] <- NA
+dm_a$inv[1] <- NA
+dm_a
 anyNA(dm_a)
 sum(anyNA(dm_a))
 anyNA(ae_a)
@@ -103,6 +108,7 @@ vitals_a %>%
 
 
 # Date Validity
+ae_a$aedtstart
 date_violations <- 
   ae_a %>% 
   mutate(stdate = as_date(aedtstart)) %>% 
@@ -163,7 +169,6 @@ inae_with_high_pulse <-
 
 # Data Attribute Consistency
 
-setwd("C:/Users/User/ManpowerGroup/ES-SAS Migrations - Stage 3/Content/5.0 Supplemental Packages")
 
 dataset_filenames <-
   dir(pattern = ".sas7bdat") %>%
@@ -173,4 +178,5 @@ dataset_list_named <-
    dataset_filenames %>% 
    map(read_sas)  %>%   
    set_names(dataset_filenames) 
-
+length(dataset_list_named)
+dataset_list_named

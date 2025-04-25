@@ -28,7 +28,7 @@ library(janitor)
 # saveRDS(abc_dm_unclean, 'abc_dm_unclean.rds')
 
 # Exercise Step 3.a
-abc_dm_unclean <- readRDS('data/abc_dm_unclean.rds') %>% glimpse()
+abc_dm_unclean <- readRDS('_data/abc_dm_unclean.rds') %>% glimpse()
 
 # Exercise Steps 3.b, 3.c, 3.d, 3.e, 3.f
 abc_dm_clean <-
@@ -42,7 +42,7 @@ abc_dm_clean <-
 # saveRDS(abc_dm_clean, 'abc_dm_valid.rds')
 
 # Exercise Step 3.g
-abc_dm_valid <- readRDS('data/abc_dm_valid.rds')
+abc_dm_valid <- readRDS('_data/abc_dm_valid.rds')
 
 compare_df_cols(abc_dm_clean, abc_dm_valid)
 identical(abc_dm_clean, abc_dm_valid)
@@ -73,11 +73,12 @@ dm_prep <-
 # Exercise Step 4.g
 dm_prep$Sex2 <- factor(
   dm_prep$s_e_x,
-  levels = dm_prep$s_e_x,
-  labels = dm_prep$Sex,
+  levels = c(0, 1),
+  labels = c("Male", "Female"),
   ordered = TRUE
 )
 
+str(dm_prep)
 dm_prep$BlindCode2 <-
   factor(
     dm_prep$BlindCode,

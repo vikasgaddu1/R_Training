@@ -121,7 +121,8 @@ race_decode <- c("WHITE" = "White",
                  "BLACK OR AFRICAN AMERICAN" = "Black or African American",
                  "ASIAN" = "Asian",
                  "NATIVE AMERICAN" = "Native American",
-                 "UNKNOWN" = "Unknown")
+                 "UNKNOWN" = "Unknown",
+                 "SOMETHING" = "Something Else")
 
 race_block <-
   adsl %>%
@@ -309,7 +310,15 @@ plot_bars_trta <- function(my_trta) {
     filter(TRTA == my_trta) |>
     ggplot(aes(x = SITEID, y = mean)) +
     geom_col() +
-    theme_classic()
+    theme_classic() +
+    theme(
+      # Change tick label font sizes:
+      axis.text.x = element_text(size = 16),
+      axis.text.y = element_text(size = 16),
+      # Optionally, change axis title font sizes:
+      axis.title.x = element_text(size = 18),
+      axis.title.y = element_text(size = 18)
+    )
 }
 
 # plot_bars_trta("ARM A")
@@ -331,7 +340,7 @@ advs_summ2 |>
     locations = cells_body("Plot"),
     fn = function(my_trta){
       lapply(my_trta, plot_bars_trta) |>
-        ggplot_image(height = px(400), aspect_ratio = 3)
+        ggplot_image(height = px(200), aspect_ratio = 3)
     }) |>
   tab_style(style = cell_borders(
     sides = "right",

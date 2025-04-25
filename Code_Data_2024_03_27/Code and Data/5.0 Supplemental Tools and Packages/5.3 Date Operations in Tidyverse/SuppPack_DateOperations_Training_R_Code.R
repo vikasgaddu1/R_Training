@@ -21,11 +21,16 @@ lubridate::now()
 lubridate::today()
 
 # Convert from String to Date, Default Format
-as_date("2020-01-15")
-as_datetime("2020-01-15 12:30:00")
+dt <- as_date("2020-01-15")
+format(dt,"%d%b%Y")
+class(dt)
+
+dtm <- as_datetime("2020-01-15 12:30:00")
+class(dtm)
 
 # Provide Custom Format
-as_date("20200115", format = "%Y%m%d")
+format = "%Y%m%d"
+as_date("20200115",format=format )
 as_datetime("20200115 153045", format = "%Y%m%d %H%M%S")
 
 # Format Shortcuts
@@ -42,7 +47,7 @@ ymd_hms("2020-01-15 12:30:00", tz = "EST")
 
 # Access Date Parts -------------------------------------------------------
 
-date_string_1 <- "2020-06-15 12:30:15"
+date_string_1 <- "2025-02-09 12:30:15"
 
 year(date_string_1)
 quarter(date_string_1)
@@ -87,7 +92,7 @@ year(date_string)   <- 1920; print(date_string)
 # units: seconds, minute, hour, day, week, month, bimonth, quarter,
 #       season, halfyear, year
 
-date_string <- as_datetime("2020-01-15 12:30:00 EST") %>% print()
+date_string <- as_datetime("2020-07-15 12:30:00 EST") %>% print()
 
 round_date(date_string,   unit = "year")
 ceiling_date(date_string, unit = "month")
@@ -96,6 +101,7 @@ floor_date(date_string,   unit = "week")
 # Roll Back to Beginning of Month
 rollback(date_string, roll_to_first = FALSE)
 rollback(date_string, roll_to_first = TRUE)
+rollforward(date_string, roll_to_first = TRUE)
 
 
 # Date Periods ------------------------------------------------------------
@@ -163,6 +169,24 @@ date_string + dmonths(10)
 date_string - dweeks(10)
 # others: ddays, dhours, dminutes, dseconds, etc.
 
+library(lubridate)
+
+# Define start and end date-times around a DST transition
+start <- mdy_hm("3-11-2017 5:21", tz = "US/Eastern")
+end   <- mdy_hm("3-12-2017 5:21", tz = "US/Eastern")
+intv  <- start %--% end
+
+# Convert the interval to a duration (exact elapsed seconds)
+dur <- as.duration(intv)
+print(dur)
+
+#> [1] "82800s (~23 hours)"
+
+# Convert the interval to a period (calendar time)
+per <- as.period(intv)
+print(per)
+#> [1] "1d 0H 0M 0S"
+
 
 # Date Intervals ----------------------------------------------------------
 
@@ -206,7 +230,7 @@ int_shift(date_interval, by = years(-10))
 
 
 # Interval Overlap
-ymd("2020MAR01") %within% date_interval
+ymd("2020AUG01") %within% date_interval
 
 
 # Advanced - Date Use Case ------------------------------------------------
@@ -226,7 +250,7 @@ data_checkin %>%
 
 data_checkin %>%
   group_by(patient) %>%
-  summarise(interval = int_diff(checkin_date)) %>%
+  reframe(interval = int_diff(checkin_date)) %>%
   mutate(d = interval / period("day"),
          m = interval / period("month"))
 

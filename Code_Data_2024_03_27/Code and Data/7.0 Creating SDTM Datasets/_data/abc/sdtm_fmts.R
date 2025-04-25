@@ -15,7 +15,7 @@ log_open("sdtm_fmts", show_notes = FALSE)
 sep("Read in Codelists from specs")
 
 put("Read codelists sheet")
-file_path <- "./specs/SDTM_Specs_Clean.xlsx"
+file_path <- "./_specs/SDTM_Specs_Clean.xlsx"
 
 codelists <- read_excel(file_path, sheet = "Codelists", 
                         .name_repair = "universal") %>% 
@@ -53,6 +53,23 @@ codelists_mod <- codelists %>%
                      TRUE ~ str_c("x == ", CRF.Value))) %>% 
   put()
 
+
+# vistnum <- c(1,2,3,4)
+# vistfmt <- tibble(Name = "visitfmt",
+#                   Type = "U",
+#                   Expression = str_c("x == ", vistnum),
+#                   Label = str_c("Visit ", vistnum),
+#                   Order = NA) %>%
+#            group_by(Name) %>%
+#            mutate(Order = seq_along(Name)) %>%
+#            ungroup() %>%
+#            put()
+# myfmt <- as.fcat(vistfmt) %>% put()
+# 
+# sv <- tibble(usubjid = c("001-001", "001-001", "001-001", "001-001"),
+#              visitnum = c(1, 2, 3, 4)) |> 
+#               mutate(visit = fapply(visitnum, myfmt$visitfmt)) |> 
+#   put()
 
 sep("Prepare final metadata")
 

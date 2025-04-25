@@ -2,7 +2,7 @@
 # © 2021 Anova Groups All rights reserved
 
 # Title: Solution Key
-
+setwd("/cloud/project/Code_Data_2024_03_27/Code and Data/5.0 Supplemental Tools and Packages/5.1 Introduction")
 
 # Load Packages
 library(tidyverse)
@@ -13,7 +13,7 @@ library(haven)
 library(logr)
 
 # Exercise Step 3.b
-log_open("5.1 Introduction/log/intro_ex_3", show_notes = TRUE)
+log_open("log/intro_ex_3", show_notes = TRUE)
 
 # Exercise Step 3.c
 sep("Step 3")
